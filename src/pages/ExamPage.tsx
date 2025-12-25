@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
 import { api } from "@/lib/api";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,11 +29,15 @@ const ExamPage = () => {
   const navigate = useNavigate();
   const { setExamResult, logout } = useApp();
 
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   const handleLogout = () => {
-    if (confirm("Deseja realmente sair? Seu progresso nesta prova será perdido.")) {
-      logout();
-      navigate("/");
-    }
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
+    logout();
+    navigate("/");
   };
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -306,7 +309,23 @@ const ExamPage = () => {
         </AlertDialogContent>
       </AlertDialog>
 
-      <WhatsAppButton />
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Seu progresso nesta prova será perdido e você será desconectado.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Continuar Prova</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Confirmar e Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

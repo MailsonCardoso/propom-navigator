@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApp } from "@/contexts/AppContext";
-import WhatsAppButton from "@/components/WhatsAppButton";
 
 const StudentLogin = () => {
   const [login, setLogin] = useState("");
@@ -17,7 +16,7 @@ const StudentLogin = () => {
     e.preventDefault();
     const success = await doLogin(login, password, "student");
     if (success) {
-      navigate("/aluno/prova");
+      navigate("/aluno/dashboard");
     }
   };
 
@@ -95,8 +94,6 @@ const StudentLogin = () => {
           </div>
         </div>
       </div>
-
-      <WhatsAppButton />
     </div>
   );
 };

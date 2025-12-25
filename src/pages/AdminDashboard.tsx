@@ -13,16 +13,30 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { logout, students } = useApp();
 
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const activeStudents = students.filter((s) => s.active).length;
   const totalRevenue = activeStudents * 35; // Valor da inscrição R$ 35,00
 
   const handleLogout = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
     logout();
     navigate("/");
   };
@@ -186,7 +200,23 @@ const AdminDashboard = () => {
         </div>
       </main>
 
-      <WhatsAppButton />
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Sua sessão administrativa será encerrada.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Permanecer</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Confirmar e Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

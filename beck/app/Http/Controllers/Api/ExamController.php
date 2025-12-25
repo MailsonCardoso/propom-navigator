@@ -53,6 +53,25 @@ class ExamController extends Controller
         return response()->json($attempts);
     }
 
+    public function userStats(Request $request)
+    {
+        $userId = $request->user()->id;
+        $attempts = ExamAttempt::where('user_id', $userId)->get();
+
+        $totalAttempts = $attempts->count();
+        $passedAttempts = $attempts->where('passed', true)->count();
+        $averageScore = $attempts->avg('score') ?? 0;
+        $bestScore = $attempts->max('score') ?? 0;
+
+        return response()->json([
+            'total_attempts' => $totalAttempts,
+            'passed_attempts' => $passedAttempts,
+            'failed_attempts' => $totalAttempts - $passedAttempts,
+            'average_score' => round($averageScore, 2),
+            'best_score' => $bestScore,
+        ]);
+    }
+
     public function stats()
     {
         $totalAttempts = ExamAttempt::count();

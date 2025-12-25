@@ -32,5 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Exam
     Route::post('/exam/submit', [ExamController::class, 'submit']);
     Route::get('/exam/history', [ExamController::class, 'history']);
+    Route::get('/exam/user-stats', [ExamController::class, 'userStats']);
     Route::get('/exam/stats', [ExamController::class, 'stats']);
 });

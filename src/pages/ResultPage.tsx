@@ -1,14 +1,29 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const ResultPage = () => {
   const navigate = useNavigate();
   const { examResult, setExamResult, logout } = useApp();
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const handleLogout = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
     logout();
     navigate("/");
   };
@@ -158,7 +173,23 @@ const ResultPage = () => {
         </div>
       </div>
 
-      <WhatsAppButton />
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Você será desconectado do simulado.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Permanecer</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Confirmar e Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

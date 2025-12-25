@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  Anchor, 
-  Users, 
-  LogOut, 
+import {
+  Anchor,
+  Users,
+  LogOut,
   PlusCircle,
   User,
   Search,
@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApp } from "@/contexts/AppContext";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   Dialog,
   DialogContent,
@@ -24,12 +23,23 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const AdminStudents = () => {
   const navigate = useNavigate();
   const { logout, students, addStudent, toggleStudentStatus } = useApp();
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [newStudent, setNewStudent] = useState({
     name: "",
     login: "",
@@ -37,6 +47,10 @@ const AdminStudents = () => {
   });
 
   const handleLogout = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
     logout();
     navigate("/");
   };
@@ -134,11 +148,10 @@ const AdminStudents = () => {
                     </td>
                     <td className="px-6 py-4 text-muted-foreground">{student.login}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${
-                        student.active 
-                          ? "bg-success/10 text-success" 
-                          : "bg-muted text-muted-foreground"
-                      }`}>
+                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${student.active
+                        ? "bg-success/10 text-success"
+                        : "bg-muted text-muted-foreground"
+                        }`}>
                         {student.active ? "Ativo" : "Inativo"}
                       </span>
                     </td>
@@ -236,7 +249,23 @@ const AdminStudents = () => {
         </DialogContent>
       </Dialog>
 
-      <WhatsAppButton />
+      {/* Logout Confirmation Dialog */}
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Sua sessão administrativa será encerrada.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Permanecer</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Confirmar e Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
