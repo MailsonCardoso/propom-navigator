@@ -267,9 +267,9 @@ const StudentDashboard = () => {
                                 </div>
 
                                 <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Foco na Média</h4>
+                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Busque a Excelência</h4>
                                     <p className="text-xs text-white/70 leading-relaxed">
-                                        Sua meta é manter uma média acima de 31 acertos. Se estiver abaixo, revise os conteúdos de Matemática Fundamental.
+                                        Sua meta deve ser sempre superar seu melhor resultado. Identifique suas fraquezas e revise os conteúdos para garantir sua vaga.
                                     </p>
                                 </div>
                                 <div className="p-4 bg-white/5 rounded-xl border border-white/10">
