@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw, LogOut } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw, LogOut, CheckCircle2, ChevronDown, ChevronUp, AlertCircle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
 import {
@@ -14,10 +14,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+interface Detail {
+  question_id: number;
+  user_answer: number | null;
+  correct_answer: number;
+  is_correct: boolean;
+  rationale: string;
+}
+
 const ResultPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const details = (location.state as { details?: Detail[] })?.details;
   const { examResult, setExamResult, logout } = useApp();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleLogout = () => {
     setShowLogoutDialog(true);
@@ -33,8 +44,8 @@ const ResultPage = () => {
       <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
         <div className="card-elevated p-8 text-center">
           <p className="text-muted-foreground mb-4">Nenhum resultado encontrado.</p>
-          <Link to="/aluno/prova">
-            <Button variant="navy">Iniciar Simulado</Button>
+          <Link to="/aluno/dashboard">
+            <Button variant="navy">Voltar ao Painel</Button>
           </Link>
         </div>
       </div>
@@ -44,18 +55,14 @@ const ResultPage = () => {
   const { correctAnswers, totalQuestions, passed } = examResult;
   const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
-  const handleRetry = () => {
-    setExamResult(null);
-  };
-
   return (
-    <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
-      <div className="absolute inset-0 opacity-10">
+    <div className="min-h-screen bg-background flex flex-col items-center py-12 px-4 overflow-y-auto">
+      <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-secondary blur-3xl" />
       </div>
 
-      <div className="w-full max-w-lg relative z-10">
+      <div className="w-full max-w-2xl relative z-10 space-y-6">
         <div className="card-elevated p-8 animate-scale-in">
           <div className="text-center mb-8">
             <div className="flex items-center justify-between mb-6">
@@ -91,11 +98,11 @@ const ResultPage = () => {
           </div>
 
           {/* Stats */}
-          <div className="bg-muted/50 rounded-xl p-6 mb-6">
+          <div className="bg-muted/50 rounded-xl p-6 mb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-accent" />
-                <span className="font-medium text-foreground">Seu Desempenho</span>
+                <span className="font-medium text-foreground">Resumo do Simulado</span>
               </div>
             </div>
 
@@ -117,9 +124,9 @@ const ResultPage = () => {
             {/* Progress Bar */}
             <div className="mt-6">
               <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Mínimo para aprovação: 31 acertos</span>
+                <span className="text-muted-foreground">Mínimo para aprovação: 77.5%</span>
                 <span className={passed ? "text-success" : "text-destructive"}>
-                  {correctAnswers}/40
+                  {correctAnswers}/{totalQuestions}
                 </span>
               </div>
               <div className="h-3 bg-muted rounded-full overflow-hidden">
@@ -129,48 +136,89 @@ const ResultPage = () => {
                   style={{ width: `${percentage}%` }}
                 />
               </div>
-              <div className="relative mt-1">
-                <div
-                  className="absolute top-0 w-0.5 h-3 bg-foreground/30"
-                  style={{ left: "77.5%" }}
-                />
-                <span
-                  className="absolute text-xs text-muted-foreground"
-                  style={{ left: "77.5%", transform: "translateX(-50%)", top: "12px" }}
-                >
-                  31
-                </span>
-              </div>
             </div>
           </div>
 
-          {/* Performance Message */}
-          <div className={`p-4 rounded-xl mb-6 ${passed ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"
-            }`}>
-            <p className={`text-sm ${passed ? "text-success" : "text-destructive"}`}>
-              {percentage >= 90 && "Excelente! Você está muito bem preparado!"}
-              {percentage >= 77.5 && percentage < 90 && "Muito bom! Continue assim para a prova real."}
-              {percentage >= 60 && percentage < 77.5 && "Você precisa melhorar um pouco mais. Estude os pontos fracos."}
-              {percentage < 60 && "Dedique mais tempo aos estudos. Revise todo o conteúdo."}
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="space-y-3">
-            <Link to="/aluno/prova" onClick={handleRetry}>
-              <Button variant="navy" size="lg" className="w-full">
-                <RotateCcw className="w-5 h-5 mr-2" />
-                Tentar Novamente
-              </Button>
-            </Link>
-            <Link to="/">
-              <Button variant="outline" size="lg" className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link to="/aluno/dashboard" className="w-full">
+              <Button variant="outline" className="w-full h-12">
                 <Home className="w-5 h-5 mr-2" />
-                Voltar ao Início
+                Ir para o Painel
               </Button>
             </Link>
+            <Button
+              variant="navy"
+              className="w-full h-12 shadow-glow"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              <BarChart3 className="w-5 h-5 mr-2" />
+              {showDetails ? "Ocultar Revisão" : "Ver Revisão Detalhada"}
+              {showDetails ? <ChevronUp className="ml-2 w-4 h-4" /> : <ChevronDown className="ml-2 w-4 h-4" />}
+            </Button>
           </div>
         </div>
+
+        {/* Detailed Review Section */}
+        {showDetails && details && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
+            <h3 className="text-xl font-bold text-foreground flex items-center gap-2 px-2">
+              <CheckCircle2 className="w-6 h-6 text-accent" />
+              Justificativas por Questão
+            </h3>
+            <div className="space-y-4">
+              {details.map((item, index) => (
+                <div
+                  key={index}
+                  className={`card-elevated overflow-hidden border-l-4 ${item.is_correct ? "border-success" : "border-destructive"}`}
+                >
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <div className="flex items-center gap-3">
+                        <span className="font-bold text-lg text-muted-foreground">#{index + 1}</span>
+                        {item.is_correct ? (
+                          <div className="flex items-center gap-1.5 text-success text-sm font-bold bg-success/10 px-2 py-0.5 rounded-md">
+                            <CheckCircle className="w-4 h-4" />
+                            ACERTO
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-destructive text-sm font-bold bg-destructive/10 px-2 py-0.5 rounded-md">
+                            <AlertCircle className="w-4 h-4" />
+                            ERRO
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex gap-2 text-sm">
+                        <span className="text-muted-foreground font-medium shrink-0">Sua resposta:</span>
+                        <span className={item.is_correct ? "text-success font-bold" : "text-destructive font-bold"}>
+                          {item.user_answer !== null ? String.fromCharCode(65 + item.user_answer) : "Não respondida"}
+                        </span>
+                      </div>
+
+                      {!item.is_correct && (
+                        <div className="flex gap-2 text-sm">
+                          <span className="text-muted-foreground font-medium shrink-0">Resposta correta:</span>
+                          <span className="text-success font-bold">
+                            {String.fromCharCode(65 + item.correct_answer)}
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="mt-4 p-4 bg-muted/40 rounded-xl border border-border">
+                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Justificativa Acadêmica:</h4>
+                        <p className="text-sm text-foreground leading-relaxed italic">
+                          "{item.rationale || "Nenhuma explicação disponível para esta questão."}"
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Logout Confirmation Dialog */}
@@ -179,7 +227,7 @@ const ResultPage = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
             <AlertDialogDescription>
-              Você será desconectado do simulado.
+              Sua sessão será encerrada.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

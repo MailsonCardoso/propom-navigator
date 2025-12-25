@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
@@ -21,12 +21,15 @@ interface Question {
   subject: "portugues" | "matematica";
   text: string;
   options: string[];
+  hint?: string;
 }
 
 const EXAM_TIME = 90 * 60; // 90 minutes in seconds
 
 const ExamPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const blockId = searchParams.get("block") || "1";
   const { setExamResult, logout } = useApp();
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -47,11 +50,12 @@ const ExamPage = () => {
   const [showFinishDialog, setShowFinishDialog] = useState(false);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await api.get("/questions");
+        const data = await api.get(`/questions?block=${blockId}`);
         setQuestions(data);
         setAnswers(new Array(data.length).fill(null));
       } catch (error) {
@@ -61,7 +65,7 @@ const ExamPage = () => {
       }
     };
     fetchQuestions();
-  }, []);
+  }, [blockId]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -71,20 +75,40 @@ const ExamPage = () => {
 
   const finishExam = useCallback(async () => {
     try {
-      const response = await api.post("/exam/submit", { answers });
+      const response = await api.post("/exam/submit", {
+        block: parseInt(blockId),
+        answers
+      });
 
       setExamResult({
-        totalQuestions: response.attempt.total_questions,
+        totalQuestions: response.total_questions,
         correctAnswers: response.score,
         passed: response.passed,
         completedAt: new Date(response.attempt.completed_at),
       });
 
-      navigate("/aluno/resultado");
+      // Passamos os resultados detalhados (com justificativas) via state do Router
+      navigate("/aluno/resultado", { state: { details: response.results } });
     } catch (error) {
       console.error("Error submitting exam:", error);
     }
-  }, [answers, navigate, setExamResult]);
+  }, [answers, navigate, setExamResult, blockId]);
+
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setShowHint(false);
+    } else {
+      setShowFinishDialog(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+      setShowHint(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -197,9 +221,31 @@ const ExamPage = () => {
               </span>
             </div>
 
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8 leading-relaxed">
-              {question.text}
-            </h2>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
+                {question.text}
+              </h2>
+              {question.hint && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowHint(!showHint)}
+                  className={`ml-4 ${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
+                  title="Ver dica"
+                >
+                  <Lightbulb className={`w-6 h-6 ${showHint ? "fill-accent" : ""}`} />
+                </Button>
+              )}
+            </div>
+
+            {showHint && question.hint && (
+              <div className="mb-6 p-4 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
+                <p className="text-sm text-accent flex items-start gap-2">
+                  <Lightbulb className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span><strong>Dica:</strong> {question.hint}</span>
+                </p>
+              </div>
+            )}
 
             <div className="space-y-3">
               {question.options.map((option, index) => (
@@ -257,27 +303,27 @@ const ExamPage = () => {
           <div className="flex items-center justify-between">
             <Button
               variant="outline"
-              onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
+              onClick={handlePrevious}
               disabled={currentQuestion === 0}
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-5 h-5 mr-1" />
               Anterior
             </Button>
 
             <Button
               variant="navy"
               onClick={() => setShowFinishDialog(true)}
+              className="hidden md:flex"
             >
               Finalizar Prova
             </Button>
 
             <Button
-              variant="outline"
-              onClick={() => setCurrentQuestion(Math.min(questions.length - 1, currentQuestion + 1))}
-              disabled={currentQuestion === questions.length - 1}
+              variant={currentQuestion === questions.length - 1 ? "navy" : "outline"}
+              onClick={handleNext}
             >
-              Próxima
-              <ChevronRight className="w-5 h-5" />
+              {currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}
+              <ChevronRight className="w-5 h-5 ml-1" />
             </Button>
           </div>
         </div>

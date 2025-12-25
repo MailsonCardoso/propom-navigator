@@ -12,26 +12,40 @@ class ExamController extends Controller
     public function submit(Request $request)
     {
         $request->validate([
-            'answers' => 'required|array|size:40',
+            'block' => 'required|integer',
+            'answers' => 'required|array',
         ]);
 
-        $questions = Question::all();
+        // Busca apenas as questões do bloco específico
+        $questions = Question::where('block', $request->block)->get();
         $score = 0;
+        $detailedResults = [];
 
-        foreach ($request->answers as $index => $answer) {
-            if ($answer !== null && isset($questions[$index])) {
-                if ($questions[$index]->correct_answer == $answer) {
-                    $score++;
-                }
+        foreach ($questions as $index => $question) {
+            $userAnswer = $request->answers[$index] ?? null;
+            $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
+
+            if ($isCorrect) {
+                $score++;
             }
+
+            $detailedResults[] = [
+                'question_id' => $question->id,
+                'user_answer' => $userAnswer,
+                'correct_answer' => $question->correct_answer,
+                'is_correct' => $isCorrect,
+                'rationale' => $question->rationale, // Enviamos a explicação no final
+            ];
         }
 
-        $passed = $score >= 31;
+        $totalQuestions = $questions->count();
+        $passed = $score >= ($totalQuestions * 0.775); // Mantendo os ~31/40 (77.5%)
 
         $attempt = ExamAttempt::create([
             'user_id' => $request->user()->id,
+            'block' => $request->block,
             'score' => $score,
-            'total_questions' => 40,
+            'total_questions' => $totalQuestions,
             'passed' => $passed,
             'answers' => $request->answers,
             'completed_at' => now(),
@@ -40,7 +54,9 @@ class ExamController extends Controller
         return response()->json([
             'attempt' => $attempt,
             'score' => $score,
+            'total_questions' => $totalQuestions,
             'passed' => $passed,
+            'results' => $detailedResults,
         ]);
     }
 

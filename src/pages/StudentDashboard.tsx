@@ -51,17 +51,20 @@ const StudentDashboard = () => {
     const [showLogoutDialog, setShowLogoutDialog] = useState(false);
     const [stats, setStats] = useState<UserStats | null>(null);
     const [history, setHistory] = useState<Attempt[]>([]);
+    const [blocks, setBlocks] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [statsData, historyData] = await Promise.all([
+                const [statsData, historyData, blocksData] = await Promise.all([
                     api.get("/exam/user-stats"),
                     api.get("/exam/history"),
+                    api.get("/questions/blocks"),
                 ]);
                 setStats(statsData);
                 setHistory(historyData);
+                setBlocks(blocksData);
             } catch (error) {
                 console.error("Error fetching student data:", error);
             } finally {
@@ -115,20 +118,50 @@ const StudentDashboard = () => {
 
             <main className="container mx-auto px-4 py-8">
                 {/* Welcome */}
-                <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h2 className="text-2xl font-bold text-foreground mb-1">Olá, {user?.name}!</h2>
-                        <p className="text-muted-foreground text-sm flex items-center gap-2">
-                            <TrendingUp className="w-4 h-4 text-accent" />
-                            Seu desempenho está evoluindo a cada simulado.
-                        </p>
+                <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-foreground mb-1">Olá, {user?.name}!</h2>
+                    <p className="text-muted-foreground text-sm flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-accent" />
+                        Selecione um bloco de simulado para começar.
+                    </p>
+                </div>
+
+                {/* Blocks Grid */}
+                <div className="mb-10">
+                    <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                        <Play className="w-5 h-5 text-accent" />
+                        Simulados Disponíveis
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {blocks.map((blockNum) => (
+                            <Link
+                                key={blockNum}
+                                to={`/aluno/prova?block=${blockNum}`}
+                                className="group"
+                            >
+                                <div className="card-elevated p-6 border-l-4 border-accent hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="w-12 h-12 rounded-xl gradient-navy flex items-center justify-center text-white font-bold text-xl">
+                                            {blockNum}
+                                        </div>
+                                        <div className="bg-accent/10 px-3 py-1 rounded-full">
+                                            <span className="text-xs font-bold text-accent tracking-wider uppercase">40 Questões</span>
+                                        </div>
+                                    </div>
+                                    <h4 className="font-bold text-foreground mb-1">Simulado Bloco {blockNum}</h4>
+                                    <p className="text-xs text-muted-foreground mb-4">Português e Matemática Fundamental</p>
+                                    <Button variant="navy" size="sm" className="w-full">
+                                        Começar agora
+                                    </Button>
+                                </div>
+                            </Link>
+                        ))}
+                        {blocks.length === 0 && (
+                            <div className="col-span-full card-elevated p-8 text-center bg-muted/30 border-dashed border-2 border-border">
+                                <p className="text-muted-foreground italic">Nenhum simulado disponível no momento.</p>
+                            </div>
+                        )}
                     </div>
-                    <Link to="/aluno/prova">
-                        <Button variant="navy" size="lg" className="w-full md:w-auto shadow-glow">
-                            <Play className="w-5 h-5 mr-2" />
-                            Iniciar Novo Simulado
-                        </Button>
-                    </Link>
                 </div>
 
                 {/* Stats Grid */}
@@ -177,12 +210,9 @@ const StudentDashboard = () => {
                             {history.length === 0 ? (
                                 <div className="card-elevated p-12 text-center">
                                     <p className="text-muted-foreground">Você ainda não realizou nenhum simulado.</p>
-                                    <Link to="/aluno/prova" className="mt-4 inline-block">
-                                        <Button variant="link" className="text-accent underline">Clique aqui para começar</Button>
-                                    </Link>
                                 </div>
                             ) : (
-                                history.map((attempt, index) => (
+                                history.map((attempt) => (
                                     <div
                                         key={attempt.id}
                                         className="card-elevated p-4 flex items-center justify-between transition-transform duration-200 hover:scale-[1.01]"

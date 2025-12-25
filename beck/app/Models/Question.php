@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
+        'block',
         'subject',
         'text',
         'options',
         'correct_answer',
+        'rationale',
+        'hint',
     ];
 
     protected $casts = [

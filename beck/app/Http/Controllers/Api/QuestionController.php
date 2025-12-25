@@ -8,19 +8,37 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::all()->map(function ($question) {
-            // Remove a resposta correta para não expor ao frontend
+        $query = Question::query();
+
+        if ($request->has('block')) {
+            $query->where('block', $request->block);
+        }
+
+        $questions = $query->get()->map(function ($question) {
             return [
                 'id' => $question->id,
+                'block' => $question->block,
                 'subject' => $question->subject,
                 'text' => $question->text,
                 'options' => $question->options,
+                'hint' => $question->hint, // Enviamos a dica para o aluno
             ];
         });
 
         return response()->json($questions);
+    }
+
+    public function blocks()
+    {
+        $blocks = Question::select('block')
+            ->distinct()
+            ->orderBy('block')
+            ->get()
+            ->pluck('block');
+
+        return response()->json($blocks);
     }
 
     public function store(Request $request)
