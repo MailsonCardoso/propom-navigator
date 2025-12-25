@@ -5,9 +5,11 @@ import { toast } from "sonner";
 interface User {
   id: string;
   name: string;
-  login: string;
+  cpf: string;
+  phone?: string;
   role: "student" | "admin";
   active: boolean;
+  must_change_password?: boolean;
 }
 
 interface ExamResult {
@@ -17,10 +19,16 @@ interface ExamResult {
   completedAt: Date;
 }
 
+interface LoginResponse {
+  success: boolean;
+  mustChangePassword?: boolean;
+  message?: string;
+}
+
 interface AppContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (login: string, password: string, role: "student" | "admin") => Promise<boolean>;
+  login: (cpf: string, password: string, role: "student" | "admin") => Promise<LoginResponse>;
   logout: () => void;
   examResult: ExamResult | null;
   setExamResult: (result: ExamResult | null) => void;
@@ -61,10 +69,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     init();
   }, []);
 
-  const login = async (loginInput: string, password: string, role: "student" | "admin"): Promise<boolean> => {
+  const login = async (cpf: string, password: string, role: "student" | "admin"): Promise<LoginResponse> => {
     try {
       const endpoint = role === "admin" ? "/auth/login/admin" : "/auth/login/student";
-      const data = await api.post(endpoint, { login: loginInput, password });
+      const data = await api.post(endpoint, { cpf, password });
 
       setUser(data.user);
       localStorage.setItem("auth_token", data.token);
@@ -74,10 +82,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setStudents(studentsData);
       }
 
-      return true;
+      return {
+        success: true,
+        mustChangePassword: data.must_change_password
+      };
     } catch (error: any) {
       toast.error(error.message || "Falha no login");
-      return false;
+      return { success: false, message: error.message };
     }
   };
 
@@ -138,3 +149,4 @@ export function useApp() {
   }
   return context;
 }
+

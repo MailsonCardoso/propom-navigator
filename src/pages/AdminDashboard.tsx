@@ -136,7 +136,7 @@ const AdminDashboard = () => {
                     </div>
                     <div>
                       <p className="font-medium text-sm text-foreground">{student.name}</p>
-                      <p className="text-xs text-muted-foreground">{student.login}</p>
+                      <p className="text-xs text-muted-foreground">{student.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</p>
                     </div>
                   </div>
                   <CheckCircle className="w-4 h-4 text-success" />

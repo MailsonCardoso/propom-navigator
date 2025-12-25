@@ -20,11 +20,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'login',
+        'cpf',
         'email',
         'password',
         'role',
         'active',
+        'phone',
+        'must_change_password',
     ];
 
     /**
@@ -46,6 +48,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'active' => 'boolean',
+        'must_change_password' => 'boolean',
     ];
 
     public function examAttempts()

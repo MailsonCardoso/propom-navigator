@@ -9,45 +9,21 @@ class AuthController extends Controller
 {
     public function loginAdmin(Request $request)
     {
-        // Validação rigorosa dos campos
         $validated = $request->validate([
-            'login' => 'required|string|min:3|max:255',
-            'password' => 'required|string|min:6',
+            'cpf' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        $login = trim($validated['login']);
-        $password = $validated['password']; // Senha não deve ter trim se for proposital, mas login sim.
+        $cpf = preg_replace('/\D/', '', $validated['cpf']);
+        $password = $validated['password'];
 
-        // Buscar usuário APENAS pelo login E role admin
-        $user = \App\Models\User::where('login', $login)
+        $user = \App\Models\User::where('cpf', $cpf)
             ->where('role', 'admin')
             ->first();
 
-        // Se usuário não existe, retorna erro genérico
-        if (!$user) {
-            \Log::warning('Tentativa de login admin com login inexistente', [
-                'login' => $login,
-                'ip' => $request->ip()
-            ]);
+        if (!$user || !\Hash::check($password, $user->password)) {
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
-
-        // Verificar senha
-        if (!\Hash::check($password, $user->password)) {
-            \Log::warning('Tentativa de login admin com senha incorreta', [
-                'login' => $login,
-                'user_id' => $user->id,
-                'ip' => $request->ip()
-            ]);
-            return response()->json(['message' => 'Credenciais inválidas'], 401);
-        }
-
-        // Login bem-sucedido
-        \Log::info('Login admin bem-sucedido', [
-            'user_id' => $user->id,
-            'login' => $user->login,
-            'ip' => $request->ip()
-        ]);
 
         $token = $user->createToken('admin-token')->plainTextToken;
 
@@ -59,55 +35,36 @@ class AuthController extends Controller
 
     public function loginStudent(Request $request)
     {
-        // Validação rigorosa dos campos
         $validated = $request->validate([
-            'login' => 'required|string|min:3|max:255',
-            'password' => 'required|string|min:6',
+            'cpf' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        $login = trim($validated['login']);
+        $cpf = preg_replace('/\D/', '', $validated['cpf']);
         $password = $validated['password'];
 
-        // Buscar usuário APENAS pelo login E role student
-        $user = \App\Models\User::where('login', $login)
+        $user = \App\Models\User::where('cpf', $cpf)
             ->where('role', 'student')
             ->first();
 
-        // Se usuário não existe, retorna erro genérico
-        if (!$user) {
-            \Log::warning('Tentativa de login student com login inexistente', [
-                'login' => $login,
-                'ip' => $request->ip()
-            ]);
+        if (!$user || !\Hash::check($password, $user->password)) {
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
-        // Verificar senha
-        if (!\Hash::check($password, $user->password)) {
-            \Log::warning('Tentativa de login student com senha incorreta', [
-                'login' => $login,
-                'user_id' => $user->id,
-                'ip' => $request->ip()
-            ]);
-            return response()->json(['message' => 'Credenciais inválidas'], 401);
-        }
-
-        // Verificar se o aluno está ativo
         if (!$user->active) {
-            \Log::warning('Tentativa de login de aluno inativo', [
-                'user_id' => $user->id,
-                'login' => $user->login,
-                'ip' => $request->ip()
-            ]);
             return response()->json(['message' => 'Acesso não liberado. Entre em contato com o administrador.'], 403);
         }
 
-        // Login bem-sucedido
-        \Log::info('Login student bem-sucedido', [
-            'user_id' => $user->id,
-            'login' => $user->login,
-            'ip' => $request->ip()
-        ]);
+        // Se o aluno precisa trocar a senha (primeiro acesso), retornamos um status específico
+        if ($user->must_change_password) {
+            $token = $user->createToken('temp-pwd-change-token')->plainTextToken;
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+                'must_change_password' => true,
+                'message' => 'Você precisa alterar sua senha no primeiro acesso.'
+            ], 200);
+        }
 
         $token = $user->createToken('student-token')->plainTextToken;
 
@@ -115,6 +72,20 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = $request->user();
+        $user->password = \Hash::make($request->password);
+        $user->must_change_password = false;
+        $user->save();
+
+        return response()->json(['message' => 'Senha alterada com sucesso!']);
     }
 
     public function logout(Request $request)

@@ -7,15 +7,24 @@ import { Label } from "@/components/ui/label";
 import { useApp } from "@/contexts/AppContext";
 
 const AdminLogin = () => {
-  const [login, setLogin] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login: doLogin } = useApp();
 
+  const formatCPF = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+      .replace(/(-\d{2})\d+?$/, "$1");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await doLogin(login, password, "admin");
-    if (success) {
+    const result = await doLogin(cpf.replace(/\D/g, ""), password, "admin");
+    if (result.success) {
       navigate("/admin/dashboard");
     }
   };
@@ -44,15 +53,15 @@ const AdminLogin = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="login" className="text-foreground">Usuário</Label>
+              <Label htmlFor="cpf" className="text-foreground">CPF</Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
-                  id="login"
+                  id="cpf"
                   type="text"
-                  placeholder="admin"
-                  value={login}
-                  onChange={(e) => setLogin(e.target.value)}
+                  placeholder="000.000.000-00"
+                  value={cpf}
+                  onChange={(e) => setCpf(formatCPF(e.target.value))}
                   className="pl-11 h-12"
                   required
                 />

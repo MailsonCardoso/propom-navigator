@@ -42,9 +42,26 @@ const AdminStudents = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [newStudent, setNewStudent] = useState({
     name: "",
-    login: "",
-    password: "",
+    cpf: "",
+    phone: "",
   });
+
+  const formatCPF = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+      .replace(/(-\d{2})\d+?$/, "$1");
+  };
+
+  const formatPhone = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{5})(\d)/, "$1-$2")
+      .replace(/(-\d{4})\d+?$/, "$1");
+  };
 
   const handleLogout = () => {
     setShowLogoutDialog(true);
@@ -56,14 +73,15 @@ const AdminStudents = () => {
   };
 
   const handleAddStudent = () => {
-    if (newStudent.name && newStudent.login && newStudent.password) {
+    if (newStudent.name && newStudent.cpf) {
       addStudent({
         name: newStudent.name,
-        login: newStudent.login,
+        cpf: newStudent.cpf.replace(/\D/g, ""),
+        phone: newStudent.phone.replace(/\D/g, ""),
         role: "student",
         active: true,
       });
-      setNewStudent({ name: "", login: "", password: "" });
+      setNewStudent({ name: "", cpf: "", phone: "" });
       setShowAddModal(false);
     }
   };
@@ -71,7 +89,7 @@ const AdminStudents = () => {
   const filteredStudents = students.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.login.toLowerCase().includes(searchTerm.toLowerCase())
+      student.cpf.includes(searchTerm.replace(/\D/g, ""))
   );
 
   return (
@@ -111,7 +129,7 @@ const AdminStudents = () => {
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              placeholder="Buscar por nome ou login..."
+              placeholder="Buscar por nome ou CPF..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-11"
@@ -130,7 +148,8 @@ const AdminStudents = () => {
               <thead className="bg-muted/50 border-b border-border">
                 <tr>
                   <th className="text-left px-6 py-4 font-medium text-muted-foreground">Aluno</th>
-                  <th className="text-left px-6 py-4 font-medium text-muted-foreground">Login</th>
+                  <th className="text-left px-6 py-4 font-medium text-muted-foreground">CPF</th>
+                  <th className="text-left px-6 py-4 font-medium text-muted-foreground">Telefone</th>
                   <th className="text-left px-6 py-4 font-medium text-muted-foreground">Status</th>
                   <th className="text-right px-6 py-4 font-medium text-muted-foreground">Ações</th>
                 </tr>
@@ -146,7 +165,10 @@ const AdminStudents = () => {
                         <span className="font-medium text-foreground">{student.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-muted-foreground">{student.login}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{student.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</td>
+                    <td className="px-6 py-4 text-muted-foreground">
+                      {student.phone ? student.phone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3") : "-"}
+                    </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${student.active
                         ? "bg-success/10 text-success"
@@ -219,22 +241,22 @@ const AdminStudents = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="studentLogin">Login</Label>
+              <Label htmlFor="studentCPF">CPF</Label>
               <Input
-                id="studentLogin"
-                placeholder="Login de acesso"
-                value={newStudent.login}
-                onChange={(e) => setNewStudent({ ...newStudent, login: e.target.value })}
+                id="studentCPF"
+                placeholder="000.000.000-00"
+                value={newStudent.cpf}
+                onChange={(e) => setNewStudent({ ...newStudent, cpf: formatCPF(e.target.value) })}
               />
+              <p className="text-[10px] text-muted-foreground">A senha inicial será os 6 primeiros dígitos do CPF.</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="studentPassword">Senha</Label>
+              <Label htmlFor="studentPhone">Telefone</Label>
               <Input
-                id="studentPassword"
-                type="password"
-                placeholder="Senha de acesso"
-                value={newStudent.password}
-                onChange={(e) => setNewStudent({ ...newStudent, password: e.target.value })}
+                id="studentPhone"
+                placeholder="(00) 00000-0000"
+                value={newStudent.phone}
+                onChange={(e) => setNewStudent({ ...newStudent, phone: formatPhone(e.target.value) })}
               />
             </div>
           </div>

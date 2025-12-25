@@ -22,17 +22,22 @@ class StudentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'login' => 'required|string|unique:users,login',
-            'password' => 'required|string|min:6',
+            'cpf' => 'required|string|unique:users,cpf',
+            'phone' => 'nullable|string',
         ]);
+
+        $cpfNumbers = preg_replace('/\D/', '', $request->cpf);
+        $tempPassword = substr($cpfNumbers, 0, 6);
 
         $student = User::create([
             'name' => $request->name,
-            'login' => $request->login,
-            'email' => $request->login . '@propom.local', // Email fictício
-            'password' => Hash::make($request->password),
+            'cpf' => $cpfNumbers,
+            'phone' => $request->phone,
+            'email' => $cpfNumbers . '@propom.local', // Email fictício
+            'password' => Hash::make($tempPassword),
             'role' => 'student',
             'active' => true,
+            'must_change_password' => true,
         ]);
 
         return response()->json($student, 201);
