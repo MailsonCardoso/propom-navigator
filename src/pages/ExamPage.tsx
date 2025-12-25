@@ -24,7 +24,7 @@ interface Question {
   hint?: string;
 }
 
-const EXAM_TIME = 90 * 60; // 90 minutes in seconds
+const EXAM_TIME = 180 * 60; // 180 minutes in seconds (3 hours)
 
 const ExamPage = () => {
   const navigate = useNavigate();
