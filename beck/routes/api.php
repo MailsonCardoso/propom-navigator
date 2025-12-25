@@ -15,6 +15,7 @@ Route::post('/auth/login/student', [AuthController::class, 'loginStudent']);
 Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::get('/auth/me', [AuthController::class, 'me']);
 
     // Students (apenas admin)
