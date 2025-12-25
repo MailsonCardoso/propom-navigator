@@ -4,8 +4,8 @@
 
 ### 🔧 Backend (Laravel API)
 - **Status:** ✅ RODANDO
-- **URL:** http://localhost:8000
-- **API:** http://localhost:8000/api
+- **URL:** http://192.168.176.30:8000
+- **API:** http://192.168.176.30:8000/api
 - **Porta:** 8000
 - **Tempo ativo:** 26h+
 
@@ -24,7 +24,7 @@ php artisan serve --host=0.0.0.0 --port=8000
 
 ### ⚛️ Frontend (React + Vite)
 - **Status:** ✅ RODANDO
-- **URL Local:** http://localhost:8080
+- **URL Local:** http://192.168.176.30:8080
 - **URL Rede:** http://192.168.176.30:8080
 - **Porta:** 8080
 
@@ -46,7 +46,7 @@ npm run dev
 ### 1. Abra o Navegador
 
 Digite uma das URLs:
-- **Local:** http://localhost:8080
+- **Local:** http://192.168.176.30:8080
 - **Rede:** http://192.168.176.30:8080
 
 ### 2. Faça Login
@@ -252,7 +252,7 @@ npm run dev
 
 ## 🎯 Próximos Passos
 
-1. **Acesse:** http://localhost:8080
+1. **Acesse:** http://192.168.176.30:8080
 2. **Faça login** com as credenciais fornecidas
 3. **Explore** as funcionalidades
 4. **Teste** a criação de alunos (como admin)
@@ -274,8 +274,8 @@ npm run dev
 **🎉 Projeto 100% funcional e pronto para uso!**
 
 **URLs de Acesso:**
-- Frontend: http://localhost:8080
-- Backend API: http://localhost:8000/api
+- Frontend: http://192.168.176.30:8080
+- Backend API: http://192.168.176.30:8000/api
 - Documentação API: Veja `beck/README_API.md`
 
 **Credenciais:**

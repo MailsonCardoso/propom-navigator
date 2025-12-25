@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  Anchor, 
-  Users, 
-  DollarSign, 
-  CheckCircle, 
-  LogOut, 
+import {
+  Anchor,
+  Users,
+  DollarSign,
+  CheckCircle,
+  LogOut,
   PlusCircle,
   BarChart3,
   TrendingUp,
@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   const { logout, students } = useApp();
 
   const activeStudents = students.filter((s) => s.active).length;
-  const totalRevenue = activeStudents * 35;
+  const totalRevenue = activeStudents * 35; // Valor da inscrição R$ 35,00
 
   const handleLogout = () => {
     logout();
@@ -42,8 +42,8 @@ const AdminDashboard = () => {
     },
     {
       icon: DollarSign,
-      label: "Valor Arrecadado",
-      value: `R$ ${totalRevenue.toFixed(2).replace(".", ",")}`,
+      label: "Valor Total (Estimado)",
+      value: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalRevenue),
       color: "bg-warning/10 text-warning",
     },
   ];
@@ -82,8 +82,8 @@ const AdminDashboard = () => {
       <main className="container mx-auto px-4 py-8">
         {/* Welcome */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Bem-vindo, Administrador</h2>
-          <p className="text-muted-foreground">Acompanhe as estatísticas do seu simulado</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Painel de Controle</h2>
+          <p className="text-muted-foreground">Gestão em tempo real dos candidatos</p>
         </div>
 
         {/* Stats Cards */}
@@ -106,59 +106,64 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        {/* Chart Section */}
+        {/* Info Section */}
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           <div className="card-elevated p-6">
             <div className="flex items-center gap-2 mb-6">
-              <BarChart3 className="w-5 h-5 text-accent" />
-              <h3 className="font-semibold text-foreground">Cadastros por Mês</h3>
+              <Users className="w-5 h-5 text-accent" />
+              <h3 className="font-semibold text-foreground">Últimos Alunos Ativados</h3>
             </div>
-            <div className="h-48 flex items-end justify-around gap-2">
-              {[40, 65, 45, 80, 55, 90].map((height, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div 
-                    className="w-full bg-accent/20 rounded-t-lg relative overflow-hidden"
-                    style={{ height: `${height}%` }}
-                  >
-                    <div 
-                      className="absolute bottom-0 left-0 right-0 bg-accent rounded-t-lg animate-fade-in"
-                      style={{ height: "100%", animationDelay: `${i * 0.1}s` }}
-                    />
+            <div className="space-y-4">
+              {students.filter(s => s.active).slice(0, 5).map((student) => (
+                <div key={student.id} className="flex items-center justify-between border-b border-border/50 pb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                      <User className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm text-foreground">{student.name}</p>
+                      <p className="text-xs text-muted-foreground">{student.login}</p>
+                    </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"][i]}
-                  </span>
+                  <CheckCircle className="w-4 h-4 text-success" />
                 </div>
               ))}
+              {students.filter(s => s.active).length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">Nenhum aluno ativo no momento.</p>
+              )}
             </div>
           </div>
 
           <div className="card-elevated p-6">
             <div className="flex items-center gap-2 mb-6">
-              <Users className="w-5 h-5 text-accent" />
-              <h3 className="font-semibold text-foreground">Últimos Cadastros</h3>
+              <BarChart3 className="w-5 h-5 text-accent" />
+              <h3 className="font-semibold text-foreground">Distribuição de Status</h3>
             </div>
-            <div className="space-y-4">
-              {students.slice(0, 4).map((student) => (
-                <div key={student.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                      <User className="w-5 h-5 text-muted-foreground" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">{student.name}</p>
-                      <p className="text-sm text-muted-foreground">{student.login}</p>
-                    </div>
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    student.active 
-                      ? "bg-success/10 text-success" 
-                      : "bg-muted text-muted-foreground"
-                  }`}>
-                    {student.active ? "Ativo" : "Inativo"}
-                  </span>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Alunos Ativos</span>
+                  <span className="font-bold text-success">{activeStudents}</span>
                 </div>
-              ))}
+                <div className="h-3 w-full bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-success transition-all duration-1000"
+                    style={{ width: `${students.length ? (activeStudents / students.length) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Alunos Inativos</span>
+                  <span className="font-bold text-muted-foreground">{students.length - activeStudents}</span>
+                </div>
+                <div className="h-3 w-full bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-muted-foreground/30 transition-all duration-1000"
+                    style={{ width: `${students.length ? ((students.length - activeStudents) / students.length) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
