@@ -25,6 +25,9 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
+        // Invalida sessões anteriores (Garante login único)
+        $user->tokens()->delete();
+
         $token = $user->createToken('admin-token')->plainTextToken;
 
         return response()->json([
@@ -54,6 +57,9 @@ class AuthController extends Controller
         if (!$user->active) {
             return response()->json(['message' => 'Acesso não liberado. Entre em contato com o administrador.'], 403);
         }
+
+        // Invalida sessões anteriores (Garante login único)
+        $user->tokens()->delete();
 
         // Se o aluno precisa trocar a senha (primeiro acesso), retornamos um status específico
         if ($user->must_change_password) {
