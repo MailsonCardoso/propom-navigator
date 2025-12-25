@@ -34,7 +34,9 @@ class ExamController extends Controller
                 'user_answer' => $userAnswer,
                 'correct_answer' => $question->correct_answer,
                 'is_correct' => $isCorrect,
-                'rationale' => $question->rationale, // Enviamos a explicação no final
+                'rationale' => $question->rationale,
+                'text' => $question->text,
+                'options' => $question->options,
             ];
         }
 
@@ -98,6 +100,37 @@ class ExamController extends Controller
             'total_attempts' => $totalAttempts,
             'passed_attempts' => $passedAttempts,
             'average_score' => round($averageScore, 2),
+        ]);
+    }
+    public function show($id, Request $request)
+    {
+        $attempt = ExamAttempt::where('user_id', $request->user()->id)
+            ->findOrFail($id);
+
+        // Busca as questões do bloco relativo à tentativa
+        $questions = Question::where('block', $attempt->block)->get();
+        $detailedResults = [];
+
+        // Monta o gabarito comparando as respostas salvas com as corretas
+        foreach ($questions as $index => $question) {
+            $userAnswer = $attempt->answers[$index] ?? null;
+            $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
+
+            $detailedResults[] = [
+                'question_id' => $question->id,
+                'user_answer' => $userAnswer,
+                'correct_answer' => $question->correct_answer,
+                'is_correct' => $isCorrect,
+                'rationale' => $question->rationale,
+                'hint' => $question->hint,
+                'text' => $question->text,
+                'options' => $question->options
+            ];
+        }
+
+        return response()->json([
+            'attempt' => $attempt,
+            'results' => $detailedResults
         ]);
     }
 }

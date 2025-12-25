@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw, LogOut, CheckCircle2, ChevronDown, ChevronUp, AlertCircle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
+import { api } from "@/lib/api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,15 +21,44 @@ interface Detail {
   correct_answer: number;
   is_correct: boolean;
   rationale: string;
+  text?: string;
+  options?: string[];
 }
 
 const ResultPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const details = (location.state as { details?: Detail[] })?.details;
+  const [searchParams] = useSearchParams();
+  const attemptId = searchParams.get("attemptId");
+
+  const [historicalDetails, setHistoricalDetails] = useState<Detail[] | null>(null);
+  const [historicalSummary, setHistoricalSummary] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(!!attemptId);
+
   const { examResult, setExamResult, logout } = useApp();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(attemptId ? true : false);
+
+  useEffect(() => {
+    if (attemptId) {
+      const fetchAttempt = async () => {
+        try {
+          const data = await api.get(`/exam/attempt/${attemptId}`);
+          setHistoricalDetails(data.results);
+          setHistoricalSummary({
+            correctAnswers: data.attempt.score,
+            totalQuestions: data.attempt.total_questions,
+            passed: data.attempt.passed
+          });
+        } catch (error) {
+          console.error("Error fetching historical attempt:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchAttempt();
+    }
+  }, [attemptId]);
 
   const handleLogout = () => {
     setShowLogoutDialog(true);
@@ -39,7 +69,18 @@ const ResultPage = () => {
     navigate("/");
   };
 
-  if (!examResult) {
+  const displaySummary = historicalSummary || examResult;
+  const displayDetails = historicalDetails || (location.state as { details?: Detail[] })?.details;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+      </div>
+    );
+  }
+
+  if (!displaySummary) {
     return (
       <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
         <div className="card-elevated p-8 text-center">
@@ -52,7 +93,7 @@ const ResultPage = () => {
     );
   }
 
-  const { correctAnswers, totalQuestions, passed } = examResult;
+  const { correctAnswers, totalQuestions, passed } = displaySummary;
   const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
   return (
@@ -159,14 +200,14 @@ const ResultPage = () => {
         </div>
 
         {/* Detailed Review Section */}
-        {showDetails && details && (
+        {showDetails && displayDetails && (
           <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
             <h3 className="text-xl font-bold text-foreground flex items-center gap-2 px-2">
               <CheckCircle2 className="w-6 h-6 text-accent" />
               Justificativas por Questão
             </h3>
             <div className="space-y-4">
-              {details.map((item, index) => (
+              {displayDetails.map((item, index) => (
                 <div
                   key={index}
                   className={`card-elevated overflow-hidden border-l-4 ${item.is_correct ? "border-success" : "border-destructive"}`}
@@ -189,25 +230,44 @@ const ResultPage = () => {
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="flex gap-2 text-sm">
-                        <span className="text-muted-foreground font-medium shrink-0">Sua resposta:</span>
-                        <span className={item.is_correct ? "text-success font-bold" : "text-destructive font-bold"}>
-                          {item.user_answer !== null ? String.fromCharCode(65 + item.user_answer) : "Não respondida"}
-                        </span>
+                    <div className="space-y-4">
+                      <p className="text-foreground font-semibold leading-relaxed">
+                        {item.text || `Questão ${item.question_id}`}
+                      </p>
+
+                      <div className="space-y-2">
+                        {item.options?.map((option, optIdx) => {
+                          const isUserChoice = item.user_answer === optIdx;
+                          const isCorrectChoice = item.correct_answer === optIdx;
+
+                          let variantClasses = "bg-muted/30 border-border";
+                          if (isCorrectChoice) variantClasses = "bg-success/10 border-success/30 text-success font-medium";
+                          if (isUserChoice && !isCorrectChoice) variantClasses = "bg-destructive/10 border-destructive/30 text-destructive font-medium";
+
+                          return (
+                            <div
+                              key={optIdx}
+                              className={`p-3 rounded-lg border text-sm flex items-center gap-3 ${variantClasses}`}
+                            >
+                              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${isCorrectChoice ? "bg-success text-success-foreground" :
+                                isUserChoice ? "bg-destructive text-destructive-foreground" :
+                                  "bg-muted-foreground/20 text-muted-foreground"
+                                }`}>
+                                {String.fromCharCode(65 + optIdx)}
+                              </div>
+                              <span className="flex-1">{option}</span>
+                              {isCorrectChoice && <CheckCircle className="w-4 h-4" />}
+                              {isUserChoice && !isCorrectChoice && <XCircle className="w-4 h-4 text-destructive" />}
+                            </div>
+                          );
+                        })}
                       </div>
 
-                      {!item.is_correct && (
-                        <div className="flex gap-2 text-sm">
-                          <span className="text-muted-foreground font-medium shrink-0">Resposta correta:</span>
-                          <span className="text-success font-bold">
-                            {String.fromCharCode(65 + item.correct_answer)}
-                          </span>
-                        </div>
-                      )}
-
-                      <div className="mt-4 p-4 bg-muted/40 rounded-xl border border-border">
-                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Justificativa Acadêmica:</h4>
+                      <div className="mt-4 p-4 bg-accent/5 rounded-xl border border-accent/10">
+                        <h4 className="text-xs font-bold text-accent uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <BarChart3 className="w-3.5 h-3.5" />
+                          Justificativa Pedagógica:
+                        </h4>
                         <p className="text-sm text-foreground leading-relaxed italic">
                           "{item.rationale || "Nenhuma explicação disponível para esta questão."}"
                         </p>
@@ -227,7 +287,7 @@ const ResultPage = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
             <AlertDialogDescription>
-              Sua sessão será encerrada.
+              Sua sessão será encerrada e você precisará fazer login novamente para acessar seus resultados.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

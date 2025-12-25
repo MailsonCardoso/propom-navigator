@@ -236,11 +236,17 @@ const StudentDashboard = () => {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="flex flex-col items-end gap-2">
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${attempt.passed ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"
                                                 }`}>
                                                 {attempt.passed ? "APROVADO" : "REPROVADO"}
                                             </span>
+                                            <Link to={`/aluno/resultado?attemptId=${attempt.id}`}>
+                                                <Button variant="link" size="sm" className="text-accent h-auto p-0 flex items-center gap-1 font-bold">
+                                                    <BarChart3 className="w-3 h-3" />
+                                                    Ver Revisão
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </div>
                                 ))

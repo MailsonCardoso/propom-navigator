@@ -130,7 +130,11 @@ const ExamPage = () => {
 
   const handleAnswer = (optionIndex: number) => {
     const newAnswers = [...answers];
-    newAnswers[currentQuestion] = optionIndex;
+    if (newAnswers[currentQuestion] === optionIndex) {
+      newAnswers[currentQuestion] = null; // Desmarcar
+    } else {
+      newAnswers[currentQuestion] = optionIndex;
+    }
     setAnswers(newAnswers);
   };
 
