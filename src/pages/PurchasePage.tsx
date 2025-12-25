@@ -98,7 +98,7 @@ const PurchasePage = () => {
                   Após o pagamento, envie o comprovante no WhatsApp para liberar seu acesso.
                 </p>
                 <a
-                  href={`https://wa.me/559882212175?text=Ol%C3%A1%2C%20acabei%20de%20fazer%20o%20pagamento%20do%20simulado%20PROPOM%202026.%20Segue%20o%20comprovante.`}
+                  href={`https://wa.me/5598988221217?text=Ol%C3%A1%2C%20acabei%20de%20fazer%20o%20pagamento%20do%20simulado%20PROPOM%202026.%20Segue%20o%20comprovante.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center h-10 px-4 py-2 bg-[#25D366] text-white rounded-md font-medium hover:bg-[#128C7E] transition-colors"
