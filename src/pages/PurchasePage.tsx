@@ -8,7 +8,7 @@ import { toast } from "sonner";
 const PurchasePage = () => {
   const [showPix, setShowPix] = useState(false);
   const [copied, setCopied] = useState(false);
-  const pixKey = "00020126360014BR.GOV.BCB.PIX0114+5598988221217520400005303986540535.005802BR5921Mailson Costa Cardoso6009SAO PAULO62140510cyo6U9Q9FI63049E70";
+  const pixKey = "00020126360014BR.GOV.BCB.PIX0114+559898822121752040000530398654040.015802BR5921Mailson Costa Cardoso6009SAO PAULO62140510K7NBlISoHn6304DDF4";
 
   const handleCopyPix = () => {
     navigator.clipboard.writeText(pixKey);
@@ -41,7 +41,7 @@ const PurchasePage = () => {
               <div className="bg-muted/50 rounded-xl p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-foreground font-medium">Plano Completo</span>
-                  <span className="text-2xl font-bold text-foreground">R$ 35,00</span>
+                  <span className="text-2xl font-bold text-foreground">R$ 40,01</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
