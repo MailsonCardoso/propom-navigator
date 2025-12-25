@@ -15,24 +15,27 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
+        $login = trim($validated['login']);
+        $password = $validated['password']; // Senha não deve ter trim se for proposital, mas login sim.
+
         // Buscar usuário APENAS pelo login E role admin
-        $user = \App\Models\User::where('login', $validated['login'])
+        $user = \App\Models\User::where('login', $login)
             ->where('role', 'admin')
             ->first();
 
         // Se usuário não existe, retorna erro genérico
         if (!$user) {
             \Log::warning('Tentativa de login admin com login inexistente', [
-                'login' => $validated['login'],
+                'login' => $login,
                 'ip' => $request->ip()
             ]);
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
         // Verificar senha
-        if (!\Hash::check($validated['password'], $user->password)) {
+        if (!\Hash::check($password, $user->password)) {
             \Log::warning('Tentativa de login admin com senha incorreta', [
-                'login' => $validated['login'],
+                'login' => $login,
                 'user_id' => $user->id,
                 'ip' => $request->ip()
             ]);
@@ -62,24 +65,27 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
+        $login = trim($validated['login']);
+        $password = $validated['password'];
+
         // Buscar usuário APENAS pelo login E role student
-        $user = \App\Models\User::where('login', $validated['login'])
+        $user = \App\Models\User::where('login', $login)
             ->where('role', 'student')
             ->first();
 
         // Se usuário não existe, retorna erro genérico
         if (!$user) {
             \Log::warning('Tentativa de login student com login inexistente', [
-                'login' => $validated['login'],
+                'login' => $login,
                 'ip' => $request->ip()
             ]);
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
         // Verificar senha
-        if (!\Hash::check($validated['password'], $user->password)) {
+        if (!\Hash::check($password, $user->password)) {
             \Log::warning('Tentativa de login student com senha incorreta', [
-                'login' => $validated['login'],
+                'login' => $login,
                 'user_id' => $user->id,
                 'ip' => $request->ip()
             ]);

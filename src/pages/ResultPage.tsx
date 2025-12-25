@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
-import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Anchor, Trophy, XCircle, BarChart3, Home, RotateCcw, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 const ResultPage = () => {
-  const { examResult, setExamResult } = useApp();
+  const navigate = useNavigate();
+  const { examResult, setExamResult, logout } = useApp();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   if (!examResult) {
     return (
@@ -37,16 +43,19 @@ const ResultPage = () => {
       <div className="w-full max-w-lg relative z-10">
         <div className="card-elevated p-8 animate-scale-in">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-3 mb-6">
+            <div className="flex items-center justify-between mb-6">
               <div className="w-12 h-12 rounded-xl gradient-navy flex items-center justify-center">
                 <Anchor className="w-7 h-7 text-primary-foreground" />
               </div>
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
+                <LogOut className="w-5 h-5 mr-2" />
+                Sair
+              </Button>
             </div>
 
             {/* Result Icon */}
-            <div className={`w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center ${
-              passed ? "bg-success/10" : "bg-destructive/10"
-            }`}>
+            <div className={`w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center ${passed ? "bg-success/10" : "bg-destructive/10"
+              }`}>
               {passed ? (
                 <Trophy className="w-12 h-12 text-success" />
               ) : (
@@ -54,13 +63,12 @@ const ResultPage = () => {
               )}
             </div>
 
-            <h1 className={`text-3xl font-bold mb-2 ${
-              passed ? "text-success" : "text-destructive"
-            }`}>
+            <h1 className={`text-3xl font-bold mb-2 ${passed ? "text-success" : "text-destructive"
+              }`}>
               {passed ? "Aprovado!" : "Reprovado"}
             </h1>
             <p className="text-muted-foreground">
-              {passed 
+              {passed
                 ? "Parabéns! Você atingiu a pontuação mínima."
                 : "Continue estudando e tente novamente."
               }
@@ -100,19 +108,18 @@ const ResultPage = () => {
                 </span>
               </div>
               <div className="h-3 bg-muted rounded-full overflow-hidden">
-                <div 
-                  className={`h-full transition-all duration-1000 ${
-                    passed ? "bg-success" : "bg-destructive"
-                  }`}
+                <div
+                  className={`h-full transition-all duration-1000 ${passed ? "bg-success" : "bg-destructive"
+                    }`}
                   style={{ width: `${percentage}%` }}
                 />
               </div>
               <div className="relative mt-1">
-                <div 
+                <div
                   className="absolute top-0 w-0.5 h-3 bg-foreground/30"
                   style={{ left: "77.5%" }}
                 />
-                <span 
+                <span
                   className="absolute text-xs text-muted-foreground"
                   style={{ left: "77.5%", transform: "translateX(-50%)", top: "12px" }}
                 >
@@ -123,9 +130,8 @@ const ResultPage = () => {
           </div>
 
           {/* Performance Message */}
-          <div className={`p-4 rounded-xl mb-6 ${
-            passed ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"
-          }`}>
+          <div className={`p-4 rounded-xl mb-6 ${passed ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"
+            }`}>
             <p className={`text-sm ${passed ? "text-success" : "text-destructive"}`}>
               {percentage >= 90 && "Excelente! Você está muito bem preparado!"}
               {percentage >= 77.5 && percentage < 90 && "Muito bom! Continue assim para a prova real."}

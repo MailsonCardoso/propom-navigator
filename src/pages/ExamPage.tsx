@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
@@ -28,7 +28,14 @@ const EXAM_TIME = 90 * 60; // 90 minutes in seconds
 
 const ExamPage = () => {
   const navigate = useNavigate();
-  const { setExamResult } = useApp();
+  const { setExamResult, logout } = useApp();
+
+  const handleLogout = () => {
+    if (confirm("Deseja realmente sair? Seu progresso nesta prova será perdido.")) {
+      logout();
+      navigate("/");
+    }
+  };
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -141,11 +148,16 @@ const ExamPage = () => {
               </div>
             </div>
 
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"
-              }`}>
-              <Clock className={`w-5 h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
-              <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
-              {isTimeWarning && <AlertTriangle className="w-4 h-4" />}
+            <div className="flex items-center gap-4">
+              <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"}`}>
+                <Clock className={`w-5 h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
+                <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
+              </div>
+
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
+                <LogOut className="w-5 h-5 mr-2" />
+                Sair
+              </Button>
             </div>
           </div>
         </div>
@@ -172,8 +184,8 @@ const ExamPage = () => {
           <div className="card-elevated p-6 md:p-8 animate-fade-in">
             <div className="flex items-center gap-2 mb-4">
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${question.subject === "portugues"
-                  ? "bg-accent/10 text-accent"
-                  : "bg-success/10 text-success"
+                ? "bg-accent/10 text-accent"
+                : "bg-success/10 text-success"
                 }`}>
                 {question.subject === "portugues" ? "Português" : "Matemática"}
               </span>
@@ -192,14 +204,14 @@ const ExamPage = () => {
                   key={index}
                   onClick={() => handleAnswer(index)}
                   className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
-                      ? "border-accent bg-accent/10 text-foreground"
-                      : "border-border bg-card hover:border-accent/50 hover:bg-muted/50 text-foreground"
+                    ? "border-accent bg-accent/10 text-foreground"
+                    : "border-border bg-card hover:border-accent/50 hover:bg-muted/50 text-foreground"
                     }`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${answers[currentQuestion] === index
-                        ? "bg-accent text-accent-foreground"
-                        : "bg-muted text-muted-foreground"
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-muted text-muted-foreground"
                       }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
@@ -222,10 +234,10 @@ const ExamPage = () => {
                   key={index}
                   onClick={() => setCurrentQuestion(index)}
                   className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${currentQuestion === index
-                      ? "bg-accent text-accent-foreground"
-                      : answers[index] !== null
-                        ? "bg-success/20 text-success border border-success/30"
-                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    ? "bg-accent text-accent-foreground"
+                    : answers[index] !== null
+                      ? "bg-success/20 text-success border border-success/30"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
                 >
                   {index + 1}
