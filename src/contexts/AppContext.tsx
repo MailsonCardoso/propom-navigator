@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 
 interface User {
   id: string;
@@ -18,69 +20,95 @@ interface ExamResult {
 interface AppContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (login: string, password: string, role: "student" | "admin") => boolean;
+  login: (login: string, password: string, role: "student" | "admin") => Promise<boolean>;
   logout: () => void;
   examResult: ExamResult | null;
   setExamResult: (result: ExamResult | null) => void;
   students: User[];
-  addStudent: (student: Omit<User, "id">) => void;
-  toggleStudentStatus: (id: string) => void;
+  addStudent: (student: any) => Promise<void>;
+  toggleStudentStatus: (id: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const mockStudents: User[] = [
-  { id: "1", name: "João Silva", login: "joao.silva", role: "student", active: true },
-  { id: "2", name: "Maria Santos", login: "maria.santos", role: "student", active: true },
-  { id: "3", name: "Pedro Oliveira", login: "pedro.oliveira", role: "student", active: false },
-  { id: "4", name: "Ana Costa", login: "ana.costa", role: "student", active: true },
-  { id: "5", name: "Carlos Ferreira", login: "carlos.ferreira", role: "student", active: true },
-];
-
 export function AppProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
-  const [students, setStudents] = useState<User[]>(mockStudents);
+  const [students, setStudents] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = (loginInput: string, password: string, role: "student" | "admin"): boolean => {
-    // Simulated login - always succeeds
-    if (role === "admin") {
-      setUser({
-        id: "admin-1",
-        name: "Administrador",
-        login: loginInput,
-        role: "admin",
-        active: true,
-      });
-    } else {
-      setUser({
-        id: "student-1",
-        name: "Aluno Teste",
-        login: loginInput,
-        role: "student",
-        active: true,
-      });
+  // Initialize from token
+  useEffect(() => {
+    const init = async () => {
+      const token = localStorage.getItem("auth_token");
+      if (token) {
+        try {
+          const userData = await api.get("/auth/me");
+          setUser(userData);
+          if (userData.role === "admin") {
+            const studentsData = await api.get("/students");
+            setStudents(studentsData);
+          }
+        } catch (error) {
+          console.error("Session expired", error);
+          localStorage.removeItem("auth_token");
+          setUser(null);
+        }
+      }
+      setIsLoading(false);
+    };
+    init();
+  }, []);
+
+  const login = async (loginInput: string, password: string, role: "student" | "admin"): Promise<boolean> => {
+    try {
+      const endpoint = role === "admin" ? "/auth/login/admin" : "/auth/login/student";
+      const data = await api.post(endpoint, { login: loginInput, password });
+
+      setUser(data.user);
+      localStorage.setItem("auth_token", data.token);
+
+      if (data.user.role === "admin") {
+        const studentsData = await api.get("/students");
+        setStudents(studentsData);
+      }
+
+      return true;
+    } catch (error: any) {
+      toast.error(error.message || "Falha no login");
+      return false;
     }
-    return true;
   };
 
   const logout = () => {
+    api.post("/auth/logout", {}).catch(console.error);
     setUser(null);
+    setStudents([]);
+    localStorage.removeItem("auth_token");
     setExamResult(null);
   };
 
-  const addStudent = (student: Omit<User, "id">) => {
-    const newStudent: User = {
-      ...student,
-      id: `student-${Date.now()}`,
-    };
-    setStudents((prev) => [...prev, newStudent]);
+  const addStudent = async (studentData: any) => {
+    try {
+      const newStudent = await api.post("/students", studentData);
+      setStudents((prev) => [newStudent, ...prev]);
+      toast.success("Aluno adicionado com sucesso!");
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao adicionar aluno");
+    }
   };
 
-  const toggleStudentStatus = (id: string) => {
-    setStudents((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
-    );
+  const toggleStudentStatus = async (id: string) => {
+    try {
+      const updatedStudent = await api.patch(`/students/${id}/toggle-status`);
+      setStudents((prev) =>
+        prev.map((s) => (s.id.toString() === id.toString() ? updatedStudent : s))
+      );
+      toast.success(updatedStudent.active ? "Aluno ativado!" : "Aluno desativado!");
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao alterar status");
+    }
   };
 
   return (
@@ -95,6 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         students,
         addStudent,
         toggleStudentStatus,
+        isLoading,
       }}
     >
       {children}

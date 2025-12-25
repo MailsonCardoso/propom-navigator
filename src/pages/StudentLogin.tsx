@@ -13,10 +13,12 @@ const StudentLogin = () => {
   const navigate = useNavigate();
   const { login: doLogin } = useApp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    doLogin(login, password, "student");
-    navigate("/aluno/prova");
+    const success = await doLogin(login, password, "student");
+    if (success) {
+      navigate("/aluno/prova");
+    }
   };
 
   return (

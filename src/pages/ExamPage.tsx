@@ -4,7 +4,7 @@ import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor } 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
-import { mockQuestions, Question } from "@/data/questions";
+import { api } from "@/lib/api";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   AlertDialog,
@@ -17,17 +17,41 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+interface Question {
+  id: number;
+  subject: "portugues" | "matematica";
+  text: string;
+  options: string[];
+}
+
 const EXAM_TIME = 90 * 60; // 90 minutes in seconds
 
 const ExamPage = () => {
   const navigate = useNavigate();
   const { setExamResult } = useApp();
-  
+
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(new Array(40).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [timeLeft, setTimeLeft] = useState(EXAM_TIME);
   const [showFinishDialog, setShowFinishDialog] = useState(false);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const data = await api.get("/questions");
+        setQuestions(data);
+        setAnswers(new Array(data.length).fill(null));
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchQuestions();
+  }, []);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -35,22 +59,21 @@ const ExamPage = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const finishExam = useCallback(() => {
-    const correctAnswers = answers.reduce((count, answer, index) => {
-      if (answer === mockQuestions[index].correctAnswer) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
+  const finishExam = useCallback(async () => {
+    try {
+      const response = await api.post("/exam/submit", { answers });
 
-    setExamResult({
-      totalQuestions: 40,
-      correctAnswers,
-      passed: correctAnswers >= 31,
-      completedAt: new Date(),
-    });
+      setExamResult({
+        totalQuestions: response.attempt.total_questions,
+        correctAnswers: response.score,
+        passed: response.passed,
+        completedAt: new Date(response.attempt.completed_at),
+      });
 
-    navigate("/aluno/resultado");
+      navigate("/aluno/resultado");
+    } catch (error) {
+      console.error("Error submitting exam:", error);
+    }
   }, [answers, navigate, setExamResult]);
 
   useEffect(() => {
@@ -77,10 +100,28 @@ const ExamPage = () => {
     setAnswers(newAnswers);
   };
 
-  const answeredCount = answers.filter((a) => a !== null).length;
-  const progress = (answeredCount / 40) * 100;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+      </div>
+    );
+  }
 
-  const question: Question = mockQuestions[currentQuestion];
+  if (questions.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <h2 className="text-xl font-bold">Nenhuma questão encontrada</h2>
+          <Button onClick={() => navigate("/")} className="mt-4">Voltar</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const answeredCount = answers.filter((a) => a !== null).length;
+  const progress = (answeredCount / questions.length) * 100;
+  const question = questions[currentQuestion];
 
   return (
     <div className="min-h-screen bg-background">
@@ -100,9 +141,8 @@ const ExamPage = () => {
               </div>
             </div>
 
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-              isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"
-            }`}>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"
+              }`}>
               <Clock className={`w-5 h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
               <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
               {isTimeWarning && <AlertTriangle className="w-4 h-4" />}
@@ -116,7 +156,7 @@ const ExamPage = () => {
         <div className="container mx-auto">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-muted-foreground">
-              Questão {currentQuestion + 1} de 40
+              Questão {currentQuestion + 1} de {questions.length}
             </span>
             <span className="text-sm font-medium text-foreground">
               {answeredCount} respondidas
@@ -131,11 +171,10 @@ const ExamPage = () => {
         <div className="container mx-auto max-w-3xl">
           <div className="card-elevated p-6 md:p-8 animate-fade-in">
             <div className="flex items-center gap-2 mb-4">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                question.subject === "portugues" 
-                  ? "bg-accent/10 text-accent" 
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${question.subject === "portugues"
+                  ? "bg-accent/10 text-accent"
                   : "bg-success/10 text-success"
-              }`}>
+                }`}>
                 {question.subject === "portugues" ? "Português" : "Matemática"}
               </span>
               <span className="text-sm text-muted-foreground">
@@ -152,18 +191,16 @@ const ExamPage = () => {
                 <button
                   key={index}
                   onClick={() => handleAnswer(index)}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${
-                    answers[currentQuestion] === index
+                  className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
                       ? "border-accent bg-accent/10 text-foreground"
                       : "border-border bg-card hover:border-accent/50 hover:bg-muted/50 text-foreground"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      answers[currentQuestion] === index
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${answers[currentQuestion] === index
                         ? "bg-accent text-accent-foreground"
                         : "bg-muted text-muted-foreground"
-                    }`}>
+                      }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
                     <span className="flex-1">{option}</span>
@@ -180,17 +217,16 @@ const ExamPage = () => {
           <div className="mt-6 card-navy p-4">
             <p className="text-sm text-muted-foreground mb-3">Navegação rápida:</p>
             <div className="flex flex-wrap gap-2">
-              {mockQuestions.map((_, index) => (
+              {questions.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentQuestion(index)}
-                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${
-                    currentQuestion === index
+                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${currentQuestion === index
                       ? "bg-accent text-accent-foreground"
                       : answers[index] !== null
-                      ? "bg-success/20 text-success border border-success/30"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
+                        ? "bg-success/20 text-success border border-success/30"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
                 >
                   {index + 1}
                 </button>
@@ -222,8 +258,8 @@ const ExamPage = () => {
 
             <Button
               variant="outline"
-              onClick={() => setCurrentQuestion(Math.min(39, currentQuestion + 1))}
-              disabled={currentQuestion === 39}
+              onClick={() => setCurrentQuestion(Math.min(questions.length - 1, currentQuestion + 1))}
+              disabled={currentQuestion === questions.length - 1}
             >
               Próxima
               <ChevronRight className="w-5 h-5" />
@@ -238,10 +274,10 @@ const ExamPage = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Finalizar Prova?</AlertDialogTitle>
             <AlertDialogDescription>
-              Você respondeu {answeredCount} de 40 questões.
-              {answeredCount < 40 && (
+              Você respondeu {answeredCount} de {questions.length} questões.
+              {answeredCount < questions.length && (
                 <span className="block mt-2 text-warning">
-                  Atenção: {40 - answeredCount} questões ainda não foram respondidas.
+                  Atenção: {questions.length - answeredCount} questões ainda não foram respondidas.
                 </span>
               )}
               <span className="block mt-2">

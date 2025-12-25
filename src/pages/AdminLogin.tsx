@@ -13,10 +13,12 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const { login: doLogin } = useApp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    doLogin(login, password, "admin");
-    navigate("/admin/dashboard");
+    const success = await doLogin(login, password, "admin");
+    if (success) {
+      navigate("/admin/dashboard");
+    }
   };
 
   return (

@@ -13,6 +13,7 @@ import ResultPage from "./pages/ResultPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminStudents from "./pages/AdminStudents";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -28,11 +29,40 @@ const App = () => (
             <Route path="/login" element={<StudentLogin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/comprar" element={<PurchasePage />} />
-            <Route path="/aluno/prova" element={<ExamPage />} />
-            <Route path="/aluno/resultado" element={<ResultPage />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/alunos" element={<AdminStudents />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+            <Route
+              path="/aluno/prova"
+              element={
+                <ProtectedRoute role="student">
+                  <ExamPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/aluno/resultado"
+              element={
+                <ProtectedRoute role="student">
+                  <ResultPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/alunos"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminStudents />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
