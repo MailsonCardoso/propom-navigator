@@ -260,6 +260,12 @@ const StudentDashboard = () => {
                         <div className="card-navy p-6 rounded-2xl">
                             <div className="space-y-4">
                                 <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Dica de Ouro (Marinha Mercante)</h4>
+                                    <p className="text-xs text-white/70 leading-relaxed italic">
+                                        "Estude por questões: a banca da Marinha costuma repetir padrões de raciocínio. Resolver simulados é a forma mais rápida de identificar suas fraquezas em Matemática e Português."
+                                    </p>
+                                </div>
+                                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
                                     <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Objetivo Diário</h4>
                                     <p className="text-xs text-white/70 leading-relaxed">
                                         Tente realizar pelo menos um simulado por dia para acostumar seu cérebro com o tempo da prova.
