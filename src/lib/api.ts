@@ -9,15 +9,27 @@ export const getAuthHeaders = () => {
     };
 };
 
+const handleResponse = async (response: Response) => {
+    if (response.status === 401) {
+        localStorage.removeItem("auth_token");
+        if (!window.location.pathname.includes('/login') && window.location.pathname !== '/') {
+            window.location.href = '/';
+        }
+    }
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Error: ${response.status}`);
+    }
+    return response.json();
+};
+
 export const api = {
     get: async (endpoint: string) => {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             headers: getAuthHeaders(),
         });
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-        return response.json();
+        return handleResponse(response);
     },
 
     post: async (endpoint: string, data: any) => {
@@ -26,11 +38,7 @@ export const api = {
             headers: getAuthHeaders(),
             body: JSON.stringify(data),
         });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error: ${response.status}`);
-        }
-        return response.json();
+        return handleResponse(response);
     },
 
     patch: async (endpoint: string, data?: any) => {
@@ -39,11 +47,7 @@ export const api = {
             headers: getAuthHeaders(),
             ...(data ? { body: JSON.stringify(data) } : {}),
         });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error: ${response.status}`);
-        }
-        return response.json();
+        return handleResponse(response);
     },
 
     delete: async (endpoint: string) => {
@@ -51,10 +55,6 @@ export const api = {
             method: "DELETE",
             headers: getAuthHeaders(),
         });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error: ${response.status}`);
-        }
-        return response.json();
+        return handleResponse(response);
     },
 };
