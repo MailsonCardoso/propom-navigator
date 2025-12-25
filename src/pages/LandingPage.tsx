@@ -63,21 +63,21 @@ const LandingPage = () => {
           <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-secondary blur-3xl" />
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6 animate-fade-in">
               <Anchor className="w-4 h-4 text-accent" />
               <span className="text-sm text-white/90 font-medium">Preparatório Oficial 2026</span>
             </div>
-            
+
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               Simulados{" "}
               <span className="text-accent">PROPOM 2026</span>
             </h2>
-            
+
             <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-              Prepare-se para o Processo Seletivo da Marinha Mercante com simulados 
+              Prepare-se para o Processo Seletivo da Marinha Mercante com simulados
               completos e cronometrados. Pratique nas mesmas condições da prova real.
             </p>
 
@@ -112,7 +112,7 @@ const LandingPage = () => {
               Por que escolher nossos simulados?
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Desenvolvidos por especialistas, nossos simulados reproduzem fielmente 
+              Desenvolvidos por especialistas, nossos simulados reproduzem fielmente
               o formato e dificuldade do PROPOM.
             </p>
           </div>
@@ -127,8 +127,8 @@ const LandingPage = () => {
                 <div className="w-12 h-12 rounded-xl gradient-navy flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
-                <h4 className="font-semibold text-lg text-foreground mb-2">{feature.title}</h4>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <h4 className="font-semibold text-lg text-white mb-2">{feature.title}</h4>
+                <p className="text-white/70 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -185,7 +185,7 @@ const LandingPage = () => {
               Comece sua preparação agora!
             </h3>
             <p className="text-white/80 mb-8 max-w-xl mx-auto">
-              Acesso completo a todos os simulados por apenas R$ 35,00. 
+              Acesso completo a todos os simulados por apenas R$ 35,00.
               Pratique quantas vezes quiser até o dia da prova.
             </p>
             <Link to="/comprar">
