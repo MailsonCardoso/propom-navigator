@@ -10,20 +10,31 @@ class QuestionController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Question::query();
+        $block = $request->block;
 
-        if ($request->has('block')) {
-            $query->where('block', $request->block);
+        if (!$block) {
+            return response()->json(['message' => 'Bloco não especificado'], 400);
         }
 
-        $questions = $query->get()->map(function ($question) {
+        // Busca e embaralha separadamente para manter 20 PT e depois 20 MAT
+        $portugues = Question::where('block', $block)
+            ->where('subject', 'portugues')
+            ->inRandomOrder()
+            ->get();
+
+        $matematica = Question::where('block', $block)
+            ->where('subject', 'matematica')
+            ->inRandomOrder()
+            ->get();
+
+        $questions = $portugues->concat($matematica)->map(function ($question) {
             return [
                 'id' => $question->id,
                 'block' => $question->block,
                 'subject' => $question->subject,
                 'text' => $question->text,
                 'options' => $question->options,
-                'hint' => $question->hint, // Enviamos a dica para o aluno
+                'hint' => $question->hint,
             ];
         });
 

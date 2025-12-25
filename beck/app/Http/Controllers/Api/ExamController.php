@@ -13,16 +13,21 @@ class ExamController extends Controller
     {
         $request->validate([
             'block' => 'required|integer',
-            'answers' => 'required|array',
+            'answers' => 'required|array', // Agora esperado: [ ['question_id' => 1, 'answer' => 2], ... ]
         ]);
 
-        // Busca apenas as questões do bloco específico
-        $questions = Question::where('block', $request->block)->get();
         $score = 0;
         $detailedResults = [];
+        $totalQuestions = count($request->answers);
 
-        foreach ($questions as $index => $question) {
-            $userAnswer = $request->answers[$index] ?? null;
+        foreach ($request->answers as $submission) {
+            $questionId = $submission['question_id'];
+            $userAnswer = $submission['answer'];
+
+            $question = Question::find($questionId);
+            if (!$question)
+                continue;
+
             $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
 
             if ($isCorrect) {
@@ -40,8 +45,7 @@ class ExamController extends Controller
             ];
         }
 
-        $totalQuestions = $questions->count();
-        $passed = $score >= ($totalQuestions * 0.775); // Mantendo os ~31/40 (77.5%)
+        $passed = $totalQuestions > 0 ? $score >= ($totalQuestions * 0.775) : false;
 
         $attempt = ExamAttempt::create([
             'user_id' => $request->user()->id,
@@ -107,25 +111,48 @@ class ExamController extends Controller
         $attempt = ExamAttempt::where('user_id', $request->user()->id)
             ->findOrFail($id);
 
-        // Busca as questões do bloco relativo à tentativa
-        $questions = Question::where('block', $attempt->block)->get();
         $detailedResults = [];
+        $answers = collect($attempt->answers);
 
-        // Monta o gabarito comparando as respostas salvas com as corretas
-        foreach ($questions as $index => $question) {
-            $userAnswer = $attempt->answers[$index] ?? null;
-            $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
+        // Se o formato for o novo (array de objetos com question_id)
+        if ($answers->first() && is_array($answers->first()) && isset($answers->first()['question_id'])) {
+            foreach ($answers as $submission) {
+                $question = Question::find($submission['question_id']);
+                if (!$question)
+                    continue;
 
-            $detailedResults[] = [
-                'question_id' => $question->id,
-                'user_answer' => $userAnswer,
-                'correct_answer' => $question->correct_answer,
-                'is_correct' => $isCorrect,
-                'rationale' => $question->rationale,
-                'hint' => $question->hint,
-                'text' => $question->text,
-                'options' => $question->options
-            ];
+                $userAnswer = $submission['answer'];
+                $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
+
+                $detailedResults[] = [
+                    'question_id' => $question->id,
+                    'user_answer' => $userAnswer,
+                    'correct_answer' => $question->correct_answer,
+                    'is_correct' => $isCorrect,
+                    'rationale' => $question->rationale,
+                    'hint' => $question->hint,
+                    'text' => $question->text,
+                    'options' => $question->options
+                ];
+            }
+        } else {
+            // Formato antigo (array simples de índices) - Busca questões do bloco na ordem original
+            $questions = Question::where('block', $attempt->block)->orderBy('id')->get();
+            foreach ($questions as $index => $question) {
+                $userAnswer = $attempt->answers[$index] ?? null;
+                $isCorrect = ($userAnswer !== null && $question->correct_answer == $userAnswer);
+
+                $detailedResults[] = [
+                    'question_id' => $question->id,
+                    'user_answer' => $userAnswer,
+                    'correct_answer' => $question->correct_answer,
+                    'is_correct' => $isCorrect,
+                    'rationale' => $question->rationale,
+                    'hint' => $question->hint,
+                    'text' => $question->text,
+                    'options' => $question->options
+                ];
+            }
         }
 
         return response()->json([

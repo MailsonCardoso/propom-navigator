@@ -75,9 +75,14 @@ const ExamPage = () => {
 
   const finishExam = useCallback(async () => {
     try {
+      const formattedAnswers = questions.map((q, index) => ({
+        question_id: q.id,
+        answer: answers[index]
+      }));
+
       const response = await api.post("/exam/submit", {
         block: parseInt(blockId),
-        answers
+        answers: formattedAnswers
       });
 
       setExamResult({
