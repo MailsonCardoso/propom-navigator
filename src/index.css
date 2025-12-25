@@ -125,7 +125,8 @@
 
 @layer components {
   .card-navy {
-    @apply bg-card rounded-xl border border-border;
+    background: var(--gradient-navy);
+    @apply rounded-xl border border-white/10;
     box-shadow: var(--shadow-card);
   }
 
