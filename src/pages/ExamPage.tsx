@@ -19,6 +19,7 @@ import {
 interface Question {
   id: number;
   subject: "portugues" | "matematica";
+  base_text?: string;
   text: string;
   options: string[];
   hint?: string;
@@ -226,9 +227,18 @@ const ExamPage = () => {
                 {question.subject === "portugues" ? "Português" : "Matemática"}
               </span>
               <span className="text-sm text-muted-foreground">
-                Questão {question.id}
+                Questão {currentQuestion + 1}
               </span>
             </div>
+
+            {question.base_text && (
+              <div className="mb-8 p-6 bg-muted/30 rounded-xl border border-border/50">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">Texto de Apoio</p>
+                <div className="text-sm md:text-base text-foreground leading-relaxed whitespace-pre-wrap font-serif italic italic opacity-90">
+                  {question.base_text}
+                </div>
+              </div>
+            )}
 
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">

@@ -22,6 +22,7 @@ interface Detail {
   is_correct: boolean;
   rationale: string;
   text?: string;
+  base_text?: string;
   options?: string[];
 }
 
@@ -231,6 +232,13 @@ const ResultPage = () => {
                     </div>
 
                     <div className="space-y-4">
+                      {item.base_text && (
+                        <div className="p-4 bg-muted/20 rounded-lg border border-border/50 text-sm font-serif italic italic text-muted-foreground whitespace-pre-wrap mb-4">
+                          <p className="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-50">Texto de Apoio</p>
+                          {item.base_text}
+                        </div>
+                      )}
+
                       <p className="text-foreground font-semibold leading-relaxed">
                         {item.text || `Questão ${item.question_id}`}
                       </p>

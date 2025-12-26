@@ -9,6 +9,7 @@ class Question extends Model
     protected $fillable = [
         'block',
         'subject',
+        'base_text',
         'text',
         'options',
         'correct_answer',

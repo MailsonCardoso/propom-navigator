@@ -41,6 +41,7 @@ class ExamController extends Controller
                 'is_correct' => $isCorrect,
                 'rationale' => $question->rationale,
                 'text' => $question->text,
+                'base_text' => $question->base_text,
                 'options' => $question->options,
             ];
         }
@@ -132,6 +133,7 @@ class ExamController extends Controller
                     'rationale' => $question->rationale,
                     'hint' => $question->hint,
                     'text' => $question->text,
+                    'base_text' => $question->base_text,
                     'options' => $question->options
                 ];
             }
@@ -150,6 +152,7 @@ class ExamController extends Controller
                     'rationale' => $question->rationale,
                     'hint' => $question->hint,
                     'text' => $question->text,
+                    'base_text' => $question->base_text,
                     'options' => $question->options
                 ];
             }
