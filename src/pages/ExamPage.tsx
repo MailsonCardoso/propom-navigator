@@ -58,7 +58,6 @@ const ExamPage = () => {
       try {
         const timestamp = new Date().getTime();
         const data = await api.get(`/questions?block=${blockId}&t=${timestamp}`);
-        console.log("Questions loaded:", data);
         setQuestions(data);
         setAnswers(new Array(data.length).fill(null));
       } catch (error) {
@@ -71,9 +70,10 @@ const ExamPage = () => {
   }, [blockId]);
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
   const finishExam = useCallback(async () => {
@@ -180,7 +180,7 @@ const ExamPage = () => {
                 <Anchor className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="font-bold text-foreground">Simulado PROPOM 2026 (v2.1)</h1>
+                <h1 className="font-bold text-foreground">Simulado PROPOM 2026</h1>
                 <p className="text-xs text-muted-foreground">
                   {question.subject === "portugues" ? "Português" : "Matemática"}
                 </p>
