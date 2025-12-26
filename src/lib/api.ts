@@ -10,7 +10,7 @@ export const getAuthHeaders = () => {
 };
 
 const handleResponse = async (response: Response) => {
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         localStorage.removeItem("auth_token");
         if (!window.location.pathname.includes('/login') && window.location.pathname !== '/') {
             window.location.href = '/';

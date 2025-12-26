@@ -25,6 +25,26 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
+        // REGRA FIRST-IP-WIN: Verifica se já existe um lock de IP ativo
+        $currentIp = $request->ip();
+        $cacheKey = "session_lock:user:{$user->id}";
+        $storedIp = \Illuminate\Support\Facades\Cache::get($cacheKey);
+
+        if ($storedIp && $storedIp !== $currentIp) {
+            // Registra a tentativa bloqueada no log
+            \App\Models\SecurityLog::create([
+                'user_id' => $user->id,
+                'ip_address' => $currentIp,
+                'browser_info' => $request->header('User-Agent'),
+                'type' => 'simultaneous_access',
+                'description' => "Tentativa de login ADMIN bloqueada. Sessão já ativa no IP: {$storedIp}.",
+            ]);
+
+            return response()->json([
+                'message' => 'Esta conta administrativa já possui uma sessão ativa em outro dispositivo.'
+            ], 403);
+        }
+
         // Invalida sessões anteriores (Garante login único)
         $user->tokens()->delete();
 
@@ -56,6 +76,26 @@ class AuthController extends Controller
 
         if (!$user->active) {
             return response()->json(['message' => 'Acesso não liberado. Entre em contato com o administrador.'], 403);
+        }
+
+        // REGRA FIRST-IP-WIN: Verifica se já existe um lock de IP ativo
+        $currentIp = $request->ip();
+        $cacheKey = "session_lock:user:{$user->id}";
+        $storedIp = \Illuminate\Support\Facades\Cache::get($cacheKey);
+
+        if ($storedIp && $storedIp !== $currentIp) {
+            // Registra a tentativa bloqueada no log
+            \App\Models\SecurityLog::create([
+                'user_id' => $user->id,
+                'ip_address' => $currentIp,
+                'browser_info' => $request->header('User-Agent'),
+                'type' => 'simultaneous_access',
+                'description' => "Tentativa de login bloqueada. Sessão já ativa no IP: {$storedIp}.",
+            ]);
+
+            return response()->json([
+                'message' => 'Este usuário já possui uma sessão ativa em outro dispositivo. Por segurança, aguarde o encerramento do acesso anterior (aprox. 30s de inatividade) para tentar novamente.'
+            ], 403);
         }
 
         // Invalida sessões anteriores (Garante login único)
