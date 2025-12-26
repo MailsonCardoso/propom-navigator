@@ -300,22 +300,48 @@ const ExamPage = () => {
 
           {/* Question Navigator */}
           <div className="mt-6 card-navy p-4">
-            <p className="text-sm text-muted-foreground mb-3">Navegação rápida:</p>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">Navegação rápida:</p>
+              <div className="flex gap-4">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-accent"></div>
+                  <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Português</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-success"></div>
+                  <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Matemática</span>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-2">
-              {questions.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentQuestion(index)}
-                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${currentQuestion === index
-                    ? "bg-accent text-accent-foreground"
-                    : answers[index] !== null
-                      ? "bg-success/20 text-success border border-success/30"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                    }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
+              {questions.map((q, index) => {
+                const isCurrent = currentQuestion === index;
+                const isAnswered = answers[index] !== null;
+                const isMath = q.subject === "matematica";
+
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentQuestion(index)}
+                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
+                        ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
+                        : isAnswered
+                          ? isMath
+                            ? "bg-success text-success-foreground border-success"
+                            : "bg-accent text-accent-foreground border-accent"
+                          : isMath
+                            ? "bg-card text-muted-foreground border-success/30 hover:border-success"
+                            : "bg-card text-muted-foreground border-accent/20 hover:border-accent"
+                      }`}
+                  >
+                    {index + 1}
+                    {!isAnswered && !isCurrent && (
+                      <div className={`absolute -top-1 -right-1 w-2 h-2 rounded-full ${isMath ? "bg-success/40" : "bg-accent/40"}`} />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
