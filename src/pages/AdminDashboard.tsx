@@ -210,31 +210,110 @@ const AdminDashboard = () => {
               onClick={async () => {
                 try {
                   const data = await api.get('/exam/ranking');
-                  if (data && data.length > 0) {
-                    const csvContent = "data:text/csv;charset=utf-8,"
-                      + "Posição,Nome,Melhor Nota (40),Tentativas,Aproveitamento\n"
-                      + data.map((item: any, index: number) =>
-                        `${index + 1},${item.name},${item.best_score},${item.attempts},${item.performance}`
-                      ).join("\n");
-
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", `Ranking_Semanal_PROPOM_${new Date().toISOString().split('T')[0]}.csv`);
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  } else {
+                  if (!data || data.length === 0) {
                     alert("Ainda não há dados de simulados para gerar o ranking desta semana.");
+                    return;
                   }
+
+                  // Importação dinâmica para não pesar o bundle inicial
+                  const { jsPDF } = await import('jspdf');
+                  const autoTable = (await import('jspdf-autotable')).default;
+
+                  const doc = new jsPDF();
+                  const now = new Date();
+                  const dateStr = now.toLocaleDateString('pt-BR');
+
+                  // Cabeçalho Premium
+                  doc.setFillColor(0, 31, 63); // Navy Blue
+                  doc.rect(0, 0, 210, 45, 'F');
+
+                  doc.setTextColor(255, 255, 255);
+                  doc.setFontSize(26);
+                  doc.setFont("helvetica", "bold");
+                  doc.text("PROPOM 2026", 15, 22);
+
+                  doc.setFontSize(12);
+                  doc.setFont("helvetica", "normal");
+                  doc.text("Relatório de Desempenho e Ranking Semanal", 15, 32);
+                  doc.text(`Gerado em: ${dateStr}`, 155, 32);
+
+                  // Resumo Informativo
+                  doc.setTextColor(0, 31, 63);
+                  doc.setFontSize(14);
+                  doc.setFont("helvetica", "bold");
+                  doc.text("Resumo da Semana", 15, 55);
+
+                  doc.setFontSize(10);
+                  doc.setFont("helvetica", "normal");
+                  doc.setTextColor(100, 100, 100);
+                  doc.text(`Total de candidatos participantes: ${data.length}`, 15, 63);
+                  doc.text(`Período de análise: Últimos 7 dias.`, 15, 68);
+
+                  // Linha divisória
+                  doc.setDrawColor(220, 220, 220);
+                  doc.line(15, 73, 195, 73);
+
+                  // Tabela de Ranking
+                  const tableRows = data.map((item: any, index: number) => [
+                    `${index + 1}º`,
+                    item.name.toUpperCase(),
+                    `${item.best_score} / 40`,
+                    item.attempts,
+                    item.performance
+                  ]);
+
+                  autoTable(doc, {
+                    startY: 80,
+                    head: [['Posição', 'Nome do Aluno', 'Melhor Nota', 'Tentativas', 'Aproveitamento']],
+                    body: tableRows,
+                    theme: 'striped',
+                    headStyles: {
+                      fillColor: [0, 31, 63],
+                      textColor: [255, 255, 255],
+                      fontSize: 10,
+                      fontStyle: 'bold',
+                      halign: 'center',
+                      cellPadding: 4
+                    },
+                    bodyStyles: {
+                      fontSize: 10,
+                      halign: 'center',
+                      textColor: [50, 50, 50],
+                      cellPadding: 4
+                    },
+                    columnStyles: {
+                      1: { halign: 'left', fontStyle: 'bold' }, // Nome do Aluno
+                    },
+                    alternateRowStyles: {
+                      fillColor: [245, 247, 250]
+                    },
+                    margin: { left: 15, right: 15 }
+                  });
+
+                  // Rodapé
+                  const pageCount = (doc as any).internal.getNumberOfPages();
+                  for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(150, 150, 150);
+                    doc.text(
+                      "Este documento é gerado automaticamente pelo PROPOM Navigator para acompanhamento pedagógico.",
+                      105,
+                      288,
+                      { align: "center" }
+                    );
+                  }
+
+                  doc.save(`Ranking_PROPOM_${now.toISOString().split('T')[0]}.pdf`);
+
                 } catch (error) {
-                  console.error("Erro ao exportar:", error);
-                  alert("Não foi possível gerar o relatório no momento.");
+                  console.error("Erro ao exportar PDF:", error);
+                  alert("Houve um erro técnico ao gerar o PDF. Verifique o console.");
                 }
               }}
             >
               <BarChart3 className="w-4 h-4 mr-2" />
-              Exportar Relatório
+              Exportar PDF Ranking
             </Button>
           </div>
         </div>
