@@ -42,7 +42,7 @@ class PreventSimultaneousAccess
                 }
 
                 return response()->json([
-                    'message' => 'Sessão ativa em outro dispositivo. O acesso simultâneo não é permitido e foi registrado para auditoria. Aguarde 30 segundos ou encerre o acesso no outro aparelho.'
+                    'message' => 'Atenção: Já existe uma sessão ativa nesta conta em outro dispositivo. O acesso simultâneo foi detectado e registrado. O compartilhamento de acesso resultará no bloqueio definitivo da sua conta na próxima ocorrência.'
                 ], 403);
             }
 

@@ -41,7 +41,7 @@ class AuthController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Esta conta administrativa já possui uma sessão ativa em outro dispositivo.'
+                'message' => 'Atenção: Já existe uma sessão ativa nesta conta administrativa. O acesso simultâneo foi detectado e registrado em nossa auditoria. O compartilhamento de acesso resultará no bloqueio definitivo da conta na próxima ocorrência.'
             ], 403);
         }
 
@@ -94,7 +94,7 @@ class AuthController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Este usuário já possui uma sessão ativa em outro dispositivo. Por segurança, aguarde o encerramento do acesso anterior (aprox. 30s de inatividade) para tentar novamente.'
+                'message' => 'Atenção: Já existe uma sessão ativa nesta conta. O acesso simultâneo foi detectado e registrado em nossa auditoria. O compartilhamento de acesso resultará no bloqueio definitivo da sua conta na próxima ocorrência.'
             ], 403);
         }
 
