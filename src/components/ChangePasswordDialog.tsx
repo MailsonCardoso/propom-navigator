@@ -44,7 +44,7 @@ export function ChangePasswordDialog({ isOpen, onOpenChange }: ChangePasswordDia
         }
 
         try {
-            await api.patch("/auth/change-password", {
+            await api.post("/auth/change-password", {
                 password: password,
                 password_confirmation: passwordConfirmation,
             });
