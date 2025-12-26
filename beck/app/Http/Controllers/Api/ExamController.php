@@ -163,4 +163,27 @@ class ExamController extends Controller
             'results' => $detailedResults
         ]);
     }
+
+    public function ranking()
+    {
+        // Ranking dos últimos 7 dias
+        $sevenDaysAgo = now()->subDays(7);
+
+        $ranking = ExamAttempt::with('user:id,name')
+            ->where('completed_at', '>=', $sevenDaysAgo)
+            ->select('user_id', \DB::raw('MAX(score) as best_score'), \DB::raw('COUNT(*) as attempts'))
+            ->groupBy('user_id')
+            ->orderBy('best_score', 'desc')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'name' => $item->user->name ?? 'Usuário Removido',
+                    'best_score' => $item->best_score,
+                    'attempts' => $item->attempts,
+                    'performance' => round(($item->best_score / 40) * 100, 1) . '%'
+                ];
+            });
+
+        return response()->json($ranking);
+    }
 }

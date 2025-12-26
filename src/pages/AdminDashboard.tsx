@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
+import { api } from "@/lib/api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -204,7 +205,34 @@ const AdminDashboard = () => {
                 Auditoria de Segurança
               </Button>
             </Link>
-            <Button variant="outline">
+            <Button
+              variant="outline"
+              onClick={async () => {
+                try {
+                  const data = await api.get('/exam/ranking');
+                  if (data && data.length > 0) {
+                    const csvContent = "data:text/csv;charset=utf-8,"
+                      + "Posição,Nome,Melhor Nota (40),Tentativas,Aproveitamento\n"
+                      + data.map((item: any, index: number) =>
+                        `${index + 1},${item.name},${item.best_score},${item.attempts},${item.performance}`
+                      ).join("\n");
+
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", `Ranking_Semanal_PROPOM_${new Date().toISOString().split('T')[0]}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  } else {
+                    alert("Ainda não há dados de simulados para gerar o ranking desta semana.");
+                  }
+                } catch (error) {
+                  console.error("Erro ao exportar:", error);
+                  alert("Não foi possível gerar o relatório no momento.");
+                }
+              }}
+            >
               <BarChart3 className="w-4 h-4 mr-2" />
               Exportar Relatório
             </Button>

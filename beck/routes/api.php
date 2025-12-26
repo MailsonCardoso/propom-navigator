@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
     Route::get('/exam/attempt/{id}', [ExamController::class, 'show']);
     Route::get('/exam/user-stats', [ExamController::class, 'userStats']);
     Route::get('/exam/stats', [ExamController::class, 'stats']);
+    Route::get('/exam/ranking', [ExamController::class, 'ranking']);
 
     // Security Logs
     Route::get('/security-logs', [SecurityLogController::class, 'index']);
