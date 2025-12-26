@@ -1,4 +1,4 @@
-import { Anchor, Clock, BookOpen, Award, Users, CheckCircle } from "lucide-react";
+import { Anchor, Clock, BookOpen, Award, Users, CheckCircle, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import WhatsAppButton from "@/components/WhatsAppButton";
