@@ -1,0 +1,9 @@
+﻿Bloco 1 | portugues: 20
+Bloco 1 | matematica: 20
+Bloco 2 | portugues: 5
+Bloco 2 | matematica: 5
+Bloco 3 | portugues: 20
+Bloco 3 | matematica: 20
+Bloco 4 | portugues: 10
+Bloco 4 | matematica: 30
+Bloco 5 | matematica: 40
