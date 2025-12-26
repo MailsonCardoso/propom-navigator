@@ -13,7 +13,7 @@ Route::post('/auth/login/admin', [AuthController::class, 'loginAdmin']);
 Route::post('/auth/login/student', [AuthController::class, 'loginStudent']);
 
 // Rotas protegidas
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAccess::class])->group(function () {
     // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
