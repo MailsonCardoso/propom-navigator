@@ -22,14 +22,14 @@ const LandingPage = () => {
     },
     {
       icon: Users,
-      title: "Milhares de Candidatos",
-      description: "Junte-se aos aprovados na Marinha Mercante",
+      title: "Preparação Focada",
+      description: "Conteúdo direto ao ponto para quem busca a vaga na Marinha",
     },
   ];
 
   const disciplines = [
-    { name: "Português", questions: 20, topics: ["Gramática", "Interpretação", "Ortografia"] },
-    { name: "Matemática Fundamental", questions: 20, topics: ["Aritmética", "Geometria", "Álgebra"] },
+    { name: "Português", questions: 20, topics: ["Interpretação de Texto", "Gramática Básica", "Redação e Sintaxe"] },
+    { name: "Matemática", questions: 20, topics: ["Operações no Conjunto dos Números Naturais", "Frações e Decimais", "Geometria Plana e Medidas"] },
   ];
 
   return (
