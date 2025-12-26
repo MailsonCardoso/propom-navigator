@@ -324,15 +324,15 @@ const ExamPage = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentQuestion(index)}
-                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
+                    className={`w-9 h-9 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
                         ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
                         : isAnswered
                           ? isMath
                             ? "bg-success text-success-foreground border-success"
                             : "bg-accent text-accent-foreground border-accent"
                           : isMath
-                            ? "bg-card text-muted-foreground border-success/30 hover:border-success"
-                            : "bg-card text-muted-foreground border-accent/20 hover:border-accent"
+                            ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
+                            : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
                       }`}
                   >
                     {index + 1}
