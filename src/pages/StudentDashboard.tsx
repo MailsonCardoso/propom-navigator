@@ -11,7 +11,8 @@ import {
     History,
     CheckCircle,
     XCircle,
-    TrendingUp
+    TrendingUp,
+    AlertTriangle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -105,7 +106,14 @@ const StudentDashboard = () => {
                             </div>
                             <div>
                                 <h1 className="font-bold text-lg text-foreground">Área do Aluno</h1>
-                                <p className="text-xs text-muted-foreground">PROPOM 2026</p>
+                                <h1 className="font-bold text-lg text-foreground">Área do Aluno</h1>
+                                <p className="text-xs text-muted-foreground mb-1">PROPOM 2026</p>
+                                <div className="flex items-center gap-1.5 px-2 py-1 bg-destructive/10 border border-destructive/20 rounded-md max-w-fit">
+                                    <AlertTriangle className="w-3 h-3 text-destructive shrink-0" />
+                                    <span className="text-[10px] font-bold text-destructive leading-tight">
+                                        Acesso Monitorado: O compartilhamento de senha resultará em bloqueio imediato.
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
