@@ -16,15 +16,15 @@ class QuestionController extends Controller
             return response()->json(['message' => 'Bloco não especificado'], 400);
         }
 
-        // Busca separadamente para manter 20 PT e depois 20 MAT em ordem fixa por ID
+        // Busca e embaralha separadamente para manter 20 PT e depois 20 MAT (Embaralhamento Inteligente)
         $portugues = Question::where('block', $block)
             ->where('subject', 'portugues')
-            ->orderBy('id', 'asc')
+            ->inRandomOrder()
             ->get();
 
         $matematica = Question::where('block', $block)
             ->where('subject', 'matematica')
-            ->orderBy('id', 'asc')
+            ->inRandomOrder()
             ->get();
 
         $questions = $portugues->concat($matematica)->map(function ($question) {
