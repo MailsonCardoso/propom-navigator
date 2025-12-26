@@ -205,7 +205,7 @@ const LandingPage = () => {
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
 
                 <div className="relative z-10 card-navy p-1 rounded-3xl overflow-hidden shadow-2xl">
-                  <div className="bg-navy/90 rounded-[calc(1.5rem-1px)] p-12 flex flex-col items-center justify-center relative overflow-hidden min-h-[400px]">
+                  <div className="bg-navy/90 rounded-[calc(1.5rem-1px)] p-12 pb-32 flex flex-col items-center justify-center relative overflow-hidden min-h-[500px]">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
@@ -213,21 +213,21 @@ const LandingPage = () => {
                     <Anchor className="absolute top-10 right-10 w-24 h-24 text-white/5 -rotate-12" />
                     <BookOpen className="absolute bottom-10 left-10 w-24 h-24 text-white/5 rotate-12" />
 
-                    <div className="relative z-20 text-center space-y-4">
-                      <div className="inline-block p-4 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 mb-2">
-                        <Trophy className="w-12 h-12 text-accent" />
+                    <div className="relative z-20 text-center space-y-8">
+                      <div className="inline-block p-6 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 mb-2">
+                        <Trophy className="w-14 h-14 text-accent" />
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-7xl md:text-8xl font-black text-white tracking-tighter">200</div>
-                        <div className="text-accent font-black uppercase tracking-[0.2em] text-sm md:text-base">Questões Inéditas</div>
+                      <div className="space-y-2">
+                        <div className="text-8xl md:text-9xl font-black text-white tracking-tighter leading-none">200</div>
+                        <div className="text-accent font-black uppercase tracking-[0.3em] text-xs md:text-sm">Questões Inéditas</div>
                       </div>
-                      <p className="text-white/60 text-sm max-w-[280px] mx-auto">
+                      <p className="text-white/60 text-sm md:text-base max-w-[320px] mx-auto leading-relaxed">
                         Mapeadas e professionalizadas seguindo o padrão PROPOM 2026.
                       </p>
                     </div>
 
                     {/* Stats strip */}
-                    <div className="absolute bottom-0 left-0 w-full p-6 bg-white/5 backdrop-blur-md border-t border-white/10 flex justify-around">
+                    <div className="absolute bottom-0 left-0 w-full p-8 bg-white/10 backdrop-blur-xl border-t border-white/10 flex justify-around">
                       <div className="text-center">
                         <div className="text-white font-bold">5</div>
                         <div className="text-[10px] text-white/40 uppercase font-black">Blocos</div>
