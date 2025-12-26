@@ -156,50 +156,96 @@ const LandingPage = () => {
       </section>
 
       {/* Methodology Section */}
-      <section className="py-20 bg-accent/5 overflow-hidden">
+      <section className="py-24 relative overflow-hidden bg-card">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-wider">
-                Inovação Pedagógica
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
-                Nossa Metodologia <br />
-                <span className="text-accent underline decoration-accent/30">Dinamismo Anti-Vício</span>
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Diferente de simulados em PDF, nossa plataforma utiliza um algoritmo de sorteio inteligente que garante que você nunca decore a ordem das respostas.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4 pt-4">
-                <div className="p-4 bg-card rounded-xl border border-border">
-                  <h5 className="font-bold text-foreground mb-1 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    Fidelidade Total
-                  </h5>
-                  <p className="text-xs text-muted-foreground">Cronômetro de 3 horas e 40 questões conforme o padrão oficial da Marinha.</p>
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest">
+                  Tecnologia de Ensino
                 </div>
-                <div className="p-4 bg-card rounded-xl border border-border">
-                  <h5 className="font-bold text-foreground mb-1 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    Repetição Espaçada
-                  </h5>
-                  <p className="text-xs text-muted-foreground">Refaça os blocos com questões embaralhadas para fixar o aprendizado real.</p>
+                <h3 className="text-4xl md:text-5xl font-extrabold text-foreground leading-[1.1] tracking-tight">
+                  Metodologia de <br />
+                  <span className="text-accent bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent/60">Alto Rendimento</span>
+                </h3>
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                  Esqueça simulados estáticos em PDF. Nossa plataforma foi construída para simular a pressão e a dinâmica real da prova da Marinha Mercante.
+                </p>
+              </div>
+
+              <div className="grid gap-6">
+                <div className="group flex gap-5 p-6 rounded-2xl bg-muted/30 border border-border hover:border-accent/30 hover:bg-accent/5 transition-all duration-300">
+                  <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <Clock className="w-7 h-7 text-accent" />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-xl text-foreground mb-1">Dinamismo Anti-Vício</h5>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Algoritmo de sorteio inteligente: questões embaralhadas a cada tentativa para garantir aprendizado real, não memorização.</p>
+                  </div>
+                </div>
+
+                <div className="group flex gap-5 p-6 rounded-2xl bg-muted/30 border border-border hover:border-accent/30 hover:bg-accent/5 transition-all duration-300">
+                  <div className="w-14 h-14 rounded-2xl bg-success/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <CheckCircle className="w-7 h-7 text-success" />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-xl text-foreground mb-1">Simulação de Combate</h5>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Cronômetro de 3 horas (180 min) rigoroso e 40 questões por bloco, seguindo exatamente o peso de cada matéria no edital.</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex-1 relative">
-              <div className="aspect-video gradient-navy rounded-2xl shadow-2xl flex items-center justify-center p-8 overflow-hidden">
-                <div className="absolute inset-0 opacity-20 flex flex-wrap gap-4 p-4 pointer-events-none">
-                  {Array.from({ length: 20 }).map((_, i) => (
-                    <div key={i} className="w-8 h-8 rounded bg-white" />
-                  ))}
-                </div>
-                <div className="relative z-10 text-center">
-                  <div className="text-5xl font-bold text-white mb-2">200</div>
-                  <div className="text-accent font-bold uppercase tracking-widest text-sm">Questões Inéditas</div>
+
+            <div className="flex-1 w-full max-w-2xl lg:max-w-none">
+              <div className="relative group">
+                {/* Decorative blobs */}
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-accent/20 rounded-full blur-[80px] animate-pulse" />
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
+
+                <div className="relative z-10 card-navy p-1 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="bg-navy/90 rounded-[calc(1.5rem-1px)] p-12 flex flex-col items-center justify-center relative overflow-hidden min-h-[400px]">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+
+                    {/* Floating Icons decoration */}
+                    <Anchor className="absolute top-10 right-10 w-24 h-24 text-white/5 -rotate-12" />
+                    <BookOpen className="absolute bottom-10 left-10 w-24 h-24 text-white/5 rotate-12" />
+
+                    <div className="relative z-20 text-center space-y-4">
+                      <div className="inline-block p-4 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 mb-2">
+                        <Trophy className="w-12 h-12 text-accent" />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-7xl md:text-8xl font-black text-white tracking-tighter">200</div>
+                        <div className="text-accent font-black uppercase tracking-[0.2em] text-sm md:text-base">Questões Inéditas</div>
+                      </div>
+                      <p className="text-white/60 text-sm max-w-[280px] mx-auto">
+                        Mapeadas e professionalizadas seguindo o padrão PROPOM 2026.
+                      </p>
+                    </div>
+
+                    {/* Stats strip */}
+                    <div className="absolute bottom-0 left-0 w-full p-6 bg-white/5 backdrop-blur-md border-t border-white/10 flex justify-around">
+                      <div className="text-center">
+                        <div className="text-white font-bold">5</div>
+                        <div className="text-[10px] text-white/40 uppercase font-black">Blocos</div>
+                      </div>
+                      <div className="w-px h-8 bg-white/10" />
+                      <div className="text-center">
+                        <div className="text-white font-bold">100%</div>
+                        <div className="text-[10px] text-white/40 uppercase font-black">Edital</div>
+                      </div>
+                      <div className="w-px h-8 bg-white/10" />
+                      <div className="text-center">
+                        <div className="text-white font-bold">VIP</div>
+                        <div className="text-[10px] text-white/40 uppercase font-black">Suporte</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent/20 rounded-full blur-2xl -z-10" />
             </div>
           </div>
         </div>
