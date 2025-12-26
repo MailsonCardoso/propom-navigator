@@ -148,18 +148,18 @@ const ResultPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-3 gap-2 md:gap-4 text-center">
               <div>
-                <p className="text-3xl font-bold text-foreground">{correctAnswers}</p>
-                <p className="text-sm text-muted-foreground">Acertos</p>
+                <p className="text-xl md:text-3xl font-bold text-foreground">{correctAnswers}</p>
+                <p className="text-[10px] md:text-sm text-muted-foreground">Acertos</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-foreground">{totalQuestions - correctAnswers}</p>
-                <p className="text-sm text-muted-foreground">Erros</p>
+                <p className="text-xl md:text-3xl font-bold text-foreground">{totalQuestions - correctAnswers}</p>
+                <p className="text-[10px] md:text-sm text-muted-foreground">Erros</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-foreground">{percentage}%</p>
-                <p className="text-sm text-muted-foreground">Aproveitamento</p>
+                <p className="text-xl md:text-3xl font-bold text-foreground">{percentage}%</p>
+                <p className="text-[10px] md:text-sm text-muted-foreground">Aproveitamento</p>
               </div>
             </div>
 

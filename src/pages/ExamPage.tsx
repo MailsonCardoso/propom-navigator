@@ -173,29 +173,30 @@ const ExamPage = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-card border-b border-border shadow-sm">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-4 py-2 md:py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg gradient-navy flex items-center justify-center">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-8 h-8 rounded-lg gradient-navy flex items-center justify-center shrink-0">
                 <Anchor className="w-5 h-5 text-primary-foreground" />
               </div>
-              <div>
-                <h1 className="font-bold text-foreground">Simulado PROPOM 2026</h1>
-                <p className="text-xs text-muted-foreground">
+              <div className="min-w-0">
+                <h1 className="font-bold text-foreground truncate hidden sm:block">Simulado PROPOM 2026</h1>
+                <h1 className="font-bold text-foreground truncate text-sm sm:hidden">PROPOM</h1>
+                <p className="text-[10px] md:text-xs text-muted-foreground">
                   {question.subject === "portugues" ? "Português" : "Matemática"}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"}`}>
-                <Clock className={`w-5 h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
-                <span className="font-mono font-bold text-lg">{formatTime(timeLeft)}</span>
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"}`}>
+                <Clock className={`w-4 h-4 md:w-5 md:h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
+                <span className="font-mono font-bold text-base md:text-lg">{formatTime(timeLeft)}</span>
               </div>
 
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
-                <LogOut className="w-5 h-5 mr-2" />
-                Sair
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive px-2 md:px-3">
+                <LogOut className="w-4 h-4 md:w-5 md:h-5 md:mr-2" />
+                <span className="hidden md:inline">Sair</span>
               </Button>
             </div>
           </div>
@@ -203,32 +204,32 @@ const ExamPage = () => {
       </header>
 
       {/* Progress Bar */}
-      <div className="fixed top-[69px] left-0 right-0 z-30 bg-card border-b border-border px-4 py-3">
+      <div className="fixed top-[53px] md:top-[69px] left-0 right-0 z-30 bg-card border-b border-border px-4 py-2 md:py-3">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">
-              Questão {currentQuestion + 1} de {questions.length}
+          <div className="flex items-center justify-between mb-1 md:mb-2 text-[10px] md:text-sm">
+            <span className="text-muted-foreground">
+              Questão {currentQuestion + 1}/{questions.length}
             </span>
-            <span className="text-sm font-medium text-foreground">
+            <span className="font-medium text-foreground">
               {answeredCount} respondidas
             </span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-1.5 md:h-2" />
         </div>
       </div>
 
       {/* Question Content */}
-      <main className="pt-36 pb-32 px-4">
+      <main className="pt-28 md:pt-36 pb-32 px-4">
         <div className="container mx-auto max-w-3xl">
-          <div className="card-elevated p-6 md:p-8 animate-fade-in">
-            <div className="flex items-center gap-2 mb-4">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${question.subject === "portugues"
+          <div className="card-elevated p-5 md:p-8 animate-fade-in">
+            <div className="flex items-center gap-2 mb-3 md:mb-4">
+              <span className={`px-2 py-0.5 rounded-full text-[10px] md:text-sm font-medium ${question.subject === "portugues"
                 ? "bg-accent/10 text-accent"
                 : "bg-success/10 text-success"
                 }`}>
                 {question.subject === "portugues" ? "Português" : "Matemática"}
               </span>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-[10px] md:text-sm text-muted-foreground">
                 Questão {currentQuestion + 1}
               </span>
             </div>
@@ -325,14 +326,14 @@ const ExamPage = () => {
                     key={index}
                     onClick={() => setCurrentQuestion(index)}
                     className={`w-9 h-9 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
-                        ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
-                        : isAnswered
-                          ? isMath
-                            ? "bg-success text-success-foreground border-success"
-                            : "bg-accent text-accent-foreground border-accent"
-                          : isMath
-                            ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
-                            : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
+                      ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
+                      : isAnswered
+                        ? isMath
+                          ? "bg-success text-success-foreground border-success"
+                          : "bg-accent text-accent-foreground border-accent"
+                        : isMath
+                          ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
+                          : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
                       }`}
                   >
                     {index + 1}

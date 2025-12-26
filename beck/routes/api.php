@@ -19,28 +19,31 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::get('/auth/me', [AuthController::class, 'me']);
 
-    // Students (apenas admin)
-    Route::get('/students', [StudentController::class, 'index']);
-    Route::post('/students', [StudentController::class, 'store']);
-    Route::patch('/students/{id}/toggle-status', [StudentController::class, 'toggleStatus']);
-    Route::post('/students/{id}/reset-password', [StudentController::class, 'resetPassword']);
-    Route::delete('/students/{id}', [StudentController::class, 'destroy']);
-
-    // Questions
+    // Rotas de Aluno
     Route::get('/questions/blocks', [QuestionController::class, 'blocks']);
     Route::get('/questions', [QuestionController::class, 'index']);
-    Route::post('/questions', [QuestionController::class, 'store']);
-    Route::put('/questions/{id}', [QuestionController::class, 'update']);
-    Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
-
-    // Exam
     Route::post('/exam/submit', [ExamController::class, 'submit']);
     Route::get('/exam/history', [ExamController::class, 'history']);
     Route::get('/exam/attempt/{id}', [ExamController::class, 'show']);
     Route::get('/exam/user-stats', [ExamController::class, 'userStats']);
-    Route::get('/exam/stats', [ExamController::class, 'stats']);
-    Route::get('/exam/ranking', [ExamController::class, 'ranking']);
 
-    // Security Logs
-    Route::get('/security-logs', [SecurityLogController::class, 'index']);
+    // Admin (Somente administradores)
+    Route::middleware('admin')->group(function () {
+        // Students
+        Route::get('/students', [StudentController::class, 'index']);
+        Route::post('/students', [StudentController::class, 'store']);
+        Route::patch('/students/{id}/toggle-status', [StudentController::class, 'toggleStatus']);
+        Route::post('/students/{id}/reset-password', [StudentController::class, 'resetPassword']);
+        Route::delete('/students/{id}', [StudentController::class, 'destroy']);
+
+        // Management
+        Route::post('/questions', [QuestionController::class, 'store']);
+        Route::put('/questions/{id}', [QuestionController::class, 'update']);
+        Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
+
+        // Stats & Logs
+        Route::get('/exam/stats', [ExamController::class, 'stats']);
+        Route::get('/exam/ranking', [ExamController::class, 'ranking']);
+        Route::get('/security-logs', [SecurityLogController::class, 'index']);
+    });
 });
