@@ -33,6 +33,7 @@ class QuestionController extends Controller
                 'block' => $question->block,
                 'subject' => $question->subject,
                 'text' => $question->text,
+                'base_text' => $question->base_text,
                 'options' => $question->options,
                 'hint' => $question->hint,
             ];

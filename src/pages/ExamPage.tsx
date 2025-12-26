@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
@@ -232,9 +232,12 @@ const ExamPage = () => {
             </div>
 
             {question.base_text && (
-              <div className="mb-8 p-6 bg-muted/30 rounded-xl border border-border/50">
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">Texto de Apoio</p>
-                <div className="text-sm md:text-base text-foreground leading-relaxed whitespace-pre-wrap font-serif italic italic opacity-90">
+              <div className="mb-8 p-6 bg-accent/5 rounded-xl border border-accent/20 shadow-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <BookOpen className="w-4 h-4 text-accent" />
+                  <span className="text-xs font-bold text-accent uppercase tracking-widest">Texto de Interpretação</span>
+                </div>
+                <div className="text-sm md:text-base text-foreground leading-relaxed whitespace-pre-wrap font-serif italic opacity-90 border-l-4 border-accent/20 pl-4">
                   {question.base_text}
                 </div>
               </div>
