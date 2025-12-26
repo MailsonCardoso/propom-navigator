@@ -1,0 +1,18 @@
+﻿Relat├│rio de Quest├Áes Duplicadas (Mesmo texto ou muito similar):
+=============================================================
+
+Quest├úo: Considerando as unidades de medida de comprimento do Sistema Internacional, o valor de 2,5 quil├┤met...
+Encontrada em 2 locais:
+  - ID: 32 | Bloco: 1 | Disciplina: matematica
+  - ID: 263 | Bloco: 2 | Disciplina: matematica
+-------------------------------------------------------------
+Quest├úo: Considere um s├│lido geom├®trico em formato de cubo, cujas arestas medem 2 metros cada. O volume tot...
+Encontrada em 2 locais:
+  - ID: 34 | Bloco: 1 | Disciplina: matematica
+  - ID: 264 | Bloco: 2 | Disciplina: matematica
+-------------------------------------------------------------
+Quest├úo: Uma embarca├º├úo de transporte de carga tem capacidade limitada a 15 ve├¡culos por embarque. Para co...
+Encontrada em 2 locais:
+  - ID: 40 | Bloco: 1 | Disciplina: matematica
+  - ID: 388 | Bloco: 5 | Disciplina: matematica
+-------------------------------------------------------------

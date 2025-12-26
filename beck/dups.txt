@@ -1,0 +1,3 @@
+ID:32(B1), ID:263(B2) -> onsiderandoasunidadesdemedidad
+ID:34(B1), ID:264(B2) -> onsidereumslidogeomtricoemform
+ID:40(B1), ID:388(B5) -> maembarcaodetransportedecargat
