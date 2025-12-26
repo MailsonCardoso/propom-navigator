@@ -50,7 +50,7 @@ const PurchasePage = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span>Cronômetro oficial de 180 minutos</span>
+                    <span>Provas com tempo real de 180 minutos (3 horas), igual ao PROPOM oficial</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-success" />

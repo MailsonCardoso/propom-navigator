@@ -1,0 +1,65 @@
+﻿--- BLOCO 1 ---
+PORTUGU├èS (20 quest├Áes):
+  - Interpreta├º├úo: 20
+  - Sintaxe/Pontua├º├úo: 7
+  - Ortografia/Plural: 3
+  - Gram├ítica Geral: 20
+MATEM├üTICA (20 quest├Áes):
+  - Aritm├®tica (MMC/MDC): 3
+  - Geometria (├üreas/Pit├ígoras): 4
+  - ├ülgebra (Equa├º├Áes): 0
+  - Regra de Tr├¬s/Propor├º├úo: 4
+  - Porcentagem/Conjuntos/Prob: 4
+
+--- BLOCO 2 ---
+PORTUGU├èS (20 quest├Áes):
+  - Interpreta├º├úo: 20
+  - Sintaxe/Pontua├º├úo: 4
+  - Ortografia/Plural: 6
+  - Gram├ítica Geral: 20
+MATEM├üTICA (20 quest├Áes):
+  - Aritm├®tica (MMC/MDC): 5
+  - Geometria (├üreas/Pit├ígoras): 6
+  - ├ülgebra (Equa├º├Áes): 1
+  - Regra de Tr├¬s/Propor├º├úo: 3
+  - Porcentagem/Conjuntos/Prob: 3
+
+--- BLOCO 3 ---
+PORTUGU├èS (20 quest├Áes):
+  - Interpreta├º├úo: 20
+  - Sintaxe/Pontua├º├úo: 6
+  - Ortografia/Plural: 5
+  - Gram├ítica Geral: 20
+MATEM├üTICA (20 quest├Áes):
+  - Aritm├®tica (MMC/MDC): 3
+  - Geometria (├üreas/Pit├ígoras): 7
+  - ├ülgebra (Equa├º├Áes): 1
+  - Regra de Tr├¬s/Propor├º├úo: 2
+  - Porcentagem/Conjuntos/Prob: 2
+
+--- BLOCO 4 ---
+PORTUGU├èS (20 quest├Áes):
+  - Interpreta├º├úo: 20
+  - Sintaxe/Pontua├º├úo: 6
+  - Ortografia/Plural: 6
+  - Gram├ítica Geral: 20
+MATEM├üTICA (20 quest├Áes):
+  - Aritm├®tica (MMC/MDC): 3
+  - Geometria (├üreas/Pit├ígoras): 7
+  - ├ülgebra (Equa├º├Áes): 1
+  - Regra de Tr├¬s/Propor├º├úo: 2
+  - Porcentagem/Conjuntos/Prob: 2
+
+--- BLOCO 5 ---
+PORTUGU├èS (20 quest├Áes):
+  - Interpreta├º├úo: 20
+  - Sintaxe/Pontua├º├úo: 7
+  - Ortografia/Plural: 6
+  - Gram├ítica Geral: 20
+MATEM├üTICA (20 quest├Áes):
+  - Aritm├®tica (MMC/MDC): 3
+  - Geometria (├üreas/Pit├ígoras): 6
+  - ├ülgebra (Equa├º├Áes): 2
+  - Regra de Tr├¬s/Propor├º├úo: 2
+  - Porcentagem/Conjuntos/Prob: 2
+

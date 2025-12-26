@@ -8,7 +8,7 @@ const LandingPage = () => {
     {
       icon: Clock,
       title: "Simulados Cronometrados",
-      description: "Provas com tempo real de 180 minutos, igual ao PROPOM oficial",
+      description: "Provas com tempo real de 180 minutos (3 horas), igual ao PROPOM oficial",
     },
     {
       icon: BookOpen,
