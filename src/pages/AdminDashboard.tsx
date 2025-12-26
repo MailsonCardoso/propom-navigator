@@ -9,7 +9,8 @@ import {
   PlusCircle,
   BarChart3,
   TrendingUp,
-  User
+  User,
+  ShieldAlert
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -195,6 +196,12 @@ const AdminDashboard = () => {
               <Button variant="navy">
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Adicionar Aluno
+              </Button>
+            </Link>
+            <Link to="/admin/seguranca">
+              <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive">
+                <ShieldAlert className="w-4 h-4 mr-2" />
+                Auditoria de Segurança
               </Button>
             </Link>
             <Button variant="outline">

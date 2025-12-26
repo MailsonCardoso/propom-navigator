@@ -1,0 +1,10 @@
+﻿=== BLOCO 1 ===
+Exemplo: Sal├írio R$ 2400. Aluguel 25%. Valor?
+=== BLOCO 2 ===
+Exemplo: Um navio percorre 120 milhas em 4 horas. Qual a velocidade m├®dia?
+=== BLOCO 3 ===
+Exemplo: Uma corda de 40 metros foi dividida em duas partes. Uma parte tem 15 metros. Quantos cent├¡metros tem a outra parte?
+=== BLOCO 4 ===
+Exemplo: Um reservat├│rio de ├ígua tem 1.500 litros. Se utilizarmos 2/5 dessa ├ígua, quantos litros restar├úo?
+=== BLOCO 5 ===
+Exemplo: Um marinheiro pintou 1/3 de um conv├®s pela manh├ú e 2/5 ├á tarde. Que fra├º├úo do conv├®s ele j├í pintou no total?

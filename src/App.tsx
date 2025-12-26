@@ -13,6 +13,7 @@ import ResultPage from "./pages/ResultPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminStudents from "./pages/AdminStudents";
+import SecurityLogs from "./pages/SecurityLogs";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -68,6 +69,14 @@ const App = () => (
               element={
                 <ProtectedRoute role="admin">
                   <AdminStudents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/seguranca"
+              element={
+                <ProtectedRoute role="admin">
+                  <SecurityLogs />
                 </ProtectedRoute>
               }
             />
