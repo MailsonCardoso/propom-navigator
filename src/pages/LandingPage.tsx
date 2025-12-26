@@ -164,7 +164,7 @@ const LandingPage = () => {
             <div className="flex-1 space-y-8">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest">
-                  Tecnologia de Ensino
+                  Baseado no Edital Oficial
                 </div>
                 <h3 className="text-4xl md:text-5xl font-extrabold text-foreground leading-[1.1] tracking-tight">
                   Metodologia de <br />
@@ -219,10 +219,10 @@ const LandingPage = () => {
                       </div>
                       <div className="space-y-2">
                         <div className="text-8xl md:text-9xl font-black text-white tracking-tighter leading-none">200</div>
-                        <div className="text-accent font-black uppercase tracking-[0.3em] text-xs md:text-sm">Questões Inéditas</div>
+                        <div className="text-accent font-black uppercase tracking-[0.3em] text-xs md:text-sm">Questões Reais</div>
                       </div>
                       <p className="text-white/60 text-sm md:text-base max-w-[320px] mx-auto leading-relaxed">
-                        Mapeadas e professionalizadas seguindo o padrão PROPOM 2026.
+                        Extraídas e profissionalizadas com base nas últimas provas oficiais.
                       </p>
                     </div>
 
