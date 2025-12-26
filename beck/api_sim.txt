@@ -1,0 +1,26 @@
+﻿Ordem de retorno da API para o Bloco 2 (Amostra):
+Posi├º├úo 1 | ID: 241 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 2 | ID: 244 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 3 | ID: 240 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 4 | ID: 239 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 5 | ID: 237 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 6 | ID: 232 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 7 | ID: 249 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 8 | ID: 235 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 9 | ID: 247 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 10 | ID: 246 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 11 | ID: 248 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 12 | ID: 234 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 13 | ID: 245 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 14 | ID: 238 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 15 | ID: 243 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 16 | ID: 250 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 17 | ID: 236 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 18 | ID: 242 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 19 | ID: 231 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 20 | ID: 233 | Mat├®ria: portugues | Texto Base: SIM
+Posi├º├úo 21 | ID: 264 | Mat├®ria: matematica | Texto Base: N├âO
+Posi├º├úo 22 | ID: 270 | Mat├®ria: matematica | Texto Base: N├âO
+Posi├º├úo 23 | ID: 262 | Mat├®ria: matematica | Texto Base: N├âO
+Posi├º├úo 24 | ID: 258 | Mat├®ria: matematica | Texto Base: N├âO
+Posi├º├úo 25 | ID: 255 | Mat├®ria: matematica | Texto Base: N├âO

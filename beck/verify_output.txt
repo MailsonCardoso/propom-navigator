@@ -1,0 +1,28 @@
+﻿Bloco 2:
+  - Total de quest├Áes: 40
+  - Quest├Áes com base_text: 5
+  - Amostra do base_text: O Velho Farol
+
+O vigia subiu os degraus lentamente...
+  - IDs com texto: 231, 232, 233, 234, 235
+Bloco 3:
+  - Total de quest├Áes: 40
+  - Quest├Áes com base_text: 10
+  - Amostra do base_text: A Travessia Noturna
+
+O rebocador cortava as ├íguas...
+  - IDs com texto: 271, 272, 273, 274, 275, 276, 277, 278, 279, 280
+Bloco 4:
+  - Total de quest├Áes: 40
+  - Quest├Áes com base_text: 10
+  - Amostra do base_text: O Canteiro de Obras
+
+O mestre de obras chegou cedo...
+  - IDs com texto: 311, 312, 313, 314, 315, 316, 317, 318, 319, 320
+Bloco 5:
+  - Total de quest├Áes: 40
+  - Quest├Áes com base_text: 10
+  - Amostra do base_text: A Li├º├úo do Mestre
+
+O professor entrou na sala em...
+  - IDs com texto: 351, 352, 353, 354, 355, 356, 357, 358, 359, 360

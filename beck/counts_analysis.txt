@@ -1,0 +1,15 @@
+﻿Bloco 1:
+  - Portugu├¬s: 20 (Com texto: 20)
+  - Matem├ítica: 20
+Bloco 2:
+  - Portugu├¬s: 20 (Com texto: 20)
+  - Matem├ítica: 20
+Bloco 3:
+  - Portugu├¬s: 20 (Com texto: 20)
+  - Matem├ítica: 20
+Bloco 4:
+  - Portugu├¬s: 20 (Com texto: 20)
+  - Matem├ítica: 20
+Bloco 5:
+  - Portugu├¬s: 20 (Com texto: 20)
+  - Matem├ítica: 20
