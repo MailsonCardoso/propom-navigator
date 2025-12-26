@@ -35,6 +35,8 @@ interface AppContextType {
   students: User[];
   addStudent: (student: any) => Promise<void>;
   toggleStudentStatus: (id: string) => Promise<void>;
+  deleteStudent: (id: string) => Promise<void>;
+  resetStudentPassword: (id: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -122,6 +124,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const deleteStudent = async (id: string) => {
+    try {
+      await api.delete(`/students/${id}`);
+      setStudents((prev) => prev.filter((s) => s.id.toString() !== id.toString()));
+      toast.success("Aluno removido com sucesso!");
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao remover aluno");
+    }
+  };
+
+  const resetStudentPassword = async (id: string) => {
+    try {
+      const response = await api.post(`/students/${id}/reset-password`, {});
+      toast.success(response.message || "Senha resetada com sucesso!");
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao resetar senha");
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -134,6 +155,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         students,
         addStudent,
         toggleStudentStatus,
+        deleteStudent,
+        resetStudentPassword,
         isLoading,
       }}
     >

@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
     Route::get('/students', [StudentController::class, 'index']);
     Route::post('/students', [StudentController::class, 'store']);
     Route::patch('/students/{id}/toggle-status', [StudentController::class, 'toggleStatus']);
+    Route::post('/students/{id}/reset-password', [StudentController::class, 'resetPassword']);
     Route::delete('/students/{id}', [StudentController::class, 'destroy']);
 
     // Questions

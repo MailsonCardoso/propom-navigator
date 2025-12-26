@@ -52,6 +52,19 @@ class StudentController extends Controller
         return response()->json($student);
     }
 
+    public function resetPassword($id)
+    {
+        $student = User::where('role', 'student')->findOrFail($id);
+
+        // Reseta para os 6 primeiros dígitos do CPF
+        $tempPassword = substr($student->cpf, 0, 6);
+        $student->password = Hash::make($tempPassword);
+        $student->must_change_password = true;
+        $student->save();
+
+        return response()->json(['message' => 'Senha resetada com sucesso! A nova senha são os 6 primeiros dígitos do CPF do aluno.']);
+    }
+
     public function destroy($id)
     {
         $student = User::where('role', 'student')->findOrFail($id);

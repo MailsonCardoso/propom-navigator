@@ -10,7 +10,9 @@ import {
   ToggleLeft,
   ToggleRight,
   ArrowLeft,
-  X
+  X,
+  RotateCcw,
+  Trash2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,10 +38,13 @@ import {
 
 const AdminStudents = () => {
   const navigate = useNavigate();
-  const { logout, students, addStudent, toggleStudentStatus } = useApp();
+  const { logout, students, addStudent, toggleStudentStatus, deleteStudent, resetStudentPassword } = useApp();
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [newStudent, setNewStudent] = useState({
     name: "",
     cpf: "",
@@ -181,21 +186,42 @@ const AdminStudents = () => {
                       <div className="flex items-center justify-end gap-2">
                         <Button
                           variant="ghost"
-                          size="sm"
+                          size="icon"
+                          onClick={() => {
+                            setSelectedStudent(student);
+                            setShowResetDialog(true);
+                          }}
+                          className="text-muted-foreground hover:text-accent"
+                          title="Resetar Senha"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                        </Button>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           onClick={() => toggleStudentStatus(student.id)}
                           className={student.active ? "text-success" : "text-muted-foreground"}
+                          title={student.active ? "Desativar Aluno" : "Ativar Aluno"}
                         >
                           {student.active ? (
-                            <>
-                              <ToggleRight className="w-5 h-5 mr-1" />
-                              Desativar
-                            </>
+                            <ToggleRight className="w-5 h-5" />
                           ) : (
-                            <>
-                              <ToggleLeft className="w-5 h-5 mr-1" />
-                              Ativar
-                            </>
+                            <ToggleLeft className="w-5 h-5" />
                           )}
+                        </Button>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            setSelectedStudent(student);
+                            setShowDeleteDialog(true);
+                          }}
+                          className="text-muted-foreground hover:text-destructive"
+                          title="Excluir Aluno"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                     </td>
@@ -284,6 +310,55 @@ const AdminStudents = () => {
             <AlertDialogCancel>Permanecer</AlertDialogCancel>
             <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Confirmar e Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Reset Password Confirmation */}
+      <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Resetar senha de {selectedStudent?.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              A senha será alterada para os 6 primeiros dígitos do CPF e o aluno deverá trocá-la no próximo acesso.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                resetStudentPassword(selectedStudent.id);
+                setShowResetDialog(false);
+              }}
+              className="bg-accent text-accent-foreground hover:bg-accent/90"
+            >
+              Confirmar Reset
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir aluno permanentemente?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Você está prestes a excluir <strong>{selectedStudent?.name}</strong>.
+              Esta ação não pode ser desfeita e todos os dados do aluno serão perdidos.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                deleteStudent(selectedStudent.id);
+                setShowDeleteDialog(false);
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Excluir Permanentemente
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
