@@ -1,0 +1,22 @@
+﻿
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[01000]: Warning: 1265 Data truncated for column 'correct_answer' at row 1 (Connection: mysql, SQL: update `questions` set `text` = Tr├¬s navios de patrulha saem do porto em intervalos de 8, 12 e 18 horas respectivamente. Se sa├¡ram juntos agora, em quantas horas voltar├úo a sair simultaneamente?, `options` = ["36 horas","48 horas","72 horas","96 horas"], `correct_answer` = 72 horas, `questions`.`updated_at` = 2025-12-26 00:32:02 where `id` = 22)
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:826
+    822Ôûò                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    823Ôûò                 );
+    824Ôûò             }
+    825Ôûò 
+  Ô×£ 826Ôûò             throw new QueryException(
+    827Ôûò                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    828Ôûò             );
+    829Ôûò         }
+    830Ôûò     }
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:595
+      PDOException::("SQLSTATE[01000]: Warning: 1265 Data truncated for column 'correct_answer' at row 1")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connection.php:595
+      PDOStatement::execute()
+

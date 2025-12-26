@@ -28,8 +28,8 @@ const LandingPage = () => {
   ];
 
   const disciplines = [
-    { name: "Português", questions: 20, topics: ["Interpretação de Texto", "Gramática Básica", "Redação e Sintaxe"] },
-    { name: "Matemática", questions: 20, topics: ["Operações no Conjunto dos Números Naturais", "Frações e Decimais", "Geometria Plana e Medidas"] },
+    { name: "Português", questions: 20, topics: ["Interpretação de Texto", "Gramática Básica", "Sintaxe e Pontuação", "Ortografia Oficial"] },
+    { name: "Matemática", questions: 20, topics: ["Aritmética (MMC e MDC)", "Geometria (Pitágoras e Áreas)", "Álgebra (Equações 1º e 2º Grau)", "Regra de Três Composta", "Porcentagem e Conjuntos"] },
   ];
 
   return (
