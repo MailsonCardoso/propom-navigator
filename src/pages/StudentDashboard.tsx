@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
 
 interface UserStats {
     total_attempts: number;
@@ -49,6 +50,7 @@ const StudentDashboard = () => {
     const navigate = useNavigate();
     const { user, logout } = useApp();
     const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+    const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
     const [stats, setStats] = useState<UserStats | null>(null);
     const [history, setHistory] = useState<Attempt[]>([]);
     const [blocks, setBlocks] = useState<number[]>([]);
@@ -107,6 +109,9 @@ const StudentDashboard = () => {
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
+                            <Button variant="outline" size="sm" onClick={() => setShowChangePasswordDialog(true)} className="hidden md:flex">
+                                Alterar Senha
+                            </Button>
                             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
                                 <LogOut className="w-4 h-4 mr-2" />
                                 Sair
@@ -301,6 +306,11 @@ const StudentDashboard = () => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+
+            <ChangePasswordDialog
+                isOpen={showChangePasswordDialog}
+                onOpenChange={setShowChangePasswordDialog}
+            />
         </div>
     );
 };

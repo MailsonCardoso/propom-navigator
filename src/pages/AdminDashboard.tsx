@@ -23,10 +23,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { logout, students } = useApp();
+  const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const activeStudents = students.filter((s) => s.active).length;
@@ -84,6 +86,9 @@ const AdminDashboard = () => {
                   Gerenciar Alunos
                 </Button>
               </Link>
+              <Button variant="outline" size="sm" onClick={() => setShowChangePasswordDialog(true)}>
+                Alterar Senha
+              </Button>
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Sair
@@ -217,6 +222,11 @@ const AdminDashboard = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <ChangePasswordDialog
+        isOpen={showChangePasswordDialog}
+        onOpenChange={setShowChangePasswordDialog}
+      />
     </div>
   );
 };
