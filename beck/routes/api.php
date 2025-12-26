@@ -7,6 +7,11 @@ use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\ExamController;
 
+// Rota de teste
+Route::get('/test-questions', function () {
+    return \App\Models\Question::where('block', 1)->where('subject', 'portugues')->get();
+});
+
 // Rotas públicas de autenticação
 Route::post('/auth/login/admin', [AuthController::class, 'loginAdmin']);
 Route::post('/auth/login/student', [AuthController::class, 'loginStudent']);

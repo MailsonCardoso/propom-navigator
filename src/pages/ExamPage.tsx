@@ -56,7 +56,9 @@ const ExamPage = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const data = await api.get(`/questions?block=${blockId}`);
+        const timestamp = new Date().getTime();
+        const data = await api.get(`/questions?block=${blockId}&t=${timestamp}`);
+        console.log("Questions loaded:", data);
         setQuestions(data);
         setAnswers(new Array(data.length).fill(null));
       } catch (error) {
@@ -178,7 +180,7 @@ const ExamPage = () => {
                 <Anchor className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="font-bold text-foreground">Simulado PROPOM 2026</h1>
+                <h1 className="font-bold text-foreground">Simulado PROPOM 2026 (v2.1)</h1>
                 <p className="text-xs text-muted-foreground">
                   {question.subject === "portugues" ? "Português" : "Matemática"}
                 </p>
@@ -231,7 +233,7 @@ const ExamPage = () => {
               </span>
             </div>
 
-            {question.base_text && (
+            {question && question.base_text && question.base_text.trim().length > 0 && (
               <div className="mb-8 p-6 bg-accent/5 rounded-xl border border-accent/20 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
                   <BookOpen className="w-4 h-4 text-accent" />
