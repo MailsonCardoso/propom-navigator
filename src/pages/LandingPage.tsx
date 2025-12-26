@@ -28,8 +28,28 @@ const LandingPage = () => {
   ];
 
   const disciplines = [
-    { name: "Português", questions: 20, topics: ["Interpretação de Texto", "Gramática Básica", "Sintaxe e Pontuação", "Ortografia Oficial"] },
-    { name: "Matemática", questions: 20, topics: ["Aritmética (MMC e MDC)", "Geometria (Pitágoras e Áreas)", "Álgebra (Equações 1º e 2º Grau)", "Regra de Três Composta", "Porcentagem e Conjuntos"] },
+    {
+      name: "Língua Portuguesa",
+      questions: 20,
+      topics: [
+        "Interpretação de Texto (Textos Base)",
+        "Gramática Básica (Classes de Palavras)",
+        "Sintaxe e Pontuação (Análise de Orações)",
+        "Ortografia Oficial (Novo Acordo)",
+        "Plurais e Acentuação Complexa"
+      ]
+    },
+    {
+      name: "Matemática Fundamental",
+      questions: 20,
+      topics: [
+        "Aritmética Avançada (MMC e MDC)",
+        "Geometria Aplicada (Pitágoras e Áreas)",
+        "Álgebra de 1º Grau (Equações)",
+        "Razão, Proporção e Regra de Três",
+        "Lógica, Porcentagem e Probabilidade"
+      ]
+    },
   ];
 
   return (
@@ -135,40 +155,90 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Methodology Section */}
+      <section className="py-20 bg-accent/5 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex-1 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-wider">
+                Inovação Pedagógica
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
+                Nossa Metodologia <br />
+                <span className="text-accent underline decoration-accent/30">Dinamismo Anti-Vício</span>
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Diferente de simulados em PDF, nossa plataforma utiliza um algoritmo de sorteio inteligente que garante que você nunca decore a ordem das respostas.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-4 pt-4">
+                <div className="p-4 bg-card rounded-xl border border-border">
+                  <h5 className="font-bold text-foreground mb-1 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    Fidelidade Total
+                  </h5>
+                  <p className="text-xs text-muted-foreground">Cronômetro de 3 horas e 40 questões conforme o padrão oficial da Marinha.</p>
+                </div>
+                <div className="p-4 bg-card rounded-xl border border-border">
+                  <h5 className="font-bold text-foreground mb-1 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    Repetição Espaçada
+                  </h5>
+                  <p className="text-xs text-muted-foreground">Refaça os blocos com questões embaralhadas para fixar o aprendizado real.</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 relative">
+              <div className="aspect-video gradient-navy rounded-2xl shadow-2xl flex items-center justify-center p-8 overflow-hidden">
+                <div className="absolute inset-0 opacity-20 flex flex-wrap gap-4 p-4 pointer-events-none">
+                  {Array.from({ length: 20 }).map((_, i) => (
+                    <div key={i} className="w-8 h-8 rounded bg-white" />
+                  ))}
+                </div>
+                <div className="relative z-10 text-center">
+                  <div className="text-5xl font-bold text-white mb-2">200</div>
+                  <div className="text-accent font-bold uppercase tracking-widest text-sm">Questões Inéditas</div>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accent/20 rounded-full blur-2xl -z-10" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Disciplines Section */}
-      <section className="py-20 bg-muted/50">
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-foreground mb-4">
-              Disciplinas Avaliadas
+              Conteúdo Programático
             </h3>
             <p className="text-muted-foreground">
-              Confira as matérias cobradas no PROPOM 2026
+              Confira os tópicos abordados em cada disciplina do PREPOM 2026
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {disciplines.map((discipline, index) => (
               <div
                 key={discipline.name}
-                className="card-elevated p-8 animate-fade-in"
+                className="card-elevated p-8 animate-fade-in hover:border-accent/40 transition-colors"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-xl font-bold text-foreground">{discipline.name}</h4>
-                  <span className="px-3 py-1 rounded-full bg-accent/10 text-accent font-medium text-sm">
+                <div className="flex items-center justify-between mb-6">
+                  <h4 className="text-2xl font-bold text-foreground">{discipline.name}</h4>
+                  <span className="px-4 py-1 rounded-full bg-accent/10 text-accent font-bold text-sm">
                     {discipline.questions} questões
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid gap-3">
                   {discipline.topics.map((topic) => (
-                    <span
+                    <div
                       key={topic}
-                      className="flex items-center gap-1 px-3 py-1 rounded-lg bg-muted text-muted-foreground text-sm"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 text-muted-foreground text-sm border border-transparent hover:border-border hover:bg-muted/50 transition-all"
                     >
-                      <CheckCircle className="w-3 h-3 text-success" />
-                      {topic}
-                    </span>
+                      <CheckCircle className="w-4 h-4 text-success shrink-0" />
+                      <span className="font-medium">{topic}</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -178,21 +248,26 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20 mb-10">
         <div className="container mx-auto px-4">
-          <div className="card-elevated gradient-navy p-12 text-center rounded-2xl">
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Comece sua preparação agora!
+          <div className="card-elevated gradient-navy p-12 text-center rounded-3xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+              <Anchor className="w-64 h-64 text-white -rotate-12" />
+            </div>
+            <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">
+              Garanta sua Vaga na Marinha!
             </h3>
-            <p className="text-white/80 mb-8 max-w-xl mx-auto">
-              Acesso completo a todos os simulados por apenas R$ 35,00.
-              Pratique quantas vezes quiser até o dia da prova.
+            <p className="text-white/80 mb-10 max-w-2xl mx-auto text-lg relative z-10">
+              Acesso vitalício a todos os 5 blocos de simulados por pagamento único de R$ 35,00.
+              Comece a praticar com o tempo real de prova agora mesmo.
             </p>
-            <Link to="/comprar">
-              <Button variant="hero" size="xl">
-                Garantir meu acesso
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+              <Link to="/comprar">
+                <Button variant="hero" size="xl" className="shadow-lg shadow-accent/20">
+                  Garantir meu acesso
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
