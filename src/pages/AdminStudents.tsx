@@ -109,7 +109,7 @@ const AdminStudents = () => {
               </div>
               <div>
                 <h1 className="font-bold text-lg text-foreground">Gerenciar Alunos</h1>
-                <p className="text-xs text-muted-foreground">PROPOM 2026</p>
+                <p className="text-xs text-muted-foreground">PREPOM 2026</p>
               </div>
             </div>
             <div className="flex items-center gap-3">

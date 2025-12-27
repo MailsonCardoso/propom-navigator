@@ -78,7 +78,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <h1 className="font-bold text-lg text-foreground">Painel Administrativo</h1>
-                <p className="text-xs text-muted-foreground">PROPOM 2026</p>
+                <p className="text-xs text-muted-foreground">PREPOM 2026</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -230,7 +230,7 @@ const AdminDashboard = () => {
                   doc.setTextColor(255, 255, 255);
                   doc.setFontSize(26);
                   doc.setFont("helvetica", "bold");
-                  doc.text("PROPOM 2026", 15, 22);
+                  doc.text("PREPOM 2026", 15, 22);
 
                   doc.setFontSize(12);
                   doc.setFont("helvetica", "normal");
@@ -297,14 +297,14 @@ const AdminDashboard = () => {
                     doc.setFontSize(8);
                     doc.setTextColor(150, 150, 150);
                     doc.text(
-                      "Este documento é gerado automaticamente pelo PROPOM Navigator para acompanhamento pedagógico.",
+                      "Este documento é gerado automaticamente pelo PREPOM Navigator para acompanhamento pedagógico.",
                       105,
                       288,
                       { align: "center" }
                     );
                   }
 
-                  doc.save(`Ranking_PROPOM_${now.toISOString().split('T')[0]}.pdf`);
+                  doc.save(`Ranking_PREPOM_${now.toISOString().split('T')[0]}.pdf`);
 
                 } catch (error) {
                   console.error("Erro ao exportar PDF:", error);

@@ -1,4 +1,4 @@
-# Backend Propom Navigator - Laravel API
+# Backend Prepom Navigator - Laravel API
 
 ## 🚀 Configuração Concluída
 
@@ -215,7 +215,7 @@ php artisan migrate:status
 ### Criar novo usuário admin via Tinker
 ```bash
 php artisan tinker
->>> \App\Models\User::create(['name' => 'Admin', 'login' => 'admin2', 'email' => 'admin2@propom.local', 'password' => \Hash::make('senha'), 'role' => 'admin', 'active' => true]);
+>>> \App\Models\User::create(['name' => 'Admin', 'login' => 'admin2', 'email' => 'admin2@prepom.local', 'password' => \Hash::make('senha'), 'role' => 'admin', 'active' => true]);
 ```
 
 ## 📁 Estrutura de Arquivos
@@ -234,7 +234,7 @@ beck/
 │       └── ExamAttempt.php
 ├── database/
 │   ├── migrations/
-│   │   ├── 2025_12_24_185042_add_propom_fields_to_users_table.php
+│   │   ├── 2025_12_24_185042_add_prepom_fields_to_users_table.php
 │   │   ├── 2025_12_24_185053_create_questions_table.php
 │   │   └── 2025_12_24_185106_create_exam_attempts_table.php
 │   └── seeders/

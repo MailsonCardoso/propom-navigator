@@ -180,8 +180,8 @@ const ExamPage = () => {
                 <Anchor className="w-5 h-5 text-primary-foreground" />
               </div>
               <div className="min-w-0">
-                <h1 className="font-bold text-foreground truncate hidden sm:block">Simulado PROPOM 2026</h1>
-                <h1 className="font-bold text-foreground truncate text-sm sm:hidden">PROPOM</h1>
+                <h1 className="font-bold text-foreground truncate hidden sm:block">Simulado PREPOM 2026</h1>
+                <h1 className="font-bold text-foreground truncate text-sm sm:hidden">PREPOM</h1>
                 <p className="text-[10px] md:text-xs text-muted-foreground">
                   {question.subject === "portugues" ? "Português" : "Matemática"}
                 </p>

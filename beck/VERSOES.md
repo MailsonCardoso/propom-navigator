@@ -1,4 +1,4 @@
-# 📦 Versões dos Componentes - Backend Propom Navigator
+# 📦 Versões dos Componentes - Backend Prepom Navigator
 
 ## 🔧 Ambiente de Desenvolvimento
 
@@ -120,7 +120,7 @@
 4. **ExamController** - Submissão e histórico de provas
 
 ### Migrations
-1. `add_propom_fields_to_users_table` - Campos customizados
+1. `add_prepom_fields_to_users_table` - Campos customizados
 2. `create_questions_table` - Tabela de questões
 3. `create_exam_attempts_table` - Tabela de tentativas
 

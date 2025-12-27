@@ -21,7 +21,7 @@ try {
         $admin = \App\Models\User::create([
             'name' => 'Administrador Sistema',
             'login' => 'admin',
-            'email' => 'admin@propom.com.br',
+            'email' => 'admin@prepom.com.br',
             'password' => \Hash::make('admin@2026'),
             'role' => 'admin',
             'active' => true,
@@ -45,7 +45,7 @@ try {
         $student = \App\Models\User::create([
             'name' => 'Aluno Teste',
             'login' => 'aluno.teste',
-            'email' => 'aluno@propom.com.br',
+            'email' => 'aluno@prepom.com.br',
             'password' => \Hash::make('aluno@2026'),
             'role' => 'student',
             'active' => true,

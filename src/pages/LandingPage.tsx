@@ -8,7 +8,7 @@ const LandingPage = () => {
     {
       icon: Clock,
       title: "Simulados Cronometrados",
-      description: "Provas com tempo real de 180 minutos (3 horas), igual ao PROPOM oficial",
+      description: "Provas com tempo real de 180 minutos (3 horas), igual ao PREPOM oficial",
     },
     {
       icon: BookOpen,
@@ -62,7 +62,7 @@ const LandingPage = () => {
               <Anchor className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="font-bold text-lg text-foreground">PROPOM 2026</h1>
+              <h1 className="font-bold text-lg text-foreground">PREPOM 2026</h1>
               <p className="text-xs text-muted-foreground">Simulados Marinha Mercante</p>
             </div>
           </div>
@@ -93,7 +93,7 @@ const LandingPage = () => {
 
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               Simulados{" "}
-              <span className="text-accent">PROPOM 2026</span>
+              <span className="text-accent">PREPOM 2026</span>
             </h2>
 
             <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
@@ -133,7 +133,7 @@ const LandingPage = () => {
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Desenvolvidos por especialistas, nossos simulados reproduzem fielmente
-              o formato e dificuldade do PROPOM.
+              o formato e dificuldade do PREPOM.
             </p>
           </div>
 
@@ -327,7 +327,7 @@ const LandingPage = () => {
                 <Anchor className="w-4 h-4 text-primary-foreground" />
               </div>
               <span className="text-sm text-muted-foreground">
-                © 2026 PROPOM Simulados. Todos os direitos reservados.
+                © 2026 PREPOM Simulados. Todos os direitos reservados.
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">

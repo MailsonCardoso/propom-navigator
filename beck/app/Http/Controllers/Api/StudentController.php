@@ -33,7 +33,7 @@ class StudentController extends Controller
             'name' => $request->name,
             'cpf' => $cpfNumbers,
             'phone' => $request->phone,
-            'email' => $cpfNumbers . '@propom.local', // Email fictício
+            'email' => $cpfNumbers . '@prepom.local', // Email fictício
             'password' => Hash::make($tempPassword),
             'role' => 'student',
             'active' => true,

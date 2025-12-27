@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'name' => 'Administrador',
             'login' => 'admin',
-            'email' => 'admin@propom.local',
+            'email' => 'admin@prepom.local',
             'password' => \Hash::make('admin123'),
             'role' => 'admin',
             'active' => true,
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'name' => 'João Silva',
             'login' => 'joao.silva',
-            'email' => 'joao@propom.local',
+            'email' => 'joao@prepom.local',
             'password' => \Hash::make('123456'),
             'role' => 'student',
             'active' => true,
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'name' => 'Maria Santos',
             'login' => 'maria.santos',
-            'email' => 'maria@propom.local',
+            'email' => 'maria@prepom.local',
             'password' => \Hash::make('123456'),
             'role' => 'student',
             'active' => true,

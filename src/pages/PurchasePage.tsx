@@ -33,7 +33,7 @@ const PurchasePage = () => {
               </div>
             </Link>
             <h1 className="text-2xl font-bold text-foreground mb-2">Adquirir Acesso</h1>
-            <p className="text-muted-foreground text-sm">Acesso vitalício aos simulados PROPOM 2026</p>
+            <p className="text-muted-foreground text-sm">Acesso vitalício aos simulados PREPOM 2026</p>
           </div>
 
           {!showPix ? (
@@ -50,7 +50,7 @@ const PurchasePage = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-success" />
-                    <span>Provas com tempo real de 180 minutos (3 horas), igual ao PROPOM oficial</span>
+                    <span>Provas com tempo real de 180 minutos (3 horas), igual ao PREPOM oficial</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-success" />
@@ -98,7 +98,7 @@ const PurchasePage = () => {
                   Após o pagamento, envie o comprovante no WhatsApp para liberar seu acesso.
                 </p>
                 <a
-                  href={`https://wa.me/5598988221217?text=Ol%C3%A1%2C%20acabei%20de%20fazer%20o%20pagamento%20do%20simulado%20PROPOM%202026.%20Segue%20o%20comprovante.`}
+                  href={`https://wa.me/5598988221217?text=Ol%C3%A1%2C%20acabei%20de%20fazer%20o%20pagamento%20do%20simulado%20PREPOM%202026.%20Segue%20o%20comprovante.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center h-10 px-4 py-2 bg-[#25D366] text-white rounded-md font-medium hover:bg-[#128C7E] transition-colors"

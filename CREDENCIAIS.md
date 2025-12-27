@@ -1,4 +1,4 @@
-# 🔐 Credenciais de Acesso - Propom Navigator
+# 🔐 Credenciais de Acesso - Prepom Navigator
 
 ## ✅ Usuários Criados com Sucesso!
 
@@ -7,7 +7,7 @@
 **Nome:** Administrador Sistema  
 **Login:** `admin`  
 **Senha:** `admin@2026`  
-**Email:** admin@propom.com.br  
+**Email:** admin@prepom.com.br  
 **Role:** admin  
 **Status:** Ativo ✅
 
@@ -35,7 +35,7 @@ Body (JSON):
 **Nome:** Aluno Teste  
 **Login:** `aluno.teste`  
 **Senha:** `aluno@2026`  
-**Email:** aluno@propom.com.br  
+**Email:** aluno@prepom.com.br  
 **Role:** student  
 **Status:** Ativo ✅
 
@@ -162,7 +162,7 @@ php artisan tinker
 \App\Models\User::create([
     'name' => 'Novo Admin',
     'login' => 'novo.admin',
-    'email' => 'novo@propom.com.br',
+    'email' => 'novo@prepom.com.br',
     'password' => \Hash::make('senha123'),
     'role' => 'admin',
     'active' => true,
@@ -172,7 +172,7 @@ php artisan tinker
 \App\Models\User::create([
     'name' => 'Novo Aluno',
     'login' => 'novo.aluno',
-    'email' => 'aluno2@propom.com.br',
+    'email' => 'aluno2@prepom.com.br',
     'password' => \Hash::make('senha123'),
     'role' => 'student',
     'active' => true,

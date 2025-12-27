@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo   PROPOM NAVIGATOR - Backend API
+echo   PREPOM NAVIGATOR - Backend API
 echo ========================================
 echo.
 echo Iniciando servidor Laravel...
