@@ -16,7 +16,9 @@ import {
     Target,
     ArrowRight,
     BookOpen,
-    Flag
+    Flag,
+    TrendingDown,
+    Minus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -111,6 +113,49 @@ const StudentDashboard = () => {
             setSelectedBlock(null);
         }
     };
+
+    // --- Lógica do Gráfico Sparkline ---
+    const getTrendData = () => {
+        if (!history || history.length < 2) return null;
+        // Pega as últimas 5 tentativas, inverte para ordem cronológica (mais antiga -> mais nova)
+        const recentAttempts = history.slice(0, 5).reverse();
+
+        const points = recentAttempts.map(a => Math.round((a.score / a.total_questions) * 100)); // % de acerto
+
+        // Se todas as notas forem 0, evita gráfico plano feio
+        if (points.every(p => p === 0)) return null;
+
+        const min = Math.min(...points);
+        const max = Math.max(...points);
+        // Normalização para altura do SVG (0 a 40px)
+        // Se min == max (notas iguais), evita divisão por zero
+        const range = max - min || 1;
+
+        // Gera strings de coordenadas "x,y"
+        // Largura SVG 100px. Espaçamento = 100 / (n-1)
+        const stepX = 100 / (points.length - 1);
+
+        const svgPoints = points.map((val, i) => {
+            const x = i * stepX;
+            // Y invertido (0 é topo). 40 é altura. Margem de 5px.
+            // (val - min) / range -> normaliza 0..1
+            const normalized = (val - min) / range;
+            const y = 35 - (normalized * 30); // 35 (base) a 5 (topo)
+            return `${x},${y}`;
+        }).join(" ");
+
+        // Determina tendência (último vs penúltimo)
+        const last = points[points.length - 1];
+        const previous = points[points.length - 2];
+        let trend: 'up' | 'down' | 'neutral' = 'neutral';
+        if (last > previous) trend = 'up';
+        if (last < previous) trend = 'down';
+
+        return { svgPoints, trend, points };
+    };
+
+    const trendData = getTrendData();
+    // -----------------------------------
 
     if (isLoading) {
         return (
@@ -211,12 +256,44 @@ const StudentDashboard = () => {
                         <span className="text-3xl font-bold text-foreground">{stats?.passed_attempts}</span>
                     </div>
 
-                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.3s" }}>
-                        <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-muted-foreground">Média Acertos</span>
-                            <BarChart3 className="w-5 h-5 text-secondary opacity-50" />
+                    {/* CARD EVOLUÇÃO (COM SPARKLINE) */}
+                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between relative overflow-hidden" style={{ animationDelay: "0.3s" }}>
+                        <div className="flex items-center justify-between mb-2 relative z-10">
+                            <span className="text-sm font-medium text-muted-foreground">Evolução</span>
+                            {trendData ? (
+                                trendData.trend === 'up' ? <TrendingUp className="w-5 h-5 text-green-500" /> :
+                                    trendData.trend === 'down' ? <TrendingDown className="w-5 h-5 text-red-500" /> :
+                                        <Minus className="w-5 h-5 text-muted-foreground" />
+                            ) : (
+                                <BarChart3 className="w-5 h-5 text-secondary opacity-50" />
+                            )}
                         </div>
-                        <span className="text-3xl font-bold text-foreground">{stats?.average_score}</span>
+                        <div className="relative z-10">
+                            <span className="text-3xl font-bold text-foreground">{stats?.average_score}</span>
+                            <span className="text-xs text-muted-foreground ml-2">média geral</span>
+                        </div>
+
+                        {/* SVG SPARKLINE */}
+                        {trendData && (
+                            <div className="absolute bottom-0 left-0 right-0 h-16 opacity-20 pointer-events-none">
+                                <svg width="100%" height="100%" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                    <polyline
+                                        points={trendData.svgPoints}
+                                        fill="none"
+                                        stroke={trendData.trend === 'up' ? '#22c55e' : trendData.trend === 'down' ? '#ef4444' : '#94a3b8'}
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        vectorEffect="non-scaling-stroke"
+                                    />
+                                    <polygon
+                                        points={`${trendData.svgPoints} 100,60 0,60`}
+                                        fill={trendData.trend === 'up' ? '#22c55e' : trendData.trend === 'down' ? '#ef4444' : '#94a3b8'}
+                                        opacity="0.2"
+                                    />
+                                </svg>
+                            </div>
+                        )}
                     </div>
 
                     <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.4s" }}>
