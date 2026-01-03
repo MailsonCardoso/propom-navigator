@@ -45,6 +45,7 @@ interface Attempt {
     total_questions: number;
     passed: boolean;
     completed_at: string;
+    block: number;
 }
 
 const StudentDashboard = () => {
@@ -239,6 +240,9 @@ const StudentDashboard = () => {
                                                 )}
                                             </div>
                                             <div>
+                                                <p className="text-[10px] font-bold text-accent uppercase tracking-wider mb-0.5">
+                                                    Simulado Bloco {attempt.block}
+                                                </p>
                                                 <p className="font-bold text-foreground">
                                                     {attempt.score} de {attempt.total_questions} acertos
                                                 </p>
