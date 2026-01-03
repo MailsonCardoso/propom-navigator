@@ -20,5 +20,6 @@ class Question extends Model
 
     protected $casts = [
         'options' => 'array',
+        'is_demo' => 'boolean',
     ];
 }

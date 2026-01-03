@@ -82,6 +82,10 @@ class QuestionController extends Controller
             'text' => 'required|string',
             'options' => 'required|array|size:4',
             'correct_answer' => 'required|integer|min:0|max:3',
+            'rationale' => 'nullable|string',
+            'base_text' => 'nullable|string',
+            'is_demo' => 'boolean',
+            'block' => 'integer',
         ]);
 
         $question = Question::create($request->all());
@@ -98,6 +102,10 @@ class QuestionController extends Controller
             'text' => 'sometimes|string',
             'options' => 'sometimes|array|size:4',
             'correct_answer' => 'sometimes|integer|min:0|max:3',
+            'rationale' => 'nullable|string',
+            'base_text' => 'nullable|string',
+            'is_demo' => 'boolean',
+            'block' => 'integer',
         ]);
 
         $question->update($request->all());
