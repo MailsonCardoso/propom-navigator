@@ -67,7 +67,7 @@ const StudentDashboard = () => {
                 ]);
                 setStats(statsData);
                 setHistory(historyData);
-                setBlocks(blocksData);
+                setBlocks(blocksData.filter((b: number) => b !== 0));
             } catch (error) {
                 console.error("Error fetching student data:", error);
             } finally {
