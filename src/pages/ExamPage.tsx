@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb, BookOpen } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb, BookOpen, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
@@ -52,6 +52,15 @@ const ExamPage = () => {
   const [isTimeWarning, setIsTimeWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
+  const [markedForReview, setMarkedForReview] = useState<number[]>([]);
+
+  const toggleReview = () => {
+    if (markedForReview.includes(currentQuestion)) {
+      setMarkedForReview(markedForReview.filter(i => i !== currentQuestion));
+    } else {
+      setMarkedForReview([...markedForReview, currentQuestion]);
+    }
+  };
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -250,17 +259,28 @@ const ExamPage = () => {
               <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
                 {question.text}
               </h2>
-              {question.hint && (
+              <div className="flex gap-2 ml-4">
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowHint(!showHint)}
-                  className={`ml-4 ${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
-                  title="Ver dica"
+                  onClick={toggleReview}
+                  className={`${markedForReview.includes(currentQuestion) ? "text-warning bg-warning/10" : "text-muted-foreground hover:text-warning"}`}
+                  title="Marcar para revisão"
                 >
-                  <Lightbulb className={`w-6 h-6 ${showHint ? "fill-accent" : ""}`} />
+                  <Flag className={`w-6 h-6 ${markedForReview.includes(currentQuestion) ? "fill-warning" : ""}`} />
                 </Button>
-              )}
+                {question.hint && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowHint(!showHint)}
+                    className={`${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
+                    title="Ver dica"
+                  >
+                    <Lightbulb className={`w-6 h-6 ${showHint ? "fill-accent" : ""}`} />
+                  </Button>
+                )}
+              </div>
             </div>
 
             {showHint && question.hint && (
@@ -320,6 +340,7 @@ const ExamPage = () => {
                 const isCurrent = currentQuestion === index;
                 const isAnswered = answers[index] !== null;
                 const isMath = q.subject === "matematica";
+                const isMarked = markedForReview.includes(index);
 
                 return (
                   <button
@@ -327,17 +348,24 @@ const ExamPage = () => {
                     onClick={() => setCurrentQuestion(index)}
                     className={`w-9 h-9 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
                       ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
-                      : isAnswered
-                        ? isMath
-                          ? "bg-success text-success-foreground border-success"
-                          : "bg-accent text-accent-foreground border-accent"
-                        : isMath
-                          ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
-                          : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
+                      : isMarked
+                        ? "bg-warning/20 text-warning border-warning border-dashed"
+                        : isAnswered
+                          ? isMath
+                            ? "bg-success text-success-foreground border-success"
+                            : "bg-accent text-accent-foreground border-accent"
+                          : isMath
+                            ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
+                            : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
                       }`}
                   >
                     {index + 1}
-                    {!isAnswered && !isCurrent && (
+                    {isMarked && (
+                      <div className="absolute -top-1.5 -right-1.5 bg-background rounded-full p-0.5 border border-border">
+                        <Flag className="w-2.5 h-2.5 text-warning fill-warning" />
+                      </div>
+                    )}
+                    {!isAnswered && !isCurrent && !isMarked && (
                       <div className={`absolute -top-1 -right-1 w-2 h-2 rounded-full ${isMath ? "bg-success/40" : "bg-accent/40"}`} />
                     )}
                   </button>
