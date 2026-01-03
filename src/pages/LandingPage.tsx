@@ -67,11 +67,14 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/login">
-              <Button variant="ghost" size="sm">Login Aluno</Button>
-            </Link>
             <Link to="/admin/login">
-              <Button variant="outline" size="sm">Administrador</Button>
+              <Button variant="ghost" size="sm" className="hidden sm:flex text-muted-foreground hover:text-foreground">Administrador</Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="navy" size="sm" className="font-bold shadow-lg shadow-navy/20">
+                <Users className="w-4 h-4 mr-2" />
+                Login Aluno
+              </Button>
             </Link>
           </div>
         </div>
