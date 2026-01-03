@@ -31,7 +31,8 @@ const ExamPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const blockId = searchParams.get("block") || "1";
-  const { setExamResult, logout } = useApp();
+  const { setExamResult, logout, user } = useApp();
+  const backupKey = `exam_backup_${user?.id}_block_${blockId}`;
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
@@ -68,7 +69,24 @@ const ExamPage = () => {
         const timestamp = new Date().getTime();
         const data = await api.get(`/questions?block=${blockId}&t=${timestamp}`);
         setQuestions(data);
-        setAnswers(new Array(data.length).fill(null));
+
+        // Check for backup
+        const backup = localStorage.getItem(backupKey);
+        if (backup) {
+          const { answers: savedAnswers, timeLeft: savedTime, questionIndex } = JSON.parse(backup);
+
+          // Verify if backup matches current exam size
+          if (savedAnswers && savedAnswers.length === data.length) {
+            setAnswers(savedAnswers);
+            setTimeLeft(savedTime); // Resume time
+            setCurrentQuestion(questionIndex || 0);
+            console.log("Exam restored from backup");
+          } else {
+            setAnswers(new Array(data.length).fill(null));
+          }
+        } else {
+          setAnswers(new Array(data.length).fill(null));
+        }
       } catch (error) {
         console.error("Error fetching questions:", error);
       } finally {
@@ -76,7 +94,20 @@ const ExamPage = () => {
       }
     };
     fetchQuestions();
-  }, [blockId]);
+  }, [blockId, user?.id, backupKey]);
+
+  // Auto-Save Effect
+  useEffect(() => {
+    if (!isLoading && questions.length > 0 && timeLeft > 0) {
+      const backupData = {
+        answers,
+        timeLeft,
+        questionIndex: currentQuestion,
+        updatedAt: new Date().getTime()
+      };
+      localStorage.setItem(backupKey, JSON.stringify(backupData));
+    }
+  }, [answers, timeLeft, currentQuestion, isLoading, questions.length, backupKey]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -97,6 +128,9 @@ const ExamPage = () => {
         answers: formattedAnswers
       });
 
+      // Clear backup on success
+      localStorage.removeItem(backupKey);
+
       setExamResult({
         totalQuestions: response.total_questions,
         correctAnswers: response.score,
@@ -109,7 +143,7 @@ const ExamPage = () => {
     } catch (error) {
       console.error("Error submitting exam:", error);
     }
-  }, [answers, navigate, setExamResult, blockId]);
+  }, [answers, navigate, setExamResult, blockId, questions, backupKey]);
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
@@ -256,7 +290,7 @@ const ExamPage = () => {
             )}
 
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
                 {question.text}
               </h2>
               <div className="flex gap-2 ml-4">
@@ -440,7 +474,8 @@ const ExamPage = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
             <AlertDialogDescription>
-              Seu progresso nesta prova será perdido e você será desconectado.
+              Seu progresso salvo será mantido, mas o tempo continuará contando se você voltar muito tarde.
+              Recomendamos finalizar a prova.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

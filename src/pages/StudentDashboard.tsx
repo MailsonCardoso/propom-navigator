@@ -48,6 +48,12 @@ interface Attempt {
     block: number;
 }
 
+interface RankingItem {
+    name: string;
+    best_score: number;
+    performance: string;
+}
+
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const { user, logout } = useApp();
@@ -55,19 +61,22 @@ const StudentDashboard = () => {
     const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
     const [stats, setStats] = useState<UserStats | null>(null);
     const [history, setHistory] = useState<Attempt[]>([]);
+    const [ranking, setRanking] = useState<RankingItem[]>([]);
     const [blocks, setBlocks] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [statsData, historyData, blocksData] = await Promise.all([
+                const [statsData, historyData, rankingData, blocksData] = await Promise.all([
                     api.get("/exam/user-stats"),
                     api.get("/exam/history"),
+                    api.get("/exam/ranking"),
                     api.get("/questions/blocks"),
                 ]);
                 setStats(statsData);
                 setHistory(historyData);
+                setRanking(rankingData);
                 setBlocks(blocksData.filter((b: number) => b !== 0));
             } catch (error) {
                 console.error("Error fetching student data:", error);
@@ -130,13 +139,22 @@ const StudentDashboard = () => {
             </header>
 
             <main className="container mx-auto px-4 py-8">
-                {/* Welcome */}
-                <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-foreground mb-1">Olá, {user?.name}!</h2>
-                    <p className="text-muted-foreground text-sm flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-accent" />
-                        Selecione um bloco de simulado para começar.
-                    </p>
+                {/* Welcome & Error Notebook */}
+                <div className="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 className="text-2xl font-bold text-foreground mb-1">Olá, {user?.name}!</h2>
+                        <p className="text-muted-foreground text-sm flex items-center gap-2">
+                            <TrendingUp className="w-4 h-4 text-accent" />
+                            Vamos estudar hoje?
+                        </p>
+                    </div>
+
+                    <Link to="/aluno/erros">
+                        <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive w-full md:w-auto">
+                            <XCircle className="w-4 h-4 mr-2" />
+                            Meu Caderno de Erros
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* Blocks Grid */}
@@ -198,14 +216,14 @@ const StudentDashboard = () => {
                     <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.3s" }}>
                         <div className="flex items-center justify-between mb-2">
                             <BarChart3 className="w-8 h-8 text-secondary opacity-20" />
-                            <span className="text-2xl font-bold text-foreground">{(stats?.average_score || 0).toFixed(1)}</span>
+                            <span className="text-2xl font-bold text-foreground">{stats?.average_score}</span>
                         </div>
                         <p className="text-sm text-muted-foreground">Média de Acertos</p>
                     </div>
 
                     <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.4s" }}>
                         <div className="flex items-center justify-between mb-2">
-                            <TrendingUp className="w-8 h-8 text-warning opacity-20" />
+                            <CheckCircle className="w-8 h-8 text-primary opacity-20" />
                             <span className="text-2xl font-bold text-foreground">{stats?.best_score}</span>
                         </div>
                         <p className="text-sm text-muted-foreground">Melhor Pontuação</p>
@@ -213,7 +231,7 @@ const StudentDashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* History List */}
+                    {/* Recent History */}
                     <div className="lg:col-span-2">
                         <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                             <Clock className="w-5 h-5 text-accent" />
@@ -270,30 +288,45 @@ const StudentDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Study Advice */}
+                    {/* Ranking Widget */}
                     <div>
-                        <h3 className="text-lg font-bold text-foreground mb-4">Dicas de Estudo</h3>
-                        <div className="card-navy p-6 rounded-2xl">
-                            <div className="space-y-4">
-                                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Dica de Ouro (Marinha Mercante)</h4>
-                                    <p className="text-xs text-white/70 leading-relaxed italic">
-                                        "Estude por questões: a banca da Marinha costuma repetir padrões de raciocínio. Resolver simulados é a forma mais rápida de identificar suas fraquezas em Matemática e Português."
-                                    </p>
-                                </div>
-
-                                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Busque a Excelência</h4>
-                                    <p className="text-xs text-white/70 leading-relaxed">
-                                        Sua meta deve ser sempre superar seu melhor resultado. Identifique suas fraquezas e revise os conteúdos para garantir sua vaga.
-                                    </p>
-                                </div>
-                                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                                    <h4 className="font-bold text-accent mb-1 text-sm uppercase tracking-wider text-white">Interpretação</h4>
-                                    <p className="text-xs text-white/70 leading-relaxed">
-                                        Em Português, as questões de interpretação são fundamentais. Leia atentamente cada enunciado.
-                                    </p>
-                                </div>
+                        <div className="card-navy p-6 rounded-2xl relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-10">
+                                <Trophy className="w-24 h-24 text-yellow-400" />
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2 relative z-10">
+                                <Trophy className="w-5 h-5 text-yellow-400" />
+                                Top Alunos da Semana
+                            </h3>
+                            <div className="space-y-3 relative z-10">
+                                {ranking.map((item, index) => (
+                                    <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                                        <div className="flex items-center gap-3">
+                                            <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? "bg-yellow-400 text-black shadow-[0_0_10px_rgba(250,204,21,0.5)]" :
+                                                index === 1 ? "bg-gray-300 text-black" :
+                                                    index === 2 ? "bg-amber-600 text-white" :
+                                                        "bg-white/10 text-white"
+                                                }`}>
+                                                {index + 1}
+                                            </span>
+                                            <div>
+                                                <p className="text-sm font-medium text-white truncate max-w-[150px]">{item.name.split(' ')[0]} {item.name.split(' ')[1]?.[0]}.</p>
+                                                <p className="text-[10px] text-white/50">Eficiência: {item.performance}</p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <span className="text-sm font-bold text-accent block">{item.best_score} acertos</span>
+                                        </div>
+                                    </div>
+                                ))}
+                                {ranking.length === 0 && (
+                                    <div className="text-center py-4">
+                                        <p className="text-white/50 text-sm italic">Ranking em formação...</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="mt-4 pt-4 border-t border-white/10 text-center">
+                                <p className="text-[10px] text-white/40 italic">O ranking considera a melhor nota dos últimos 7 dias.</p>
                             </div>
                         </div>
                     </div>

@@ -174,6 +174,7 @@ class ExamController extends Controller
             ->select('user_id', \DB::raw('MAX(score) as best_score'), \DB::raw('COUNT(*) as attempts'))
             ->groupBy('user_id')
             ->orderBy('best_score', 'desc')
+            ->take(10) // Limit to top 10
             ->get()
             ->map(function ($item) {
                 return [
@@ -185,5 +186,83 @@ class ExamController extends Controller
             });
 
         return response()->json($ranking);
+    }
+
+    public function errors(Request $request)
+    {
+        // Fetch attempts
+        $attempts = ExamAttempt::where('user_id', $request->user()->id)
+            ->orderBy('completed_at', 'desc')
+            ->take(20) // Analyze last 20 exams to keep it fast
+            ->get();
+
+        $wrongQuestionIds = [];
+
+        foreach ($attempts as $attempt) {
+            $answers = $attempt->answers; // Automatically cast to array/collection by Model
+
+            // Handle both legacy (simple array) and new format (array of objects)
+            if (is_array($answers)) {
+                foreach ($answers as $index => $answerData) {
+                    // New format: ['question_id' => 1, 'answer' => 2]
+                    if (isset($answerData['question_id'])) {
+                        $qId = $answerData['question_id'];
+                        $userAns = $answerData['answer'];
+
+                        // We need to check correctness again or trust the attempt.
+                        // Ideally ExamAttempt should save correctness, but for now let's query the question
+                        // Wait, querying inside loop is bad.
+                        // Better strategy: Collect all IDs, then fetch questions and compare.
+                        $wrongQuestionIds[] = $qId;
+                    }
+                }
+            }
+        }
+
+        // Simplify strategy: Just get the questions the user got WRONG. 
+        // Since we don't store "is_correct" in the JSON efficiently for querying, 
+        // we'll fetch questions and re-evaluate or use a smarter query if possible.
+        // Given the constraints and current structure, let's just return ALL questions from attempts 
+        // and let frontend verify correctness? NO, security.
+
+        // Revised Strategy:
+        // 1. Collect all Question IDs and User Answers from attempts
+        // 2. Fetch Questions
+        // 3. Filter Wrong Ones
+
+        $candidateErrors = [];
+        foreach ($attempts as $attempt) {
+            $answers = $attempt->answers;
+            if (is_array($answers)) {
+                foreach ($answers as $ans) {
+                    if (isset($ans['question_id'])) {
+                        // Key by Question ID to avoid duplicates (show latest error only?)
+                        // Or show all? Let's show unique questions user struggles with.
+                        if (!isset($candidateErrors[$ans['question_id']])) {
+                            $candidateErrors[$ans['question_id']] = $ans['answer'];
+                        }
+                    }
+                }
+            }
+        }
+
+        if (empty($candidateErrors)) {
+            return response()->json([]);
+        }
+
+        $questions = Question::whereIn('id', array_keys($candidateErrors))->get();
+        $finalErrors = [];
+
+        foreach ($questions as $q) {
+            $userAnswer = $candidateErrors[$q->id];
+            if ($userAnswer !== null && $userAnswer != $q->correct_answer) {
+                $finalErrors[] = [
+                    'question' => $q,
+                    'user_answer' => $userAnswer
+                ];
+            }
+        }
+
+        return response()->json(array_values($finalErrors));
     }
 }

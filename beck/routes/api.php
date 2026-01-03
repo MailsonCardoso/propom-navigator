@@ -27,6 +27,8 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
     Route::get('/exam/history', [ExamController::class, 'history']);
     Route::get('/exam/attempt/{id}', [ExamController::class, 'show']);
     Route::get('/exam/user-stats', [ExamController::class, 'userStats']);
+    Route::get('/exam/ranking', [ExamController::class, 'ranking']);
+    Route::get('/exam/errors', [ExamController::class, 'errors']);
 
     // Admin (Somente administradores)
     Route::middleware('admin')->group(function () {
@@ -44,7 +46,6 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
 
         // Stats & Logs
         Route::get('/exam/stats', [ExamController::class, 'stats']);
-        Route::get('/exam/ranking', [ExamController::class, 'ranking']);
         Route::get('/security-logs', [SecurityLogController::class, 'index']);
     });
 });

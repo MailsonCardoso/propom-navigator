@@ -16,6 +16,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminStudents from "./pages/AdminStudents";
 import AdminDemoQuestions from "./pages/AdminDemoQuestions";
+import StudentErrorsPage from "./pages/StudentErrorsPage";
 import SecurityLogs from "./pages/SecurityLogs";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -58,6 +59,14 @@ const App = () => (
               element={
                 <ProtectedRoute role="student">
                   <ResultPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/aluno/erros"
+              element={
+                <ProtectedRoute role="student">
+                  <StudentErrorsPage />
                 </ProtectedRoute>
               }
             />
