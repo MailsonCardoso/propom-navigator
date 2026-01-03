@@ -79,12 +79,68 @@ class ExamController extends Controller
     public function userStats(Request $request)
     {
         $userId = $request->user()->id;
-        $attempts = ExamAttempt::where('user_id', $userId)->get();
+        // Pega estatísticas gerais (rápido)
+        $totalAttempts = ExamAttempt::where('user_id', $userId)->count();
+        $passedAttempts = ExamAttempt::where('user_id', $userId)->where('passed', true)->count();
+        $averageScore = ExamAttempt::where('user_id', $userId)->avg('score') ?? 0;
+        $bestScore = ExamAttempt::where('user_id', $userId)->max('score') ?? 0;
 
-        $totalAttempts = $attempts->count();
-        $passedAttempts = $attempts->where('passed', true)->count();
-        $averageScore = $attempts->avg('score') ?? 0;
-        $bestScore = $attempts->max('score') ?? 0;
+        // Calcula desempenho por matéria baseado nas últimas 10 tentativas (para performance)
+        $attempts = ExamAttempt::where('user_id', $userId)
+            ->orderBy('completed_at', 'desc')
+            ->take(10)
+            ->get();
+
+        $statsBySubject = [
+            'portugues' => ['total' => 0, 'correct' => 0],
+            'matematica' => ['total' => 0, 'correct' => 0],
+        ];
+
+        $answersMap = []; // [question_id => [user_answer, ...]] (embora user possa responder a mesma q várias vezes, vamos simplificar)
+
+        // Coleta todas as respostas
+        foreach ($attempts as $attempt) {
+            $answers = $attempt->answers;
+            if (is_array($answers)) {
+                foreach ($answers as $ans) {
+                    if (isset($ans['question_id'])) {
+                        $answersMap[] = [
+                            'q_id' => $ans['question_id'],
+                            'user_ans' => $ans['answer']
+                        ];
+                    }
+                }
+            }
+        }
+
+        if (!empty($answersMap)) {
+            $qIds = array_column($answersMap, 'q_id');
+            $questions = Question::whereIn('id', array_unique($qIds))->get()->keyBy('id');
+
+            foreach ($answersMap as $item) {
+                $qId = $item['q_id'];
+                $userAns = $item['user_ans'];
+
+                if (isset($questions[$qId])) {
+                    $q = $questions[$qId];
+                    if (in_array($q->subject, ['portugues', 'matematica'])) {
+                        $statsBySubject[$q->subject]['total']++;
+                        if ($userAns == $q->correct_answer) {
+                            $statsBySubject[$q->subject]['correct']++;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Calcula porcentagens
+        $portuguesPercent = $statsBySubject['portugues']['total'] > 0
+            ? round(($statsBySubject['portugues']['correct'] / $statsBySubject['portugues']['total']) * 100)
+            : 0;
+
+        $matematicaPercent = $statsBySubject['matematica']['total'] > 0
+            ? round(($statsBySubject['matematica']['correct'] / $statsBySubject['matematica']['total']) * 100)
+            : 0;
 
         return response()->json([
             'total_attempts' => $totalAttempts,
@@ -92,6 +148,10 @@ class ExamController extends Controller
             'failed_attempts' => $totalAttempts - $passedAttempts,
             'average_score' => round($averageScore, 2),
             'best_score' => $bestScore,
+            'subjects' => [
+                'portugues' => $portuguesPercent,
+                'matematica' => $matematicaPercent
+            ]
         ]);
     }
 

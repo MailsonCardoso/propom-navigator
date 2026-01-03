@@ -39,6 +39,10 @@ interface UserStats {
     failed_attempts: number;
     average_score: number;
     best_score: number;
+    subjects?: {
+        portugues: number;
+        matematica: number;
+    };
 }
 
 interface Attempt {
@@ -147,12 +151,40 @@ const StudentDashboard = () => {
 
                 {/* 1. SEÇÃO DE ESTATÍSTICAS (O COCKPIT) */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.1s" }}>
-                        <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-muted-foreground">Total Provas</span>
-                            <History className="w-5 h-5 text-accent opacity-50" />
+                    {/* Card Raio-X de Desempenho (Novo) */}
+                    <div className="card-elevated p-4 animate-scale-in flex flex-col justify-center gap-4" style={{ animationDelay: "0.1s" }}>
+                        <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-1">
+                                <Target className="w-3 h-3 text-accent" />
+                                Raio-X (Últimos 10)
+                            </span>
                         </div>
-                        <span className="text-3xl font-bold text-foreground">{stats?.total_attempts}</span>
+                        <div className="space-y-3">
+                            <div>
+                                <div className="flex justify-between text-[10px] mb-1">
+                                    <span className="font-bold text-blue-500">Português</span>
+                                    <span className="font-bold text-foreground">{stats?.subjects?.portugues || 0}%</span>
+                                </div>
+                                <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out"
+                                        style={{ width: `${stats?.subjects?.portugues || 0}%` }}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex justify-between text-[10px] mb-1">
+                                    <span className="font-bold text-green-500">Matemática</span>
+                                    <span className="font-bold text-foreground">{stats?.subjects?.matematica || 0}%</span>
+                                </div>
+                                <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full bg-green-500 rounded-full transition-all duration-1000 ease-out"
+                                        style={{ width: `${stats?.subjects?.matematica || 0}%` }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.2s" }}>
