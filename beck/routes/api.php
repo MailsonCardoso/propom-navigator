@@ -8,9 +8,10 @@ use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Api\SecurityLogController;
 
-// Rotas públicas de autenticação
+// Rotas públicas
 Route::post('/auth/login/admin', [AuthController::class, 'loginAdmin']);
 Route::post('/auth/login/student', [AuthController::class, 'loginStudent']);
+Route::get('/questions/demo', [QuestionController::class, 'demo']);
 
 // Rotas protegidas
 Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAccess::class])->group(function () {

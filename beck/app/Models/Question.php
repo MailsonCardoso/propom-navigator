@@ -15,6 +15,7 @@ class Question extends Model
         'correct_answer',
         'rationale',
         'hint',
+        'is_demo',
     ];
 
     protected $casts = [

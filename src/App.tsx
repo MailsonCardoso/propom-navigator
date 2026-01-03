@@ -9,7 +9,9 @@ import StudentLogin from "./pages/StudentLogin";
 import AdminLogin from "./pages/AdminLogin";
 import PurchasePage from "./pages/PurchasePage";
 import ExamPage from "./pages/ExamPage";
+import DemoExamPage from "./pages/DemoExamPage";
 import ResultPage from "./pages/ResultPage";
+import DemoResultPage from "./pages/DemoResultPage";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminStudents from "./pages/AdminStudents";
@@ -31,6 +33,8 @@ const App = () => (
             <Route path="/login" element={<StudentLogin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/comprar" element={<PurchasePage />} />
+            <Route path="/demo/prova" element={<DemoExamPage />} />
+            <Route path="/demo/resultado" element={<DemoResultPage />} />
             <Route
               path="/aluno/dashboard"
               element={

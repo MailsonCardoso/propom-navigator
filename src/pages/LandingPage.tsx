@@ -102,13 +102,18 @@ const LandingPage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Link to="/comprar">
-                <Button variant="hero" size="xl">
+              <Link to="/comprar" className="w-full sm:w-auto">
+                <Button variant="hero" size="xl" className="w-full">
                   Comprar Acesso – R$ 35,00
                 </Button>
               </Link>
-              <Link to="/login">
-                <Button variant="heroOutline" size="xl">
+              <Link to="/demo/prova" className="w-full sm:w-auto">
+                <Button variant="heroOutline" size="xl" className="w-full border-accent text-accent hover:bg-accent/10">
+                  Fazer Teste Grátis
+                </Button>
+              </Link>
+              <Link to="/login" className="w-full sm:w-auto">
+                <Button variant="ghost" size="xl" className="w-full text-white/70 hover:text-white">
                   Já sou aluno
                 </Button>
               </Link>

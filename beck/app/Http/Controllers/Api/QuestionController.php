@@ -42,6 +42,26 @@ class QuestionController extends Controller
         return response()->json($questions);
     }
 
+    public function demo()
+    {
+        $questions = Question::where('is_demo', true)
+            ->orderBy('subject', 'desc') // Portugues first (p > m)
+            ->get()
+            ->map(function ($question) {
+                return [
+                    'id' => $question->id,
+                    'subject' => $question->subject,
+                    'text' => $question->text,
+                    'base_text' => $question->base_text,
+                    'options' => $question->options,
+                    'correct_answer' => $question->correct_answer, // We need this for the demo result
+                    'rationale' => $question->rationale, // We need this for the demo result
+                ];
+            });
+
+        return response()->json($questions);
+    }
+
     public function blocks()
     {
         $blocks = Question::select('block')
