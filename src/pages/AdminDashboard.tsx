@@ -199,6 +199,12 @@ const AdminDashboard = () => {
                 Adicionar Aluno
               </Button>
             </Link>
+            <Link to="/admin/questoes/demo">
+              <Button variant="outline" className="border-accent/20 hover:bg-accent/5 text-accent hover:text-accent">
+                <ShieldAlert className="w-4 h-4 mr-2" />
+                Questões Demo
+              </Button>
+            </Link>
             <Link to="/admin/seguranca">
               <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive">
                 <ShieldAlert className="w-4 h-4 mr-2" />

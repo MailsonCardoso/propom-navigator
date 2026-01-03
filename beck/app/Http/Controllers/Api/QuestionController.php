@@ -65,6 +65,8 @@ class QuestionController extends Controller
     public function blocks()
     {
         $blocks = Question::select('block')
+            ->where('block', '<>', 0)
+            ->where('is_demo', false)
             ->distinct()
             ->orderBy('block')
             ->get()
