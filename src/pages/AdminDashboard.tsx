@@ -277,7 +277,7 @@ const AdminDashboard = () => {
 
         {/* Quick Actions */}
         <div className="card-navy p-6">
-          <h3 className="font-semibold text-foreground mb-4">Ações Rápidas</h3>
+          <h3 className="font-semibold text-white mb-4">Ações Rápidas</h3>
           <div className="flex flex-wrap gap-3">
             <Link to="/admin/questoes/demo">
               <Button variant="outline" className="border-accent/20 hover:bg-accent/5 text-accent hover:text-accent">
