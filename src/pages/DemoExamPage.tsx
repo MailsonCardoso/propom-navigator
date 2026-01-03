@@ -200,15 +200,15 @@ const DemoExamPage = () => {
                 key={index}
                 onClick={() => handleAnswer(index)}
                 className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 ${answers[currentQuestion] === index
-                    ? question.subject === 'portugues'
-                      ? "border-accent bg-accent/10 shadow-sm"
-                      : "border-success bg-success/10 shadow-sm"
-                    : "border-border bg-card hover:border-accent/40 hover:bg-muted/50"
+                  ? question.subject === 'portugues'
+                    ? "border-accent bg-accent/10 shadow-sm"
+                    : "border-success bg-success/10 shadow-sm"
+                  : "border-border bg-card hover:border-accent/40 hover:bg-muted/50"
                   }`}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${answers[currentQuestion] === index
-                    ? question.subject === 'portugues' ? "bg-accent text-white" : "bg-success text-white"
-                    : "bg-muted text-muted-foreground"
+                  ? question.subject === 'portugues' ? "bg-accent text-white" : "bg-success text-white"
+                  : "bg-muted text-muted-foreground"
                   }`}>
                   {String.fromCharCode(65 + index)}
                 </div>
@@ -224,11 +224,15 @@ const DemoExamPage = () => {
             <button
               key={index}
               onClick={() => setCurrentQuestion(index)}
-              className={`w-8 h-8 rounded-md text-[10px] font-bold transition-all ${currentQuestion === index
-                  ? "bg-foreground text-background scale-110 shadow-lg"
+              className={`w-8 h-8 rounded-md text-[10px] font-bold transition-all border-2 ${currentQuestion === index
+                  ? q.subject === 'portugues'
+                    ? "bg-accent border-accent text-white scale-110 shadow-lg shadow-accent/20"
+                    : "bg-success border-success text-white scale-110 shadow-lg shadow-success/20"
                   : answers[index] !== null
-                    ? q.subject === 'portugues' ? "bg-accent text-white" : "bg-success text-white"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    ? q.subject === 'portugues' ? "bg-accent border-accent text-white" : "bg-success border-success text-white"
+                    : q.subject === 'portugues'
+                      ? "bg-accent/5 border-accent/20 text-accent hover:bg-accent/10"
+                      : "bg-success/5 border-success/20 text-success hover:bg-success/10"
                 }`}
             >
               {index + 1}

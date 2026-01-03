@@ -45,7 +45,7 @@ class QuestionController extends Controller
     public function demo()
     {
         $questions = Question::where('is_demo', true)
-            ->orderBy('subject', 'desc') // Portugues first (p > m)
+            ->orderBy('id', 'asc')
             ->get()
             ->map(function ($question) {
                 return [

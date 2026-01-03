@@ -112,15 +112,9 @@ const LandingPage = () => {
                   FAZER TESTE GRÁTIS
                 </Button>
               </Link>
-              <Link to="/login" className="w-full sm:w-auto">
-                <Button variant="ghost" size="xl" className="w-full text-white/70 hover:text-white">
-                  Já sou aluno
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
-
         {/* Wave decoration */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,10 +152,10 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Methodology Section */}
-      <section className="py-24 relative overflow-hidden bg-card">
+      < section className="py-24 relative overflow-hidden bg-card" >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
         <div className="container mx-auto px-4">
@@ -254,10 +248,10 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Disciplines Section */}
-      <section className="py-20">
+      < section className="py-20" >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-foreground mb-4">
@@ -296,10 +290,10 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA Section */}
-      <section className="py-20 mb-10">
+      < section className="py-20 mb-10" >
         <div className="container mx-auto px-4">
           <div className="card-elevated gradient-navy p-12 text-center rounded-3xl relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -321,10 +315,10 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Footer */}
-      <footer className="py-8 border-t border-border">
+      < footer className="py-8 border-t border-border" >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -342,10 +336,10 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </footer>
+      </footer >
 
       <WhatsAppButton />
-    </div>
+    </div >
   );
 };
 
