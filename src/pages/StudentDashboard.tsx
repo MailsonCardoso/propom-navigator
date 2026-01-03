@@ -15,7 +15,8 @@ import {
     AlertTriangle,
     Target,
     ArrowRight,
-    BookOpen
+    BookOpen,
+    Flag
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -406,7 +407,7 @@ const StudentDashboard = () => {
                                 </div>
                                 <div className="bg-muted/50 p-2.5 rounded-lg text-center flex flex-col items-center justify-center h-24">
                                     <div className="relative">
-                                        <Target className="w-5 h-5 mb-1.5 text-accent" />
+                                        <Flag className="w-5 h-5 mb-1.5 text-accent" />
                                         <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
                                     </div>
                                     <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Revisão</span>
