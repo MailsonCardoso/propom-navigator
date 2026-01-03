@@ -14,7 +14,8 @@ import {
     TrendingUp,
     AlertTriangle,
     Target,
-    ArrowRight
+    ArrowRight,
+    BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -70,6 +71,7 @@ const StudentDashboard = () => {
     const [ranking, setRanking] = useState<RankingItem[]>([]);
     const [blocks, setBlocks] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -100,6 +102,13 @@ const StudentDashboard = () => {
     const confirmLogout = () => {
         logout();
         navigate("/");
+    };
+
+    const handleStartExam = () => {
+        if (selectedBlock) {
+            navigate(`/aluno/prova?block=${selectedBlock}`);
+            setSelectedBlock(null);
+        }
     };
 
     if (isLoading) {
@@ -225,8 +234,6 @@ const StudentDashboard = () => {
 
                         {/* Bem-vindo e Caderno de Erros */}
                         <div className="flex flex-col gap-4">
-                            {/* Greeting removido daqui e passado para o topo */}
-
                             {/* CARD CTA: CADERNO DE ERROS */}
                             <Link to="/aluno/erros" className="group block">
                                 <div className="card-elevated bg-gradient-to-r from-destructive/5 via-orange-500/5 to-transparent border-l-4 border-destructive p-6 relative overflow-hidden hover:shadow-lg transition-all duration-300">
@@ -259,10 +266,10 @@ const StudentDashboard = () => {
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {blocks.map((blockNum) => (
-                                    <Link
+                                    <div
                                         key={blockNum}
-                                        to={`/aluno/prova?block=${blockNum}`}
-                                        className="group"
+                                        onClick={() => setSelectedBlock(blockNum)}
+                                        className="group cursor-pointer"
                                     >
                                         <div className="card-elevated p-5 border-l-4 border-accent hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col justify-between">
                                             <div>
@@ -277,11 +284,11 @@ const StudentDashboard = () => {
                                                 <h4 className="font-bold text-foreground">Simulado Bloco {blockNum}</h4>
                                                 <p className="text-xs text-muted-foreground mb-4">40 Questões • Port/Mat</p>
                                             </div>
-                                            <Button variant="navy" size="sm" className="w-full gap-2">
+                                            <Button variant="navy" size="sm" className="w-full gap-2 group-hover:bg-navy/90">
                                                 <Play className="w-3 h-3" /> Iniciar
                                             </Button>
                                         </div>
-                                    </Link>
+                                    </div>
                                 ))}
                                 {blocks.length === 0 && (
                                     <div className="col-span-full card-elevated p-8 text-center bg-muted/30 border-dashed border-2 border-border">
@@ -375,6 +382,48 @@ const StudentDashboard = () => {
                     </div>
                 </div>
             </main>
+
+            {/* Exam Briefing Dialog */}
+            <AlertDialog open={!!selectedBlock} onOpenChange={(open) => !open && setSelectedBlock(null)}>
+                <AlertDialogContent className="max-w-md">
+                    <AlertDialogHeader>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center">
+                                <span className="text-white font-bold">{selectedBlock}</span>
+                            </div>
+                            <AlertDialogTitle className="text-xl">Simulado Bloco {selectedBlock}</AlertDialogTitle>
+                        </div>
+                        <AlertDialogDescription className="space-y-4 pt-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-muted/50 p-3 rounded-lg text-center">
+                                    <Clock className="w-5 h-5 mx-auto mb-1 text-accent" />
+                                    <span className="block text-xs text-muted-foreground">Tempo Limite</span>
+                                    <span className="font-bold text-foreground">3 Horas</span>
+                                </div>
+                                <div className="bg-muted/50 p-3 rounded-lg text-center">
+                                    <BookOpen className="w-5 h-5 mx-auto mb-1 text-accent" />
+                                    <span className="block text-xs text-muted-foreground">Questões</span>
+                                    <span className="font-bold text-foreground">40 Itens</span>
+                                </div>
+                            </div>
+
+                            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg flex gap-3 text-left">
+                                <AlertTriangle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+                                <div className="text-xs text-yellow-800 dark:text-yellow-200">
+                                    <strong className="block mb-0.5">Atenção:</strong>
+                                    O cronômetro iniciará imediatamente após clicar em "Começar Prova". Certifique-se de que sua conexão está estável.
+                                </div>
+                            </div>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="mt-4 gap-2">
+                        <AlertDialogCancel className="mt-0">Cancelar</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleStartExam} className="w-full bg-navy hover:bg-navy/90 text-white font-bold h-10">
+                            COMEÇAR PROVA
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
 
             {/* Logout Confirmation Dialog */}
             <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
