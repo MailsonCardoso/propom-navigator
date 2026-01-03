@@ -12,7 +12,9 @@ import {
     CheckCircle,
     XCircle,
     TrendingUp,
-    AlertTriangle
+    AlertTriangle,
+    Target,
+    ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -107,7 +109,7 @@ const StudentDashboard = () => {
     return (
         <div className="min-h-screen bg-background">
             {/* Header */}
-            <header className="bg-card border-b border-border sticky top-0 z-40">
+            <header className="bg-card border-b border-border sticky top-0 z-40 shadow-sm">
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -119,8 +121,11 @@ const StudentDashboard = () => {
                                 <p className="text-xs text-muted-foreground mb-1">PREPOM 2026</p>
                                 <div className="flex items-center gap-1.5 px-2 py-1 bg-destructive/10 border border-destructive/20 rounded-md max-w-fit">
                                     <AlertTriangle className="w-3 h-3 text-destructive shrink-0" />
-                                    <span className="text-[10px] font-bold text-destructive leading-tight">
-                                        Acesso Monitorado: O compartilhamento de senha resultará em bloqueio imediato.
+                                    <span className="text-[10px] font-bold text-destructive leading-tight hidden lg:inline">
+                                        Monitorado: Compartilhamento de senha gera bloqueio.
+                                    </span>
+                                    <span className="text-[10px] font-bold text-destructive leading-tight lg:hidden">
+                                        Acesso Monitorado
                                     </span>
                                 </div>
                             </div>
@@ -139,170 +144,136 @@ const StudentDashboard = () => {
             </header>
 
             <main className="container mx-auto px-4 py-8">
-                {/* Welcome & Error Notebook */}
-                <div className="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div>
-                        <h2 className="text-2xl font-bold text-foreground mb-1">Olá, {user?.name}!</h2>
-                        <p className="text-muted-foreground text-sm flex items-center gap-2">
-                            <TrendingUp className="w-4 h-4 text-accent" />
-                            Vamos estudar hoje?
-                        </p>
-                    </div>
 
-                    <Link to="/aluno/erros">
-                        <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive w-full md:w-auto">
-                            <XCircle className="w-4 h-4 mr-2" />
-                            Meu Caderno de Erros
-                        </Button>
-                    </Link>
-                </div>
-
-                {/* Blocks Grid */}
-                <div className="mb-10">
-                    <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                        <Play className="w-5 h-5 text-accent" />
-                        Simulados Disponíveis
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {blocks.map((blockNum) => (
-                            <Link
-                                key={blockNum}
-                                to={`/aluno/prova?block=${blockNum}`}
-                                className="group"
-                            >
-                                <div className="card-elevated p-6 border-l-4 border-accent hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="w-12 h-12 rounded-xl gradient-navy flex items-center justify-center text-white font-bold text-xl">
-                                            {blockNum}
-                                        </div>
-                                        <div className="bg-accent/10 px-3 py-1 rounded-full">
-                                            <span className="text-xs font-bold text-accent tracking-wider uppercase">40 Questões</span>
-                                        </div>
-                                    </div>
-                                    <h4 className="font-bold text-foreground mb-1">Simulado Bloco {blockNum}</h4>
-                                    <p className="text-xs text-muted-foreground mb-4">Português e Matemática Fundamental</p>
-                                    <Button variant="navy" size="sm" className="w-full">
-                                        Começar agora
-                                    </Button>
-                                </div>
-                            </Link>
-                        ))}
-                        {blocks.length === 0 && (
-                            <div className="col-span-full card-elevated p-8 text-center bg-muted/30 border-dashed border-2 border-border">
-                                <p className="text-muted-foreground italic">Nenhum simulado disponível no momento.</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.1s" }}>
+                {/* 1. SEÇÃO DE ESTATÍSTICAS (O COCKPIT) */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.1s" }}>
                         <div className="flex items-center justify-between mb-2">
-                            <History className="w-8 h-8 text-accent opacity-20" />
-                            <span className="text-2xl font-bold text-foreground">{stats?.total_attempts}</span>
+                            <span className="text-sm font-medium text-muted-foreground">Total Provas</span>
+                            <History className="w-5 h-5 text-accent opacity-50" />
                         </div>
-                        <p className="text-sm text-muted-foreground">Total de Tentativas</p>
+                        <span className="text-3xl font-bold text-foreground">{stats?.total_attempts}</span>
                     </div>
 
-                    <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.2s" }}>
+                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.2s" }}>
                         <div className="flex items-center justify-between mb-2">
-                            <Trophy className="w-8 h-8 text-success opacity-20" />
-                            <span className="text-2xl font-bold text-foreground">{stats?.passed_attempts}</span>
+                            <span className="text-sm font-medium text-muted-foreground">Aprovações</span>
+                            <Trophy className="w-5 h-5 text-success opacity-50" />
                         </div>
-                        <p className="text-sm text-muted-foreground">Vezes Aprovado</p>
+                        <span className="text-3xl font-bold text-foreground">{stats?.passed_attempts}</span>
                     </div>
 
-                    <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.3s" }}>
+                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.3s" }}>
                         <div className="flex items-center justify-between mb-2">
-                            <BarChart3 className="w-8 h-8 text-secondary opacity-20" />
-                            <span className="text-2xl font-bold text-foreground">{stats?.average_score}</span>
+                            <span className="text-sm font-medium text-muted-foreground">Média Acertos</span>
+                            <BarChart3 className="w-5 h-5 text-secondary opacity-50" />
                         </div>
-                        <p className="text-sm text-muted-foreground">Média de Acertos</p>
+                        <span className="text-3xl font-bold text-foreground">{stats?.average_score}</span>
                     </div>
 
-                    <div className="card-elevated p-6 animate-scale-in" style={{ animationDelay: "0.4s" }}>
+                    <div className="card-elevated p-6 animate-scale-in flex flex-col justify-between" style={{ animationDelay: "0.4s" }}>
                         <div className="flex items-center justify-between mb-2">
-                            <CheckCircle className="w-8 h-8 text-primary opacity-20" />
-                            <span className="text-2xl font-bold text-foreground">{stats?.best_score}</span>
+                            <span className="text-sm font-medium text-muted-foreground">Melhor Nota</span>
+                            <CheckCircle className="w-5 h-5 text-primary opacity-50" />
                         </div>
-                        <p className="text-sm text-muted-foreground">Melhor Pontuação</p>
+                        <span className="text-3xl font-bold text-foreground">{stats?.best_score}</span>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Recent History */}
-                    <div className="lg:col-span-2">
-                        <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-accent" />
-                            Histórico Recente
-                        </h3>
-                        <div className="space-y-3">
-                            {history.length === 0 ? (
-                                <div className="card-elevated p-12 text-center">
-                                    <p className="text-muted-foreground">Você ainda não realizou nenhum simulado.</p>
-                                </div>
-                            ) : (
-                                history.map((attempt) => (
-                                    <div
-                                        key={attempt.id}
-                                        className="card-elevated p-4 flex items-center justify-between transition-transform duration-200 hover:scale-[1.01]"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${attempt.passed ? "bg-success/10" : "bg-destructive/10"
-                                                }`}>
-                                                {attempt.passed ? (
-                                                    <CheckCircle className="w-6 h-6 text-success" />
-                                                ) : (
-                                                    <XCircle className="w-6 h-6 text-destructive" />
-                                                )}
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] font-bold text-accent uppercase tracking-wider mb-0.5">
-                                                    Simulado Bloco {attempt.block}
-                                                </p>
-                                                <p className="font-bold text-foreground">
-                                                    {attempt.score} de {attempt.total_questions} acertos
-                                                </p>
-                                                <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                                    <Calendar className="w-3 h-3" />
-                                                    {format(new Date(attempt.completed_at), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
-                                                </p>
-                                            </div>
+
+                    {/* 2. COLUNA DA ESQUERDA (AÇÃO E ESTUDO) */}
+                    <div className="lg:col-span-2 space-y-8">
+
+                        {/* Bem-vindo e Caderno de Erros */}
+                        <div className="flex flex-col gap-4">
+                            <div>
+                                <h2 className="text-2xl font-bold text-foreground">Olá, {user?.name.split(' ')[0]}!</h2>
+                                <p className="text-muted-foreground text-sm">Pronto para superar seus limites hoje?</p>
+                            </div>
+
+                            {/* CARD CTA: CADERNO DE ERROS */}
+                            <Link to="/aluno/erros" className="group block">
+                                <div className="card-elevated bg-gradient-to-r from-destructive/5 via-orange-500/5 to-transparent border-l-4 border-destructive p-6 relative overflow-hidden hover:shadow-lg transition-all duration-300">
+                                    <div className="absolute top-2 right-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                                        <Target className="w-24 h-24 text-destructive" />
+                                    </div>
+                                    <div className="relative z-10 flex items-center justify-between">
+                                        <div>
+                                            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+                                                <Target className="w-5 h-5 text-destructive" />
+                                                Revisão Inteligente
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground mt-1 max-w-md">
+                                                Acesse seu <strong>Caderno de Erros</strong>. Focar nas questões que você errou é a forma mais rápida de aumentar sua nota.
+                                            </p>
                                         </div>
-                                        <div className="flex flex-col items-end gap-2">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${attempt.passed ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"
-                                                }`}>
-                                                {attempt.passed ? "APROVADO" : "REPROVADO"}
-                                            </span>
-                                            <Link to={`/aluno/resultado?attemptId=${attempt.id}`}>
-                                                <Button variant="link" size="sm" className="text-accent h-auto p-0 flex items-center gap-1 font-bold">
-                                                    <BarChart3 className="w-3 h-3" />
-                                                    Ver Revisão
-                                                </Button>
-                                            </Link>
+                                        <div className="bg-card/50 p-2 rounded-full border border-border group-hover:bg-destructive group-hover:border-destructive transition-colors">
+                                            <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-white" />
                                         </div>
                                     </div>
-                                ))
-                            )}
+                                </div>
+                            </Link>
+                        </div>
+
+                        {/* Lista de Simulados */}
+                        <div>
+                            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                                <Play className="w-5 h-5 text-accent" />
+                                Simulados Disponíveis
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {blocks.map((blockNum) => (
+                                    <Link
+                                        key={blockNum}
+                                        to={`/aluno/prova?block=${blockNum}`}
+                                        className="group"
+                                    >
+                                        <div className="card-elevated p-5 border-l-4 border-accent hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col justify-between">
+                                            <div>
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center text-white font-bold text-lg">
+                                                        {blockNum}
+                                                    </div>
+                                                    <span className="text-[10px] font-bold bg-accent/10 text-accent px-2 py-1 rounded-full uppercase tracking-wider">
+                                                        Oficial
+                                                    </span>
+                                                </div>
+                                                <h4 className="font-bold text-foreground">Simulado Bloco {blockNum}</h4>
+                                                <p className="text-xs text-muted-foreground mb-4">40 Questões • Port/Mat</p>
+                                            </div>
+                                            <Button variant="navy" size="sm" className="w-full gap-2">
+                                                <Play className="w-3 h-3" /> Iniciar
+                                            </Button>
+                                        </div>
+                                    </Link>
+                                ))}
+                                {blocks.length === 0 && (
+                                    <div className="col-span-full card-elevated p-8 text-center bg-muted/30 border-dashed border-2 border-border">
+                                        <p className="text-muted-foreground italic">Nenhum simulado disponível no momento.</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Ranking Widget */}
-                    <div>
-                        <div className="card-navy p-6 rounded-2xl relative overflow-hidden">
+                    {/* 3. COLUNA DA DIREITA (ANÁLISE) */}
+                    <div className="space-y-8">
+
+                        {/* WIDGET DE RANKING */}
+                        <div className="card-navy p-6 rounded-2xl relative overflow-hidden shadow-lg transform transition-all hover:scale-[1.01]">
                             <div className="absolute top-0 right-0 p-4 opacity-10">
                                 <Trophy className="w-24 h-24 text-yellow-400" />
                             </div>
                             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2 relative z-10">
                                 <Trophy className="w-5 h-5 text-yellow-400" />
-                                Top Alunos da Semana
+                                Top Alunos (7 dias)
                             </h3>
                             <div className="space-y-3 relative z-10">
                                 {ranking.map((item, index) => (
-                                    <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                                    <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
                                         <div className="flex items-center gap-3">
-                                            <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? "bg-yellow-400 text-black shadow-[0_0_10px_rgba(250,204,21,0.5)]" :
+                                            <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? "bg-yellow-400 text-black shadow-[0_0_15px_rgba(250,204,21,0.6)]" :
                                                 index === 1 ? "bg-gray-300 text-black" :
                                                     index === 2 ? "bg-amber-600 text-white" :
                                                         "bg-white/10 text-white"
@@ -310,12 +281,14 @@ const StudentDashboard = () => {
                                                 {index + 1}
                                             </span>
                                             <div>
-                                                <p className="text-sm font-medium text-white truncate max-w-[150px]">{item.name.split(' ')[0]} {item.name.split(' ')[1]?.[0]}.</p>
-                                                <p className="text-[10px] text-white/50">Eficiência: {item.performance}</p>
+                                                <p className="text-sm font-medium text-white truncate max-w-[120px]">
+                                                    {item.name.split(' ')[0]} {item.name.split(' ')[1]?.[0]}.
+                                                </p>
+                                                <p className="text-[10px] text-white/50">{item.performance} aprv.</p>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <span className="text-sm font-bold text-accent block">{item.best_score} acertos</span>
+                                            <span className="text-sm font-bold text-accent block">{item.best_score} pts</span>
                                         </div>
                                     </div>
                                 ))}
@@ -326,9 +299,44 @@ const StudentDashboard = () => {
                                 )}
                             </div>
                             <div className="mt-4 pt-4 border-t border-white/10 text-center">
-                                <p className="text-[10px] text-white/40 italic">O ranking considera a melhor nota dos últimos 7 dias.</p>
+                                <p className="text-[10px] text-white/40 italic">O ranking considera a melhor nota dos últimos 7 dias. Supere seus limites!</p>
                             </div>
                         </div>
+
+                        {/* WIDGET DE HISTÓRICO RECENTE */}
+                        <div>
+                            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                                <Clock className="w-5 h-5 text-accent" />
+                                Histórico Recente
+                            </h3>
+                            <div className="space-y-3">
+                                {history.slice(0, 5).map((attempt) => (
+                                    <div key={attempt.id} className="card-elevated p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                                        <div>
+                                            <p className="text-xs font-bold text-muted-foreground uppercase mb-0.5">Bloco {attempt.block}</p>
+                                            <p className={`font-bold ${attempt.passed ? "text-success" : "text-destructive"}`}>
+                                                {attempt.score}/{attempt.total_questions} acertos
+                                            </p>
+                                            <p className="text-[10px] text-muted-foreground">
+                                                {format(new Date(attempt.completed_at), "dd/MM - HH:mm", { locale: ptBR })}
+                                            </p>
+                                        </div>
+
+                                        <Link to={`/aluno/resultado?attemptId=${attempt.id}`}>
+                                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                                                <BarChart3 className="w-4 h-4 text-accent" />
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                ))}
+                                {history.length === 0 && (
+                                    <div className="text-center py-8 text-muted-foreground text-sm card-elevated bg-muted/30">
+                                        Nenhuma tentativa recente.
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </main>
