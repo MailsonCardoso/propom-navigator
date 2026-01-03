@@ -108,8 +108,8 @@ const LandingPage = () => {
                 </Button>
               </Link>
               <Link to="/demo/prova" className="w-full sm:w-auto">
-                <Button variant="heroOutline" size="xl" className="w-full border-accent text-accent hover:bg-accent/10">
-                  Fazer Teste Grátis
+                <Button variant="default" size="xl" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] border-2 border-emerald-400">
+                  FAZER TESTE GRÁTIS
                 </Button>
               </Link>
               <Link to="/login" className="w-full sm:w-auto">

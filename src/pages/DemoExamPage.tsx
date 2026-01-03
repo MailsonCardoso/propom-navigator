@@ -73,13 +73,13 @@ const DemoExamPage = () => {
     }));
 
     const score = results.filter(r => r.is_correct).length;
-    
-    navigate("/demo/resultado", { 
-      state: { 
-        score, 
+
+    navigate("/demo/resultado", {
+      state: {
+        score,
         total: questions.length,
-        results 
-      } 
+        results
+      }
     });
   }, [answers, navigate, questions]);
 
@@ -167,9 +167,9 @@ const DemoExamPage = () => {
           </div>
         </div>
         <div className="h-1 w-full bg-muted">
-          <div 
-            className="h-full bg-accent transition-all duration-300" 
-            style={{ width: `${progress}%` }} 
+          <div
+            className="h-full bg-accent transition-all duration-300"
+            style={{ width: `${progress}%` }}
           />
         </div>
       </header>
@@ -184,8 +184,8 @@ const DemoExamPage = () => {
           </div>
 
           {question.base_text && (
-            <div className="mb-8 p-6 bg-accent/5 rounded-xl border border-accent/20 italic text-sm md:text-base leading-relaxed font-serif relative">
-              <div className="absolute top-0 left-6 -translate-y-1/2 bg-background px-2 text-[10px] font-bold text-accent uppercase tracking-widest border border-accent/20 rounded">Texto Base</div>
+            <div className={`mb-8 p-6 bg-${question.subject === 'portugues' ? 'accent' : 'success'}/5 rounded-xl border border-${question.subject === 'portugues' ? 'accent' : 'success'}/20 italic text-sm md:text-base leading-relaxed font-serif relative`}>
+              <div className={`absolute top-0 left-6 -translate-y-1/2 bg-background px-2 text-[10px] font-bold text-${question.subject === 'portugues' ? 'accent' : 'success'} uppercase tracking-widest border border-${question.subject === 'portugues' ? 'accent' : 'success'}/20 rounded`}>Texto Base</div>
               {question.base_text}
             </div>
           )}
@@ -199,36 +199,37 @@ const DemoExamPage = () => {
               <button
                 key={index}
                 onClick={() => handleAnswer(index)}
-                className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 ${
-                  answers[currentQuestion] === index
-                    ? "border-accent bg-accent/10 shadow-sm"
+                className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-4 ${answers[currentQuestion] === index
+                    ? question.subject === 'portugues'
+                      ? "border-accent bg-accent/10 shadow-sm"
+                      : "border-success bg-success/10 shadow-sm"
                     : "border-border bg-card hover:border-accent/40 hover:bg-muted/50"
-                }`}
+                  }`}
               >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
-                  answers[currentQuestion] === index ? "bg-accent text-white" : "bg-muted text-muted-foreground"
-                }`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${answers[currentQuestion] === index
+                    ? question.subject === 'portugues' ? "bg-accent text-white" : "bg-success text-white"
+                    : "bg-muted text-muted-foreground"
+                  }`}>
                   {String.fromCharCode(65 + index)}
                 </div>
                 <span className="flex-1 font-medium">{option}</span>
-                {answers[currentQuestion] === index && <CheckCircle className="w-5 h-5 text-accent" />}
+                {answers[currentQuestion] === index && <CheckCircle className={`w-5 h-5 text-${question.subject === 'portugues' ? 'accent' : 'success'}`} />}
               </button>
             ))}
           </div>
         </div>
 
         <div className="flex flex-wrap gap-1.5 justify-center mb-8">
-          {questions.map((_, index) => (
+          {questions.map((q, index) => (
             <button
               key={index}
               onClick={() => setCurrentQuestion(index)}
-              className={`w-8 h-8 rounded-md text-[10px] font-bold transition-all ${
-                currentQuestion === index
+              className={`w-8 h-8 rounded-md text-[10px] font-bold transition-all ${currentQuestion === index
                   ? "bg-foreground text-background scale-110 shadow-lg"
                   : answers[index] !== null
-                  ? "bg-accent text-white"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
+                    ? q.subject === 'portugues' ? "bg-accent text-white" : "bg-success text-white"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
             >
               {index + 1}
             </button>

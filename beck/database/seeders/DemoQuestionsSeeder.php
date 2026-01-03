@@ -111,91 +111,91 @@ class DemoQuestionsSeeder extends Seeder
             // MATEMATICA
             [
                 'subject' => 'matematica',
-                'text' => 'O MMC entre 8 e 12 é:',
+                'text' => 'Durante a organização de um simulado, dois alarmes são programados: Um toca a cada 8 minutos e outro a cada 12 minutos. Após quantos minutos os dois alarmes tocarão juntos novamente?',
                 'options' => ['12', '24', '36', '48'],
                 'correct_answer' => 1,
-                'rationale' => 'Múltiplos de 8: 8, 16, 24. Múltiplos de 12: 12, 24. O menor comum é 24.',
+                'rationale' => 'Calculamos o MMC para descobrir quando os eventos coincidem. Múltiplos de 8: 8, 16, 24. Múltiplos de 12: 12, 24. O primeiro tempo comum é 24 minutos.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'O MDC entre 18 e 30 é:',
+                'text' => 'Um instrutor deseja dividir 18 apostilas de matemática e 30 apostilas de português em pacotes iguais, sem sobrar nenhuma apostila. Qual é o maior número de apostilas que cada pacote pode ter?',
                 'options' => ['3', '6', '9', '18'],
                 'correct_answer' => 1,
-                'rationale' => 'Divisores comuns de 18 e 30: 1, 2, 3, 6. O maior é 6.',
+                'rationale' => 'Usamos o MDC para dividir em partes iguais. Divisores comuns de 18 e 30: 1, 2, 3, 6. O maior divisor comum é 6.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Catetos: 6 m e 8 m. Hipotenusa:',
+                'text' => 'Em um treinamento prático, uma escada é posicionada ligando o chão ao convés de uma embarcação. A base da escada está a 6 m da parede e a altura é de 8 m. Qual é o comprimento da escada?',
                 'options' => ['10 m', '12 m', '14 m', '16 m'],
                 'correct_answer' => 0,
-                'rationale' => '6² + 8² = 36 + 64 = 100. √100 = 10',
+                'rationale' => 'Aplicamos Pitágoras: 6² + 8² = 36 + 64 = 100. √100 = 10 m.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Área de um retângulo de base 10 m e altura 4 m:',
-                'options' => ['14', '20', '40', '80'],
+                'text' => 'Uma sala de provas tem formato retangular, com base de 10 m e altura de 4 m. Qual é a área total da sala?',
+                'options' => ['14 m²', '20 m²', '40 m²', '80 m²'],
                 'correct_answer' => 2,
-                'rationale' => 'Área = base × altura = 10 × 4 = 40 m²',
+                'rationale' => 'Área do retângulo = base × altura = 10 × 4 = 40 m².',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => '2x + 4 = 20',
+                'text' => 'Em um simulado, cada questão vale 2 pontos. Um candidato fez todas as questões e obteve 20 pontos, além de 4 pontos extras. Quantas questões ele acertou? (Considere a equação 2x + 4 = 20)',
                 'options' => ['6', '7', '8', '9'],
                 'correct_answer' => 2,
-                'rationale' => '2x = 16 → x = 8',
+                'rationale' => '2x = 20 − 4 → 2x = 16 → x = 8 questões.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'x − 9 = 11',
+                'text' => 'Um aluno iniciou o simulado com x pontos. Após perder 9 pontos, ficou com 11 pontos. Qual era sua pontuação inicial? (Considere x − 9 = 11)',
                 'options' => ['2', '11', '18', '20'],
                 'correct_answer' => 2,
-                'rationale' => 'x = 11 + 9 = 18',
+                'rationale' => 'x = 11 + 9 → x = 18 pontos.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'A razão entre 15 e 3 é:',
+                'text' => 'Em um grupo de estudo, há 15 candidatos para 3 instrutores. Qual é a razão entre candidatos e instrutores?',
                 'options' => ['3', '5', '12', '18'],
                 'correct_answer' => 1,
-                'rationale' => '15 ÷ 3 = 5',
+                'rationale' => 'Razão = 15 ÷ 3 = 5 candidatos por instrutor.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => '5 horas → 50 questões. 8 horas → ?',
+                'text' => 'Um aluno resolve 50 questões em 5 horas. Mantendo o mesmo ritmo, quantas questões ele resolverá em 8 horas?',
                 'options' => ['70', '75', '80', '90'],
                 'correct_answer' => 2,
-                'rationale' => '50 ÷ 5 = 10 questões por hora. 10 × 8 = 80',
+                'rationale' => '50 ÷ 5 = 10 questões por hora. 10 × 8 = 80 questões.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => '25% de 200 é:',
+                'text' => 'Em um simulado com 200 candidatos, 25% foram aprovados. Quantos candidatos passaram?',
                 'options' => ['25', '40', '50', '60'],
                 'correct_answer' => 2,
-                'rationale' => '25% = 0,25. 0,25 × 200 = 50',
+                'rationale' => '25% = 0,25. 0,25 × 200 = 50 candidatos.',
                 'block' => 0,
                 'is_demo' => true
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Probabilidade de sair número ímpar em um dado:',
+                'text' => 'Em um exercício de lógica, um dado comum é lançado. Qual é a probabilidade de sair um número ímpar?',
                 'options' => ['1/6', '1/3', '1/2', '2/3'],
                 'correct_answer' => 2,
-                'rationale' => 'Números ímpares: 1, 3, 5 → 3 resultados. Total: 6 → 3/6 = 1/2',
+                'rationale' => 'Números ímpares no dado: 1, 3, 5 → 3 resultados. Total de possibilidades: 6. 3/6 = 1/2.',
                 'block' => 0,
                 'is_demo' => true
             ],
