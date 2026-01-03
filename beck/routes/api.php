@@ -46,6 +46,7 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
 
         // Stats & Logs
         Route::get('/exam/stats', [ExamController::class, 'stats']);
+        Route::get('/admin/stats', [ExamController::class, 'adminStats']);
         Route::get('/security-logs', [SecurityLogController::class, 'index']);
     });
 });

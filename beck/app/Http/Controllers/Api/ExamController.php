@@ -325,4 +325,52 @@ class ExamController extends Controller
 
         return response()->json(array_values($finalErrors));
     }
+
+    public function adminStats()
+    {
+        $now = now();
+        $yesterday = $now->copy()->subDay();
+        $weekAgo = $now->copy()->subDays(7);
+
+        // Engajamento Hoje: Alunos com tentativas nas últimas 24h
+        $engagedUserIds = ExamAttempt::where('completed_at', '>=', $yesterday)
+            ->distinct()
+            ->pluck('user_id')
+            ->toArray();
+
+        $engagementCount = count($engagedUserIds);
+
+        // Risco de Abandono: Alunos ATIVOS mas sem tentativas há 7+ dias
+        // Pega todos os alunos ativos
+        $activeUsers = \App\Models\User::where('role', 'student')
+            ->where('active', true)
+            ->get();
+
+        // Para cada aluno ativo, verifica a última tentativa
+        $atRiskUsers = [];
+        foreach ($activeUsers as $user) {
+            $lastAttempt = ExamAttempt::where('user_id', $user->id)
+                ->orderBy('completed_at', 'desc')
+                ->first();
+
+            // Se nunca fez tentativa OU a última foi há mais de 7 dias
+            if (!$lastAttempt || $lastAttempt->completed_at < $weekAgo) {
+                $atRiskUsers[] = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'cpf' => $user->cpf,
+                    'last_activity' => $lastAttempt ? $lastAttempt->completed_at->format('d/m/Y H:i') : 'Nunca',
+                    'days_inactive' => $lastAttempt
+                        ? now()->diffInDays($lastAttempt->completed_at)
+                        : 'Nunca ativo'
+                ];
+            }
+        }
+
+        return response()->json([
+            'engagement_today' => $engagementCount,
+            'at_risk_count' => count($atRiskUsers),
+            'at_risk_students' => $atRiskUsers
+        ]);
+    }
 }

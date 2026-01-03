@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Anchor,
@@ -10,7 +10,11 @@ import {
   BarChart3,
   TrendingUp,
   User,
-  ShieldAlert
+  ShieldAlert,
+  ActivitySquare,
+  AlertTriangle,
+  Zap,
+  UserX
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -27,14 +31,40 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
 
+interface AdminStats {
+  engagement_today: number;
+  at_risk_count: number;
+  at_risk_students: Array<{
+    id: number;
+    name: string;
+    cpf: string;
+    last_activity: string;
+    days_inactive: string | number;
+  }>;
+}
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { logout, students } = useApp();
   const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
-
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
+  const [showAtRiskDialog, setShowAtRiskDialog] = useState(false);
+
   const activeStudents = students.filter((s) => s.active).length;
   const totalRevenue = activeStudents * 35; // Valor da inscrição R$ 35,00
+
+  useEffect(() => {
+    const fetchAdminStats = async () => {
+      try {
+        const data = await api.get('/admin/stats');
+        setAdminStats(data);
+      } catch (error) {
+        console.error("Error fetching admin stats:", error);
+      }
+    };
+    fetchAdminStats();
+  }, []);
 
   const handleLogout = () => {
     setShowLogoutDialog(true);
@@ -125,6 +155,62 @@ const AdminDashboard = () => {
               <p className="text-3xl font-bold text-foreground">{stat.value}</p>
             </div>
           ))}
+        </div>
+
+        {/* ENGAGEMENT & AT-RISK CARDS (NEW!) */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Engajamento Hoje */}
+          <div className="card-elevated bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-transparent border-l-4 border-green-500 p-6 relative overflow-hidden">
+            <div className="absolute top-2 right-2 opacity-10">
+              <Zap className="w-24 h-24 text-green-500" />
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <ActivitySquare className="w-5 h-5 text-green-600" />
+                <h3 className="font-semibold text-foreground">Engajamento Hoje</h3>
+              </div>
+              <p className="text-4xl font-bold text-green-600 mb-2">
+                {adminStats?.engagement_today ?? '...'}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Alunos ativos nas últimas 24 horas
+              </p>
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="text-xs text-muted-foreground italic">
+                  💡 {adminStats?.engagement_today && adminStats.engagement_today > 0
+                    ? "Ótimo! Seus alunos estão engajados."
+                    : "Nenhuma atividade recente. Considere enviar um lembrete."}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Risco de Abandono */}
+          <div
+            className="card-elevated bg-gradient-to-br from-orange-500/10 via-red-500/5 to-transparent border-l-4 border-orange-500 p-6 relative overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => setShowAtRiskDialog(true)}
+          >
+            <div className="absolute top-2 right-2 opacity-10">
+              <UserX className="w-24 h-24 text-orange-500" />
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="w-5 h-5 text-orange-600" />
+                <h3 className="font-semibold text-foreground">Risco de Abandono</h3>
+              </div>
+              <p className="text-4xl font-bold text-orange-600 mb-2">
+                {adminStats?.at_risk_count ?? '...'}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Alunos inativos há 7+ dias
+              </p>
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="text-xs text-muted-foreground italic flex items-center gap-1">
+                  <span>👆 Clique para ver a lista completa</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Info Section */}
@@ -324,6 +410,50 @@ const AdminDashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* At-Risk Students Dialog */}
+      <AlertDialog open={showAtRiskDialog} onOpenChange={setShowAtRiskDialog}>
+        <AlertDialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-orange-600" />
+              Alunos em Risco de Abandono
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Lista de alunos ativos que não fazem login ou prova há 7+ dias.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-3 my-4">
+            {adminStats && adminStats.at_risk_students.length > 0 ? (
+              adminStats.at_risk_students.map((student) => (
+                <div key={student.id} className="p-4 border border-border rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-bold text-foreground">{student.name}</p>
+                      <p className="text-xs text-muted-foreground">CPF: {student.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Última atividade</p>
+                      <p className="text-sm font-bold text-orange-600">{student.last_activity}</p>
+                      {typeof student.days_inactive === 'number' && (
+                        <p className="text-[10px] text-muted-foreground">{student.days_inactive} dias atrás</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-2" />
+                <p className="text-muted-foreground">Nenhum aluno em risco no momento! 🎉</p>
+              </div>
+            )}
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Fechar</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Logout Confirmation Dialog */}
       <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
