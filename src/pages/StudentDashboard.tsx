@@ -259,38 +259,79 @@ const StudentDashboard = () => {
                             </Link>
                         </div>
 
-                        {/* Lista de Simulados */}
+                        {/* Lista de Simulados SMART CARDS */}
                         <div>
                             <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                                 <Play className="w-5 h-5 text-accent" />
                                 Simulados Disponíveis
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {blocks.map((blockNum) => (
-                                    <div
-                                        key={blockNum}
-                                        onClick={() => setSelectedBlock(blockNum)}
-                                        className="group cursor-pointer"
-                                    >
-                                        <div className="card-elevated p-5 border-l-4 border-accent hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col justify-between">
-                                            <div>
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center text-white font-bold text-lg">
-                                                        {blockNum}
+                                {blocks.map((blockNum) => {
+                                    // Smart Logic for Card Status
+                                    const blockHistory = history.filter(h => h.block === blockNum);
+                                    const hasAttempts = blockHistory.length > 0;
+                                    const passed = blockHistory.some(h => h.passed);
+                                    const bestScore = hasAttempts ? Math.max(...blockHistory.map(h => h.score)) : 0;
+
+                                    let statusBadge;
+                                    let borderColor = "border-accent"; // Default Blue
+
+                                    if (!hasAttempts) {
+                                        statusBadge = (
+                                            <span className="text-[10px] font-bold bg-accent/10 text-accent px-2 py-1 rounded-full uppercase tracking-wider">
+                                                Novo
+                                            </span>
+                                        );
+                                    } else if (passed) {
+                                        borderColor = "border-green-500";
+                                        statusBadge = (
+                                            <span className="text-[10px] font-bold bg-green-500/10 text-green-600 px-2 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
+                                                <CheckCircle className="w-3 h-3" /> Aprovado
+                                            </span>
+                                        );
+                                    } else {
+                                        borderColor = "border-orange-500";
+                                        statusBadge = (
+                                            <span className="text-[10px] font-bold bg-orange-500/10 text-orange-600 px-2 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
+                                                <AlertTriangle className="w-3 h-3" /> Tente Novamente
+                                            </span>
+                                        );
+                                    }
+
+                                    return (
+                                        <div
+                                            key={blockNum}
+                                            onClick={() => setSelectedBlock(blockNum)}
+                                            className="group cursor-pointer"
+                                        >
+                                            <div className={`card-elevated p-5 border-l-4 ${borderColor} hover:bg-muted/50 transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col justify-between`}>
+                                                <div>
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center text-white font-bold text-lg">
+                                                            {blockNum}
+                                                        </div>
+                                                        {statusBadge}
                                                     </div>
-                                                    <span className="text-[10px] font-bold bg-accent/10 text-accent px-2 py-1 rounded-full uppercase tracking-wider">
-                                                        Oficial
-                                                    </span>
+                                                    <h4 className="font-bold text-foreground">Simulado Bloco {blockNum}</h4>
+                                                    <div className="flex justify-between items-end mb-4">
+                                                        <p className="text-xs text-muted-foreground">40 Questões • Port/Mat</p>
+                                                        {hasAttempts && (
+                                                            <div className="text-right">
+                                                                <span className="text-[10px] text-muted-foreground block">Melhor Nota</span>
+                                                                <span className={`text-sm font-bold ${passed ? 'text-green-600' : 'text-orange-600'}`}>
+                                                                    {bestScore}/40
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <h4 className="font-bold text-foreground">Simulado Bloco {blockNum}</h4>
-                                                <p className="text-xs text-muted-foreground mb-4">40 Questões • Port/Mat</p>
+                                                <Button variant="navy" size="sm" className="w-full gap-2 group-hover:bg-navy/90">
+                                                    <Play className="w-3 h-3" /> {hasAttempts ? "Refazer Prova" : "Iniciar"}
+                                                </Button>
                                             </div>
-                                            <Button variant="navy" size="sm" className="w-full gap-2 group-hover:bg-navy/90">
-                                                <Play className="w-3 h-3" /> Iniciar
-                                            </Button>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                                 {blocks.length === 0 && (
                                     <div className="col-span-full card-elevated p-8 text-center bg-muted/30 border-dashed border-2 border-border">
                                         <p className="text-muted-foreground italic">Nenhum simulado disponível no momento.</p>
