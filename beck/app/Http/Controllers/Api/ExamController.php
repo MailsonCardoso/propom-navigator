@@ -367,10 +367,69 @@ class ExamController extends Controller
             }
         }
 
+        // TOP 5 QUESTÕES MAIS ERRADAS
+        // Pega todas as tentativas
+        $allAttempts = ExamAttempt::all();
+        $questionStats = [];
+
+        foreach ($allAttempts as $attempt) {
+            $questionIds = $attempt->question_ids;
+            $userAnswers = $attempt->user_answers;
+
+            if (!$questionIds || !$userAnswers)
+                continue;
+
+            foreach ($questionIds as $index => $questionId) {
+                $userAnswer = $userAnswers[$index] ?? null;
+
+                // Busca a questão para verificar resposta correta
+                $question = Question::find($questionId);
+                if (!$question)
+                    continue;
+
+                // Inicializa estatísticas desta questão se não existir
+                if (!isset($questionStats[$questionId])) {
+                    $questionStats[$questionId] = [
+                        'question_id' => $questionId,
+                        'text' => $question->text,
+                        'subject' => $question->subject,
+                        'block' => $question->block,
+                        'total_attempts' => 0,
+                        'wrong_count' => 0
+                    ];
+                }
+
+                $questionStats[$questionId]['total_attempts']++;
+
+                // Se errou ou não respondeu
+                if ($userAnswer === null || $userAnswer != $question->correct_answer) {
+                    $questionStats[$questionId]['wrong_count']++;
+                }
+            }
+        }
+
+        // Calcula taxa de erro e ordena
+        $topWrongQuestions = [];
+        foreach ($questionStats as $stat) {
+            if ($stat['total_attempts'] >= 3) { // Mínimo de 3 tentativas para ser relevante
+                $stat['error_rate'] = round(($stat['wrong_count'] / $stat['total_attempts']) * 100, 1);
+                $topWrongQuestions[] = $stat;
+            }
+        }
+
+        // Ordena por taxa de erro (maior primeiro)
+        usort($topWrongQuestions, function ($a, $b) {
+            return $b['error_rate'] <=> $a['error_rate'];
+        });
+
+        // Pega apenas os top 5
+        $topWrongQuestions = array_slice($topWrongQuestions, 0, 5);
+
         return response()->json([
             'engagement_today' => $engagementCount,
             'at_risk_count' => count($atRiskUsers),
-            'at_risk_students' => $atRiskUsers
+            'at_risk_students' => $atRiskUsers,
+            'top_wrong_questions' => $topWrongQuestions
         ]);
     }
 }

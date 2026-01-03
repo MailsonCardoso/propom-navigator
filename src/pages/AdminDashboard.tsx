@@ -14,7 +14,8 @@ import {
   ActivitySquare,
   AlertTriangle,
   Zap,
-  UserX
+  UserX,
+  XCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -40,6 +41,15 @@ interface AdminStats {
     cpf: string;
     last_activity: string;
     days_inactive: string | number;
+  }>;
+  top_wrong_questions: Array<{
+    question_id: number;
+    text: string;
+    subject: string;
+    block: number;
+    total_attempts: number;
+    wrong_count: number;
+    error_rate: number;
   }>;
 }
 
@@ -272,6 +282,68 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* TOP 5 QUESTÕES MAIS ERRADAS */}
+        <div className="card-elevated p-6 mb-8">
+          <div className="flex items-center gap-2 mb-6">
+            <XCircle className="w-5 h-5 text-destructive" />
+            <h3 className="font-semibold text-foreground">Top 5 Questões Mais Erradas</h3>
+          </div>
+          <div className="space-y-4">
+            {adminStats && adminStats.top_wrong_questions.length > 0 ? (
+              adminStats.top_wrong_questions.map((q, index) => (
+                <div key={q.question_id} className="p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${q.error_rate >= 70 ? 'bg-destructive/10 text-destructive' :
+                      q.error_rate >= 50 ? 'bg-orange-500/10 text-orange-600' :
+                        'bg-yellow-500/10 text-yellow-600'
+                      }`}>
+                      {index + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <p className="text-sm font-medium text-foreground line-clamp-2">{q.text}</p>
+                        <div className="flex-shrink-0 text-right">
+                          <span className={`text-2xl font-bold ${q.error_rate >= 70 ? 'text-destructive' :
+                            q.error_rate >= 50 ? 'text-orange-600' :
+                              'text-yellow-600'
+                            }`}>
+                            {q.error_rate}%
+                          </span>
+                          <p className="text-[10px] text-muted-foreground">erro</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className={`px-2 py-0.5 rounded-full ${q.subject === 'portugues' ? 'bg-blue-500/10 text-blue-600' : 'bg-green-500/10 text-green-600'
+                          }`}>
+                          {q.subject === 'portugues' ? 'Português' : 'Matemática'}
+                        </span>
+                        <span>Bloco {q.block}</span>
+                        <span>{q.wrong_count}/{q.total_attempts} erraram</span>
+                      </div>
+                      {/* Barra de erro */}
+                      <div className="mt-2 h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-1000 ${q.error_rate >= 70 ? 'bg-destructive' :
+                            q.error_rate >= 50 ? 'bg-orange-500' :
+                              'bg-yellow-500'
+                            }`}
+                          style={{ width: `${q.error_rate}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <BarChart3 className="w-12 h-12 mx-auto text-muted-foreground/50 mb-2" />
+                <p className="text-sm text-muted-foreground">Aguardando dados suficientes...</p>
+                <p className="text-xs text-muted-foreground mt-1">(Mínimo de 3 tentativas por questão)</p>
+              </div>
+            )}
           </div>
         </div>
 
