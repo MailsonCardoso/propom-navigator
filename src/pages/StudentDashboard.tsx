@@ -378,7 +378,6 @@ const StudentDashboard = () => {
                                 )}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </main>
@@ -394,16 +393,24 @@ const StudentDashboard = () => {
                             <AlertDialogTitle className="text-xl">Simulado Bloco {selectedBlock}</AlertDialogTitle>
                         </div>
                         <AlertDialogDescription className="space-y-4 pt-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-muted/50 p-3 rounded-lg text-center">
-                                    <Clock className="w-5 h-5 mx-auto mb-1 text-accent" />
-                                    <span className="block text-xs text-muted-foreground">Tempo Limite</span>
-                                    <span className="font-bold text-foreground">3 Horas</span>
+                            <div className="grid grid-cols-3 gap-3">
+                                <div className="bg-muted/50 p-2.5 rounded-lg text-center flex flex-col items-center justify-center h-24">
+                                    <Clock className="w-5 h-5 mb-1.5 text-accent" />
+                                    <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Tempo</span>
+                                    <span className="font-bold text-foreground text-sm">3h 00m</span>
                                 </div>
-                                <div className="bg-muted/50 p-3 rounded-lg text-center">
-                                    <BookOpen className="w-5 h-5 mx-auto mb-1 text-accent" />
-                                    <span className="block text-xs text-muted-foreground">Questões</span>
-                                    <span className="font-bold text-foreground">40 Itens</span>
+                                <div className="bg-muted/50 p-2.5 rounded-lg text-center flex flex-col items-center justify-center h-24">
+                                    <BookOpen className="w-5 h-5 mb-1.5 text-accent" />
+                                    <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Itens</span>
+                                    <span className="font-bold text-foreground text-sm">40 Qts</span>
+                                </div>
+                                <div className="bg-muted/50 p-2.5 rounded-lg text-center flex flex-col items-center justify-center h-24">
+                                    <div className="relative">
+                                        <Target className="w-5 h-5 mb-1.5 text-accent" />
+                                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                                    </div>
+                                    <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Revisão</span>
+                                    <span className="font-bold text-foreground text-[10px] leading-tight px-1">Marcar p/ depois</span>
                                 </div>
                             </div>
 
@@ -411,14 +418,14 @@ const StudentDashboard = () => {
                                 <AlertTriangle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
                                 <div className="text-xs text-yellow-800 dark:text-yellow-200">
                                     <strong className="block mb-0.5">Atenção:</strong>
-                                    O cronômetro iniciará imediatamente após clicar em "Começar Prova". Certifique-se de que sua conexão está estável.
+                                    O cronômetro inicia ao clicar no botão abaixo. Use o recurso de <strong>Marcar Revisão</strong> durante a prova para questões difíceis.
                                 </div>
                             </div>
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="mt-4 gap-2">
-                        <AlertDialogCancel className="mt-0">Cancelar</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleStartExam} className="w-full bg-navy hover:bg-navy/90 text-white font-bold h-10">
+                        <AlertDialogCancel className="mt-0 border-slate-200">Cancelar</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleStartExam} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold h-10 shadow-lg">
                             COMEÇAR PROVA
                         </AlertDialogAction>
                     </AlertDialogFooter>
