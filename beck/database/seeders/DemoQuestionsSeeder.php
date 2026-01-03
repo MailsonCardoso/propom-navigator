@@ -74,10 +74,10 @@ class DemoQuestionsSeeder extends Seeder
             ],
             [
                 'subject' => 'portugues',
-                'text' => 'Assinale la forma correta:',
-                'options' => ['idéia', 'heróico', 'vôo', 'risco'],
+                'text' => 'Segundo as regras vigentes de acentuação gráfica, assinale a palavra correta:',
+                'options' => ['Idéia', 'Heróico', 'Vôo', 'Chapéu'],
                 'correct_answer' => 3,
-                'rationale' => 'As palavras “idéia”, “heróico” e “vôo” perderam o acento pelo Novo Acordo. “Risco” já está corretamente escrita.',
+                'rationale' => '“Méier”, “Heroico” e “Ideia” perdem o acento nas paroxítonas. Oxítonas terminadas em ditongo aberto como “Chapéu”, “Céu” e “Troféu” mantêm o acento.',
                 'block' => 0,
                 'is_demo' => true
             ],
