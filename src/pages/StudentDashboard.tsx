@@ -149,6 +149,12 @@ const StudentDashboard = () => {
 
             <main className="container mx-auto px-4 py-8">
 
+                {/* Greeting Section (Movido para o Topo) */}
+                <div className="mb-8 animate-fade-in-up">
+                    <h2 className="text-3xl font-bold text-foreground">Olá, {user?.name.split(' ')[0]}!</h2>
+                    <p className="text-muted-foreground">Pronto para superar seus limites hoje?</p>
+                </div>
+
                 {/* 1. SEÇÃO DE ESTATÍSTICAS (O COCKPIT) */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     {/* Card Raio-X de Desempenho (Novo) */}
@@ -219,10 +225,7 @@ const StudentDashboard = () => {
 
                         {/* Bem-vindo e Caderno de Erros */}
                         <div className="flex flex-col gap-4">
-                            <div>
-                                <h2 className="text-2xl font-bold text-foreground">Olá, {user?.name.split(' ')[0]}!</h2>
-                                <p className="text-muted-foreground text-sm">Pronto para superar seus limites hoje?</p>
-                            </div>
+                            {/* Greeting removido daqui e passado para o topo */}
 
                             {/* CARD CTA: CADERNO DE ERROS */}
                             <Link to="/aluno/erros" className="group block">
