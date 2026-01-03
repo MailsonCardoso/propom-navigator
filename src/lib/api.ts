@@ -41,6 +41,15 @@ export const api = {
         return handleResponse(response);
     },
 
+    put: async (endpoint: string, data: any) => {
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify(data),
+        });
+        return handleResponse(response);
+    },
+
     patch: async (endpoint: string, data?: any) => {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             method: "PATCH",
