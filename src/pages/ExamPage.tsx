@@ -262,38 +262,38 @@ const ExamPage = () => {
       </div>
 
       {/* Question Content */}
-      <main className="pt-28 md:pt-36 pb-32 px-4">
-        <div className="container mx-auto max-w-3xl">
-          <div className="card-elevated p-5 md:p-8 animate-fade-in">
-            <div className="flex items-center gap-2 mb-3 md:mb-4">
-              <span className={`px-2 py-0.5 rounded-full text-[10px] md:text-sm font-medium ${question.subject === "portugues"
+      <main className="pt-28 md:pt-36 pb-32 px-3 md:px-6">
+        <div className="container mx-auto max-w-4xl">
+          <div className="card-elevated p-6 md:p-10 animate-fade-in">
+            <div className="flex items-center gap-2 mb-4 md:mb-6">
+              <span className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${question.subject === "portugues"
                 ? "bg-accent/10 text-accent"
                 : "bg-success/10 text-success"
                 }`}>
                 {question.subject === "portugues" ? "Português" : "Matemática"}
               </span>
-              <span className="text-[10px] md:text-sm text-muted-foreground">
+              <span className="text-xs md:text-sm text-muted-foreground">
                 Questão {currentQuestion + 1}
               </span>
             </div>
 
             {question && question.base_text && question.base_text.trim().length > 0 && (
-              <div className="mb-8 p-6 bg-accent/5 rounded-xl border border-accent/20 shadow-sm">
+              <div className="mb-8 md:mb-10 p-5 md:p-7 bg-accent/5 rounded-xl border border-accent/20 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="w-4 h-4 text-accent" />
-                  <span className="text-xs font-bold text-accent uppercase tracking-widest">Texto de Interpretação</span>
+                  <BookOpen className="w-5 h-5 text-accent" />
+                  <span className="text-xs md:text-sm font-bold text-accent uppercase tracking-widest">Texto de Interpretação</span>
                 </div>
-                <div className="text-sm md:text-base text-foreground leading-relaxed whitespace-pre-wrap font-serif italic opacity-90 border-l-4 border-accent/20 pl-4">
+                <div className="text-base md:text-lg text-foreground leading-relaxed whitespace-pre-wrap font-serif italic opacity-90 border-l-4 border-accent/20 pl-5">
                   {question.base_text}
                 </div>
               </div>
             )}
 
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
+            <div className="flex items-start md:items-center justify-between mb-6 md:mb-10 gap-3">
+              <h2 className="text-lg md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
                 {question.text}
               </h2>
-              <div className="flex gap-2 ml-4">
+              <div className="flex gap-2 flex-shrink-0">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -301,7 +301,7 @@ const ExamPage = () => {
                   className={`${markedForReview.includes(currentQuestion) ? "text-warning bg-warning/10" : "text-muted-foreground hover:text-warning"}`}
                   title="Marcar para revisão"
                 >
-                  <Flag className={`w-6 h-6 ${markedForReview.includes(currentQuestion) ? "fill-warning" : ""}`} />
+                  <Flag className={`w-5 h-5 md:w-6 md:h-6 ${markedForReview.includes(currentQuestion) ? "fill-warning" : ""}`} />
                 </Button>
                 {question.hint && (
                   <Button
@@ -311,41 +311,41 @@ const ExamPage = () => {
                     className={`${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
                     title="Ver dica"
                   >
-                    <Lightbulb className={`w-6 h-6 ${showHint ? "fill-accent" : ""}`} />
+                    <Lightbulb className={`w-5 h-5 md:w-6 md:h-6 ${showHint ? "fill-accent" : ""}`} />
                   </Button>
                 )}
               </div>
             </div>
 
             {showHint && question.hint && (
-              <div className="mb-6 p-4 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
-                <p className="text-sm text-accent flex items-start gap-2">
-                  <Lightbulb className="w-4 h-4 mt-0.5 shrink-0" />
+              <div className="mb-6 p-5 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
+                <p className="text-sm md:text-base text-accent flex items-start gap-2">
+                  <Lightbulb className="w-4 h-4 md:w-5 md:h-5 mt-0.5 shrink-0" />
                   <span><strong>Dica:</strong> {question.hint}</span>
                 </p>
               </div>
             )}
 
-            <div className="space-y-3">
+            <div className="space-y-3 md:space-y-4">
               {question.options.map((option, index) => (
                 <button
                   key={index}
                   onClick={() => handleAnswer(index)}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
+                  className={`w-full text-left p-4 md:p-5 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
                     ? "border-accent bg-accent/10 text-foreground"
                     : "border-border bg-card hover:border-accent/50 hover:bg-muted/50 text-foreground"
                     }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${answers[currentQuestion] === index
+                    <div className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center text-sm md:text-base font-bold ${answers[currentQuestion] === index
                       ? "bg-accent text-accent-foreground"
                       : "bg-muted text-muted-foreground"
                       }`}>
                       {String.fromCharCode(65 + index)}
                     </div>
-                    <span className="flex-1">{option}</span>
+                    <span className="flex-1 text-sm md:text-base leading-relaxed">{option}</span>
                     {answers[currentQuestion] === index && (
-                      <CheckCircle className="w-5 h-5 text-accent" />
+                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                     )}
                   </div>
                 </button>
@@ -354,22 +354,22 @@ const ExamPage = () => {
           </div>
 
           {/* Question Navigator */}
-          <div className="mt-6 card-navy p-4">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-muted-foreground">Navegação rápida:</p>
-              <div className="flex gap-4">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Português</span>
+          <div className="mt-6 md:mt-8 card-navy p-5 md:p-6 rounded-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-sm md:text-base text-white/80 font-medium">Navegação rápida:</p>
+              <div className="flex gap-4 md:gap-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-accent"></div>
+                  <span className="text-[10px] md:text-xs text-white/70 uppercase font-bold tracking-wider">Português</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-success"></div>
-                  <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Matemática</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-success"></div>
+                  <span className="text-[10px] md:text-xs text-white/70 uppercase font-bold tracking-wider">Matemática</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 md:gap-3">
               {questions.map((q, index) => {
                 const isCurrent = currentQuestion === index;
                 const isAnswered = answers[index] !== null;
@@ -380,7 +380,7 @@ const ExamPage = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentQuestion(index)}
-                    className={`w-9 h-9 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
+                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg text-xs md:text-sm font-bold transition-all border-2 relative ${isCurrent
                       ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
                       : isMarked
                         ? "bg-warning/20 text-warning border-warning border-dashed"
