@@ -482,50 +482,55 @@ const ExamPage = () => {
                     <span className="text-[10px] font-bold">MAPA</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="bottom" className="h-[70vh] rounded-t-3xl border-t-2 border-navy">
-                  <SheetHeader className="mb-4">
-                    <SheetTitle className="text-center font-bold text-navy flex items-center justify-center gap-2">
-                      <Anchor className="w-5 h-5" /> Mapa da Prova
+                <SheetContent side="bottom" className="h-[75vh] rounded-t-[32px] border-t-4 border-navy p-0 overflow-hidden">
+                  <SheetHeader className="p-6 pb-2 border-b border-border/50">
+                    <SheetTitle className="text-center font-bold text-navy flex items-center justify-center gap-2 text-xl">
+                      <Anchor className="w-6 h-6" /> Mapa da Prova
                     </SheetTitle>
-                    <div className="flex justify-center gap-4 text-[10px] py-1">
-                      <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-accent" /> Port.</div>
-                      <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-success" /> Mat.</div>
+                    <div className="flex justify-center gap-6 text-[11px] py-2 font-bold uppercase tracking-wider notranslate" translate="no">
+                      <div className="flex items-center gap-2 transition-all"><div className="w-3 h-3 rounded-full bg-accent shadow-sm" /> Português</div>
+                      <div className="flex items-center gap-2 transition-all"><div className="w-3 h-3 rounded-full bg-success shadow-sm" /> Matemática</div>
                     </div>
                   </SheetHeader>
-                  <div className="grid grid-cols-5 gap-2 overflow-y-auto pb-10">
-                    {questions.map((q, index) => {
-                      const isCurrent = currentQuestion === index;
-                      const isAnswered = answers[index] !== null;
-                      const isMath = q.subject === "matematica";
-                      const isMarked = markedForReview.includes(index);
+                  <div className="overflow-y-auto h-full p-6 pb-28">
+                    <div className="grid grid-cols-5 gap-3">
+                      {questions.map((q, index) => {
+                        const isCurrent = currentQuestion === index;
+                        const isAnswered = answers[index] !== null;
+                        const isMath = q.subject === "matematica";
+                        const isMarked = markedForReview.includes(index);
 
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentQuestion(index)}
-                          className={`aspect-square rounded-xl text-sm font-bold transition-all border-2 relative flex items-center justify-center ${isCurrent
-                            ? "bg-navy text-white shadow-lg border-navy"
-                            : isMarked
-                              ? "bg-warning/20 text-warning border-warning border-dashed"
-                              : isAnswered
-                                ? isMath
-                                  ? "bg-success/20 text-success border-success"
-                                  : "bg-accent/20 text-accent border-accent"
-                                : isMath
-                                  ? "bg-transparent text-muted-foreground border-muted-foreground/30"
-                                  : "bg-transparent text-muted-foreground border-muted-foreground/30"
-                            }`}
-                        >
-                          {index + 1}
-                          {isMarked && (
-                            <Flag className="absolute -top-1 -right-1 w-3 h-3 text-warning fill-warning" />
-                          )}
-                          {isAnswered && !isCurrent && (
-                            <CheckCircle className="absolute -bottom-1 -right-1 w-3 h-3 text-current fill-white bg-white rounded-full" />
-                          )}
-                        </button>
-                      );
-                    })}
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentQuestion(index)}
+                            translate="no"
+                            className={`aspect-square rounded-2xl text-base font-black transition-all border-2 relative flex items-center justify-center notranslate ${isCurrent
+                              ? "bg-navy text-white shadow-[0_8px_16px_rgba(30,41,59,0.3)] border-navy scale-105 z-10"
+                              : isMarked
+                                ? "bg-warning/10 text-warning border-warning border-dashed"
+                                : isAnswered
+                                  ? isMath
+                                    ? "bg-success/20 text-success border-success"
+                                    : "bg-accent/20 text-accent border-accent"
+                                  : "bg-muted/30 text-muted-foreground border-transparent"
+                              }`}
+                          >
+                            {index + 1}
+                            {isMarked && (
+                              <div className="absolute -top-1 -right-1 bg-warning text-white rounded-full p-0.5 shadow-sm">
+                                <Flag className="w-2.5 h-2.5 fill-current" />
+                              </div>
+                            )}
+                            {isAnswered && !isCurrent && (
+                              <div className="absolute -bottom-1 -right-1 bg-white rounded-full">
+                                <CheckCircle className={`w-3.5 h-3.5 ${isMath ? 'text-success' : 'text-accent'} fill-current`} />
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>
