@@ -411,32 +411,41 @@ const ExamPage = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-elevated z-30">
-        <div className="container mx-auto px-4 py-4">
+      <footer className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-elevated z-30 pb-safe">
+        <div className="container mx-auto px-4 py-4 pb-6 md:pb-4">
           <div className="flex items-center justify-between">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={currentQuestion === 0}
+              size="sm"
+              className="px-2 md:px-4 text-xs md:text-sm"
             >
-              <ChevronLeft className="w-5 h-5 mr-1" />
-              Anterior
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-1" />
+              <span className="hidden xs:inline">Anterior</span>
+              <span className="xs:hidden">Ant.</span>
             </Button>
 
             <Button
               variant="navy"
               onClick={() => setShowFinishDialog(true)}
-              className="hidden md:flex"
+              size="sm"
+              className="flex px-3 md:px-6 text-xs md:text-sm font-bold shadow-lg"
             >
-              Finalizar Prova
+              <CheckCircle className="w-4 h-4 md:mr-2 md:w-5 md:h-5" />
+              <span className="hidden md:inline">Finalizar Prova</span>
+              <span className="md:hidden">Finalizar</span>
             </Button>
 
             <Button
               variant={currentQuestion === questions.length - 1 ? "navy" : "outline"}
               onClick={handleNext}
+              size="sm"
+              className="px-2 md:px-4 text-xs md:text-sm"
             >
-              {currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}
-              <ChevronRight className="w-5 h-5 ml-1" />
+              <span className="hidden xs:inline">{currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}</span>
+              <span className="xs:hidden">{currentQuestion === questions.length - 1 ? "Fim" : "Próx."}</span>
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-1" />
             </Button>
           </div>
         </div>
