@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   const [showAtRiskDialog, setShowAtRiskDialog] = useState(false);
 
   const activeStudents = students.filter((s) => s.active).length;
-  const totalRevenue = activeStudents * 35; // Valor da inscrição R$ 35,00
+  const totalRevenue = students.length * 35; // Valor da inscrição R$ 35,00
 
   useEffect(() => {
     const fetchAdminStats = async () => {
