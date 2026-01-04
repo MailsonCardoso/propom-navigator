@@ -15,6 +15,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 
 interface Question {
   id: number;
@@ -55,6 +64,9 @@ const ExamPage = () => {
   const [showHint, setShowHint] = useState(false);
   const [markedForReview, setMarkedForReview] = useState<number[]>([]);
 
+  const [markedForReview, setMarkedForReview] = useState<number[]>([]);
+  const [mobileTab, setMobileTab] = useState<string>("question");
+
   const toggleReview = () => {
     if (markedForReview.includes(currentQuestion)) {
       setMarkedForReview(markedForReview.filter(i => i !== currentQuestion));
@@ -62,6 +74,11 @@ const ExamPage = () => {
       setMarkedForReview([...markedForReview, currentQuestion]);
     }
   };
+
+  useEffect(() => {
+    // Reset tab when changing question
+    setMobileTab("question");
+  }, [currentQuestion]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -215,49 +232,50 @@ const ExamPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
+      {/* Header Compacto */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-card border-b border-border shadow-sm">
-        <div className="container mx-auto px-4 py-2 md:py-3">
+        <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg gradient-navy flex items-center justify-center shrink-0">
                 <Anchor className="w-5 h-5 text-primary-foreground" />
               </div>
               <div className="min-w-0">
-                <h1 className="font-bold text-foreground truncate hidden sm:block">Simulado PREPOM 2026</h1>
-                <h1 className="font-bold text-foreground truncate text-sm sm:hidden">PREPOM</h1>
-                <p className="text-[10px] md:text-xs text-muted-foreground">
-                  {question.subject === "portugues" ? "Português" : "Matemática"}
-                </p>
+                <h1 className="font-bold text-foreground text-sm md:text-base truncate">PREPOM 2026</h1>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className={`text-[9px] h-4 px-1.5 uppercase font-bold border-none ${question.subject === "portugues" ? "bg-accent/10 text-accent" : "bg-success/10 text-success"}`}>
+                    {question.subject === "portugues" ? "Português" : "Matemática"}
+                  </Badge>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 md:gap-4">
-              <div className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-lg ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"}`}>
-                <Clock className={`w-4 h-4 md:w-5 md:h-5 ${isTimeWarning ? "animate-pulse" : ""}`} />
-                <span className="font-mono font-bold text-base md:text-lg">{formatTime(timeLeft)}</span>
+            <div className="flex items-center gap-2">
+              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md ${isTimeWarning ? "bg-warning/10 text-warning" : "bg-muted text-foreground"}`}>
+                <Clock className={`w-3.5 h-3.5 ${isTimeWarning ? "animate-pulse" : ""}`} />
+                <span className="font-mono font-bold text-sm md:text-base">{formatTime(timeLeft)}</span>
               </div>
 
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive px-2 md:px-3">
-                <LogOut className="w-4 h-4 md:w-5 md:h-5 md:mr-2" />
-                <span className="hidden md:inline">Sair</span>
+              <Button variant="ghost" size="icon" onClick={handleLogout} className="text-muted-foreground hover:text-destructive h-8 w-8">
+                <LogOut className="w-4 h-4" />
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Progress Bar */}
-      <div className="fixed top-[53px] md:top-[69px] left-0 right-0 z-30 bg-card border-b border-border px-4 py-2 md:py-3">
+      {/* Progress Bar Integrada */}
+      <div className="fixed top-[49px] left-0 right-0 z-30 bg-card/80 backdrop-blur-sm px-4 py-1.5">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-1 md:mb-2 text-[10px] md:text-sm">
-            <span className="text-muted-foreground">
-              Questão {currentQuestion + 1}/{questions.length}
+          <div className="flex items-center justify-between mb-1 text-[9px] md:text-xs">
+            <span className="text-muted-foreground font-medium uppercase tracking-wider">
+              Questão {currentQuestion + 1} de {questions.length}
             </span>
-            <span className="font-medium text-foreground">
-              {answeredCount} respondidas
+            <span className="font-bold text-foreground">
+              {answeredCount}/{questions.length} Concluído
             </span>
           </div>
-          <Progress value={progress} className="h-1.5 md:h-2" />
+          <Progress value={progress} className="h-1" />
         </div>
       </div>
 
@@ -277,99 +295,129 @@ const ExamPage = () => {
               </span>
             </div>
 
-            {question && question.base_text && question.base_text.trim().length > 0 && (
-              <div className="mb-8 md:mb-10 p-5 md:p-7 bg-accent/5 rounded-xl border border-accent/20 shadow-sm">
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="w-5 h-5 text-accent" />
-                  <span className="text-xs md:text-sm font-bold text-accent uppercase tracking-widest">Texto de Interpretação</span>
+            {/* Desktop View ou Mobile sem texto longo */}
+            <div className="hidden md:block">
+              {question && question.base_text && question.base_text.trim().length > 0 && (
+                <div className="mb-8 md:mb-10 p-5 md:p-7 bg-accent/5 rounded-xl border border-accent/20 shadow-sm transition-all">
+                  <div className="flex items-center gap-2 mb-4">
+                    <BookOpen className="w-5 h-5 text-accent" />
+                    <span className="text-xs md:text-sm font-bold text-accent uppercase tracking-widest">Texto de Apoio</span>
+                  </div>
+                  <div className="text-base md:text-lg text-foreground leading-relaxed whitespace-pre-wrap font-serif italic opacity-90 border-l-4 border-accent/20 pl-5">
+                    {question.base_text}
+                  </div>
                 </div>
-                <div className="text-base md:text-lg text-foreground leading-relaxed whitespace-pre-wrap font-serif italic opacity-90 border-l-4 border-accent/20 pl-5">
-                  {question.base_text}
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-start md:items-center justify-between mb-6 md:mb-10 gap-3">
-              <h2 className="text-lg md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
-                {question.text}
-              </h2>
-              <div className="flex gap-2 flex-shrink-0">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleReview}
-                  className={`${markedForReview.includes(currentQuestion) ? "text-warning bg-warning/10" : "text-muted-foreground hover:text-warning"}`}
-                  title="Marcar para revisão"
-                >
-                  <Flag className={`w-5 h-5 md:w-6 md:h-6 ${markedForReview.includes(currentQuestion) ? "fill-warning" : ""}`} />
-                </Button>
-                {question.hint && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowHint(!showHint)}
-                    className={`${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
-                    title="Ver dica"
-                  >
-                    <Lightbulb className={`w-5 h-5 md:w-6 md:h-6 ${showHint ? "fill-accent" : ""}`} />
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
 
-            {showHint && question.hint && (
-              <div className="mb-6 p-5 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
-                <p className="text-sm md:text-base text-accent flex items-start gap-2">
-                  <Lightbulb className="w-4 h-4 md:w-5 md:h-5 mt-0.5 shrink-0" />
-                  <span><strong>Dica:</strong> {question.hint}</span>
-                </p>
-              </div>
-            )}
+            {/* Mobile View: Tabs (apenas se houver texto base) */}
+            <div className="md:hidden">
+              {question && question.base_text && question.base_text.trim().length > 0 ? (
+                <Tabs value={mobileTab} onValueChange={setMobileTab} className="w-full mb-6">
+                  <TabsList className="grid w-full grid-cols-2 h-10 bg-muted/30 p-1 rounded-lg">
+                    <TabsTrigger value="text" className="data-[state=active]:bg-navy data-[state=active]:text-white transition-all rounded-md">
+                      <BookOpen className="w-4 h-4 mr-2" /> Texto
+                    </TabsTrigger>
+                    <TabsTrigger value="question" className="data-[state=active]:bg-navy data-[state=active]:text-white transition-all rounded-md">
+                      <Lightbulb className="w-4 h-4 mr-2" /> Pergunta
+                    </TabsTrigger>
+                  </TabsList>
 
-            <div className="space-y-3 md:space-y-4">
-              {question.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(index)}
-                  className={`w-full text-left p-4 md:p-5 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
-                    ? "border-accent bg-accent/10 text-foreground"
-                    : "border-border bg-card hover:border-accent/50 hover:bg-muted/50 text-foreground"
-                    }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center text-sm md:text-base font-bold ${answers[currentQuestion] === index
-                      ? "bg-accent text-accent-foreground"
-                      : "bg-muted text-muted-foreground"
-                      }`}>
-                      {String.fromCharCode(65 + index)}
+                  <TabsContent value="text" className="mt-4 animate-in fade-in slide-in-from-left-2 transition-all">
+                    <div className="p-4 bg-accent/5 rounded-xl border border-accent/20 font-serif italic text-sm leading-relaxed whitespace-pre-wrap">
+                      {question.base_text}
                     </div>
-                    <span className="flex-1 text-sm md:text-base leading-relaxed">{option}</span>
-                    {answers[currentQuestion] === index && (
-                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                    )}
-                  </div>
-                </button>
-              ))}
+                  </TabsContent>
+
+                  <TabsContent value="question" className="mt-0 animate-in fade-in slide-in-from-right-2 transition-all">
+                    {/* Pergunta renderizada abaixo */}
+                  </TabsContent>
+                </Tabs>
+              ) : null}
+            </div>
+
+            {/* Content Switcher logic (apenas esconde texto no mobile se tab for 'text') */}
+            <div className={`${(mobileTab === 'text' && question.base_text) ? 'hidden' : 'block'} md:block transition-all`}>
+              <div className="flex items-start justify-between mb-6 md:mb-10 gap-3">
+                <h2 className="text-lg md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
+                  {question.text}
+                </h2>
+                <div className="flex gap-1 flex-shrink-0">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggleReview}
+                    className={`h-8 w-8 ${markedForReview.includes(currentQuestion) ? "text-warning bg-warning/10" : "text-muted-foreground"}`}
+                  >
+                    <Flag className={`w-4 h-4 md:w-5 md:h-5 ${markedForReview.includes(currentQuestion) ? "fill-warning" : ""}`} />
+                  </Button>
+                  {question.hint && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setShowHint(!showHint)}
+                      className={`h-8 w-8 ${showHint ? "text-accent bg-accent/10" : "text-muted-foreground"}`}
+                    >
+                      <Lightbulb className={`w-4 h-4 md:w-5 md:h-5 ${showHint ? "fill-accent" : ""}`} />
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              {showHint && question.hint && (
+                <div className="mb-6 p-4 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
+                  <p className="text-xs md:text-base text-accent flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 mt-0.5 shrink-0" />
+                    <span><strong>Dica:</strong> {question.hint}</span>
+                  </p>
+                </div>
+              )}
+
+              <div className="space-y-2 md:space-y-4">
+                {question.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswer(index)}
+                    className={`w-full text-left p-3 md:p-5 rounded-xl border-2 transition-all duration-200 ${answers[currentQuestion] === index
+                      ? "border-accent bg-accent/10 text-foreground"
+                      : "border-border bg-card hover:border-accent/40 hover:bg-muted/50 text-foreground"
+                      }`}
+                  >
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center text-xs md:text-sm font-bold ${answers[currentQuestion] === index
+                        ? "bg-navy text-white"
+                        : "bg-muted text-muted-foreground"
+                        }`}>
+                        {String.fromCharCode(65 + index)}
+                      </div>
+                      <span className="flex-1 text-sm md:text-base leading-snug md:leading-relaxed">{option}</span>
+                      {answers[currentQuestion] === index && (
+                        <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-accent flex-shrink-0" />
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Question Navigator */}
-          <div className="mt-6 md:mt-8 card-navy p-5 md:p-6 rounded-2xl">
+          {/* Question Navigator (Escondido no Mobile, substituído por Drawer) */}
+          <div className="hidden md:block mt-8 card-navy p-6 rounded-2xl">
             <div className="flex items-center justify-between mb-5">
-              <p className="text-sm md:text-base text-white/80 font-medium">Navegação rápida:</p>
-              <div className="flex gap-4 md:gap-6">
+              <p className="text-sm text-white/80 font-medium">Navegação rápida:</p>
+              <div className="flex gap-6">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-accent"></div>
-                  <span className="text-[10px] md:text-xs text-white/70 uppercase font-bold tracking-wider">Português</span>
+                  <span className="text-[10px] text-white/70 uppercase font-bold tracking-wider">Português</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-success"></div>
-                  <span className="text-[10px] md:text-xs text-white/70 uppercase font-bold tracking-wider">Matemática</span>
+                  <span className="text-[10px] text-white/70 uppercase font-bold tracking-wider">Matemática</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 md:gap-3">
+            <div className="flex flex-wrap gap-2">
               {questions.map((q, index) => {
                 const isCurrent = currentQuestion === index;
                 const isAnswered = answers[index] !== null;
@@ -380,7 +428,7 @@ const ExamPage = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentQuestion(index)}
-                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg text-xs md:text-sm font-bold transition-all border-2 relative ${isCurrent
+                    className={`w-10 h-10 rounded-lg text-xs font-bold transition-all border-2 relative ${isCurrent
                       ? "bg-foreground text-background scale-110 shadow-lg z-10 border-foreground"
                       : isMarked
                         ? "bg-warning/20 text-warning border-warning border-dashed"
@@ -389,18 +437,15 @@ const ExamPage = () => {
                             ? "bg-success text-success-foreground border-success"
                             : "bg-accent text-accent-foreground border-accent"
                           : isMath
-                            ? "bg-success/10 text-success border-success/40 hover:border-success hover:bg-success/20"
-                            : "bg-accent/10 text-accent border-accent/30 hover:border-accent hover:bg-accent/20"
+                            ? "bg-success/10 text-success border-success/40"
+                            : "bg-accent/10 text-accent border-accent/30"
                       }`}
                   >
                     {index + 1}
                     {isMarked && (
                       <div className="absolute -top-1.5 -right-1.5 bg-background rounded-full p-0.5 border border-border">
-                        <Flag className="w-2.5 h-2.5 text-warning fill-warning" />
+                        <Flag className="w-2 h-2 text-warning fill-warning" />
                       </div>
-                    )}
-                    {!isAnswered && !isCurrent && !isMarked && (
-                      <div className={`absolute -top-1 -right-1 w-2 h-2 rounded-full ${isMath ? "bg-success/40" : "bg-accent/40"}`} />
                     )}
                   </button>
                 );
@@ -419,33 +464,91 @@ const ExamPage = () => {
               onClick={handlePrevious}
               disabled={currentQuestion === 0}
               size="sm"
-              className="px-2 md:px-4 text-xs md:text-sm"
+              className="px-2 md:px-4 text-[10px] md:text-sm h-9"
             >
-              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-1" />
-              <span className="hidden xs:inline">Anterior</span>
-              <span className="xs:hidden">Ant.</span>
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              <span className="xs:inline">Anterior</span>
             </Button>
+
+            {/* Mobile Navigation Drawer Trigger */}
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-9 px-3 gap-2 border-dashed">
+                    <div className="flex -space-x-1">
+                      <div className="w-2 h-2 rounded-full bg-accent" />
+                      <div className="w-2 h-2 rounded-full bg-success" />
+                    </div>
+                    <span className="text-[10px] font-bold">MAPA</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="h-[70vh] rounded-t-3xl border-t-2 border-navy">
+                  <SheetHeader className="mb-4">
+                    <SheetTitle className="text-center font-bold text-navy flex items-center justify-center gap-2">
+                      <Anchor className="w-5 h-5" /> Mapa da Prova
+                    </SheetTitle>
+                    <div className="flex justify-center gap-4 text-[10px] py-1">
+                      <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-accent" /> Port.</div>
+                      <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-success" /> Mat.</div>
+                    </div>
+                  </SheetHeader>
+                  <div className="grid grid-cols-5 gap-2 overflow-y-auto pb-10">
+                    {questions.map((q, index) => {
+                      const isCurrent = currentQuestion === index;
+                      const isAnswered = answers[index] !== null;
+                      const isMath = q.subject === "matematica";
+                      const isMarked = markedForReview.includes(index);
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentQuestion(index)}
+                          className={`aspect-square rounded-xl text-sm font-bold transition-all border-2 relative flex items-center justify-center ${isCurrent
+                            ? "bg-navy text-white shadow-lg border-navy"
+                            : isMarked
+                              ? "bg-warning/20 text-warning border-warning border-dashed"
+                              : isAnswered
+                                ? isMath
+                                  ? "bg-success/20 text-success border-success"
+                                  : "bg-accent/20 text-accent border-accent"
+                                : isMath
+                                  ? "bg-transparent text-muted-foreground border-muted-foreground/30"
+                                  : "bg-transparent text-muted-foreground border-muted-foreground/30"
+                            }`}
+                        >
+                          {index + 1}
+                          {isMarked && (
+                            <Flag className="absolute -top-1 -right-1 w-3 h-3 text-warning fill-warning" />
+                          )}
+                          {isAnswered && !isCurrent && (
+                            <CheckCircle className="absolute -bottom-1 -right-1 w-3 h-3 text-current fill-white bg-white rounded-full" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
 
             <Button
               variant="navy"
               onClick={() => setShowFinishDialog(true)}
               size="sm"
-              className="flex px-3 md:px-6 text-xs md:text-sm font-bold shadow-lg"
+              className="px-3 md:px-6 text-[10px] md:text-sm font-bold shadow-lg h-9"
             >
-              <CheckCircle className="w-4 h-4 md:mr-2 md:w-5 md:h-5" />
-              <span className="hidden md:inline">Finalizar Prova</span>
-              <span className="md:hidden">Finalizar</span>
+              <CheckCircle className="w-3.5 h-3.5 md:mr-2" />
+              <span>Finalizar</span>
             </Button>
 
             <Button
               variant={currentQuestion === questions.length - 1 ? "navy" : "outline"}
               onClick={handleNext}
               size="sm"
-              className="px-2 md:px-4 text-xs md:text-sm"
+              className="px-2 md:px-4 text-[10px] md:text-sm h-9"
             >
-              <span className="hidden xs:inline">{currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}</span>
-              <span className="xs:hidden">{currentQuestion === questions.length - 1 ? "Fim" : "Próx."}</span>
-              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-1" />
+              <span className="xs:inline">{currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}</span>
+              <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
         </div>
