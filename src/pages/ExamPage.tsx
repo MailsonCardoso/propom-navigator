@@ -511,20 +511,22 @@ const ExamPage = () => {
                                 ? "bg-warning/10 text-warning border-warning border-dashed"
                                 : isAnswered
                                   ? isMath
-                                    ? "bg-success/20 text-success border-success"
-                                    : "bg-accent/20 text-accent border-accent"
-                                  : "bg-muted/30 text-muted-foreground border-transparent"
+                                    ? "bg-success text-white border-success"
+                                    : "bg-accent text-white border-accent"
+                                  : isMath
+                                    ? "bg-success/15 text-success border-success/30"
+                                    : "bg-accent/15 text-accent border-accent/30"
                               }`}
                           >
                             {index + 1}
                             {isMarked && (
-                              <div className="absolute -top-1 -right-1 bg-warning text-white rounded-full p-0.5 shadow-sm">
+                              <div className="absolute -top-1.5 -right-1.5 bg-warning text-white rounded-full p-0.5 shadow-md z-20">
                                 <Flag className="w-2.5 h-2.5 fill-current" />
                               </div>
                             )}
                             {isAnswered && !isCurrent && (
-                              <div className="absolute -bottom-1 -right-1 bg-white rounded-full">
-                                <CheckCircle className={`w-3.5 h-3.5 ${isMath ? 'text-success' : 'text-accent'} fill-current`} />
+                              <div className="absolute -bottom-1 -right-1 bg-white rounded-full z-20 shadow-sm border border-current flex items-center justify-center">
+                                <CheckCircle className={`w-3 h-3 ${isMath ? 'text-success' : 'text-accent'} fill-current`} />
                               </div>
                             )}
                           </button>
