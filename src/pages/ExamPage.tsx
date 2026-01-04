@@ -64,6 +64,13 @@ const ExamPage = () => {
   const [showHint, setShowHint] = useState(false);
   const [markedForReview, setMarkedForReview] = useState<number[]>([]);
   const [mobileTab, setMobileTab] = useState<string>("question");
+  const [isMapOpen, setIsMapOpen] = useState(false);
+
+  const handleQuestionSelect = (index: number) => {
+    setCurrentQuestion(index);
+    setIsMapOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const toggleReview = () => {
     if (markedForReview.includes(currentQuestion)) {
@@ -472,7 +479,7 @@ const ExamPage = () => {
 
             {/* Mobile Navigation Drawer Trigger */}
             <div className="md:hidden">
-              <Sheet>
+              <Sheet open={isMapOpen} onOpenChange={setIsMapOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="h-9 px-3 gap-2 border-dashed">
                     <div className="flex -space-x-1">
@@ -503,7 +510,7 @@ const ExamPage = () => {
                         return (
                           <button
                             key={index}
-                            onClick={() => setCurrentQuestion(index)}
+                            onClick={() => handleQuestionSelect(index)}
                             translate="no"
                             className={`aspect-square rounded-2xl text-base font-black transition-all border-2 relative flex items-center justify-center notranslate ${isCurrent
                               ? "bg-navy text-white shadow-[0_8px_16px_rgba(30,41,59,0.3)] border-navy scale-105 z-10"
