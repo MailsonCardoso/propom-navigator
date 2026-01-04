@@ -382,10 +382,12 @@ const ExamPage = () => {
                       }`}
                   >
                     <div className="flex items-center gap-3 md:gap-4">
-                      <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center text-xs md:text-sm font-bold ${answers[currentQuestion] === index
+                      <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center text-xs md:text-sm font-bold notranslate ${answers[currentQuestion] === index
                         ? "bg-navy text-white"
                         : "bg-muted text-muted-foreground"
-                        }`}>
+                        }`}
+                        translate="no"
+                      >
                         {String.fromCharCode(65 + index)}
                       </div>
                       <span className="flex-1 text-sm md:text-base leading-snug md:leading-relaxed">{option}</span>
