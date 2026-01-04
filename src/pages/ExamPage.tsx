@@ -63,8 +63,6 @@ const ExamPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
   const [markedForReview, setMarkedForReview] = useState<number[]>([]);
-
-  const [markedForReview, setMarkedForReview] = useState<number[]>([]);
   const [mobileTab, setMobileTab] = useState<string>("question");
 
   const toggleReview = () => {
