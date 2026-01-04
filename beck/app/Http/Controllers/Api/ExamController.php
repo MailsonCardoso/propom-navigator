@@ -125,7 +125,7 @@ class ExamController extends Controller
                     $q = $questions[$qId];
                     if (in_array($q->subject, ['portugues', 'matematica'])) {
                         $statsBySubject[$q->subject]['total']++;
-                        if ($userAns == $q->correct_answer) {
+                        if ($userAns !== null && $userAns == $q->correct_answer) {
                             $statsBySubject[$q->subject]['correct']++;
                         }
                     }
