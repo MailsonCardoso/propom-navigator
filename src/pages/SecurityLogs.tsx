@@ -101,8 +101,41 @@ Para sua segurança, pedimos que não compartilhe seus dados de acesso.
 
 _Caso não reconheça este acesso, recomendamos alterar sua senha imediatamente._`;
 
-        navigator.clipboard.writeText(message);
-        toast.success("Mensagem de evidência copiada para o WhatsApp!");
+        // Fallback para contextos não-HTTPS (como acesso por IP)
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(message)
+                .then(() => toast.success("Prova copiada! Cole no WhatsApp do aluno."))
+                .catch(() => fallbackCopyTextToClipboard(message));
+        } else {
+            fallbackCopyTextToClipboard(message);
+        }
+    };
+
+    const fallbackCopyTextToClipboard = (text: string) => {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        // Assegura que o textarea não seja visível mas esteja no DOM
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+
+        textArea.focus();
+        textArea.select();
+
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                toast.success("Prova copiada (Modo de Compatibilidade)!");
+            } else {
+                toast.error("Não foi possível copiar automaticamente.");
+            }
+        } catch (err) {
+            toast.error("Erro ao copiar mensagem.");
+        }
+
+        document.body.removeChild(textArea);
     };
 
     const fetchLogs = async (currentPage: number) => {
