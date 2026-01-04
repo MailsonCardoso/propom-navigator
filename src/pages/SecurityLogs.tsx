@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { api } from "@/lib/api";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import {
+    MoreHorizontal,
+    Copy,
+    ExternalLink,
     ShieldAlert,
     ArrowLeft,
     Search,
@@ -11,12 +21,23 @@ import {
     ChevronRight,
     ShieldCheck
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { api } from "@/lib/api";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Input } from "@/components/ui/input";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
     Table,
     TableBody,
@@ -57,6 +78,32 @@ const SecurityLogs = () => {
     const [lastPage, setLastPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [total, setTotal] = useState(0);
+    const [selectedDeviceInfo, setSelectedDeviceInfo] = useState<string | null>(null);
+
+    const copySecurityProof = (log: SecurityLog) => {
+        const dateStr = format(new Date(log.created_at), "dd/MM/yyyy 'às' HH:mm:ss");
+        const appUrl = window.location.origin;
+
+        const message = `*PREPOM 2026 - NOTIFICAÇÃO DE SEGURANÇA*
+
+Olá, *${log.user.name}*. 
+
+Detectamos uma atividade irregular em sua conta que viola nossos termos de segurança:
+
+*Evento:* ${log.type === 'simultaneous_access' ? "ACESSO SIMULTÂNEO" : log.type.toUpperCase()}
+*Data/Hora:* ${dateStr}
+*Endereço IP:* ${log.ip_address}
+*Plataforma:* ${appUrl}
+
+Lembramos que o acesso ao simulado é individual. O sistema registrou múltiplas conexões ou tentativas de acesso de locais diferentes ao mesmo tempo.
+
+Para sua segurança, pedimos que não compartilhe seus dados de acesso. 
+
+_Caso não reconheça este acesso, recomendamos alterar sua senha imediatamente._`;
+
+        navigator.clipboard.writeText(message);
+        toast.success("Mensagem de evidência copiada para o WhatsApp!");
+    };
 
     const fetchLogs = async (currentPage: number) => {
         setLoading(true);
@@ -199,9 +246,25 @@ const SecurityLogs = () => {
                                                 {log.description}
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8" title={log.browser_info}>
-                                                    <Info className="w-4 h-4" />
-                                                </Button>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                                                            <MoreHorizontal className="w-4 h-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end" className="w-56">
+                                                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => copySecurityProof(log)} className="cursor-pointer">
+                                                            <Copy className="w-4 h-4 mr-2" />
+                                                            Copiar Prova (WhatsApp)
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => setSelectedDeviceInfo(log.browser_info)} className="cursor-pointer">
+                                                            <Info className="w-4 h-4 mr-2" />
+                                                            Ver Info do Navegador
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -209,6 +272,20 @@ const SecurityLogs = () => {
                             </TableBody>
                         </Table>
                     </div>
+
+                    <AlertDialog open={!!selectedDeviceInfo} onOpenChange={() => setSelectedDeviceInfo(null)}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Informações do Dispositivo</AlertDialogTitle>
+                                <AlertDialogDescription className="bg-muted p-4 rounded-lg font-mono text-[10px] break-all">
+                                    {selectedDeviceInfo}
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogAction onClick={() => setSelectedDeviceInfo(null)}>Fechar</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
 
                     {/* Pagination */}
                     {lastPage > 1 && (
