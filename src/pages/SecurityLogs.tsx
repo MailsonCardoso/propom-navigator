@@ -112,6 +112,12 @@ _Caso não reconheça este acesso, recomendamos alterar sua senha imediatamente.
     };
 
     const fallbackCopyTextToClipboard = (text: string) => {
+        // Limpa qualquer seleção existente para não haver conflito
+        const selection = window.getSelection();
+        if (selection) {
+            selection.removeAllRanges();
+        }
+
         const textArea = document.createElement("textarea");
         textArea.value = text;
 
@@ -119,6 +125,14 @@ _Caso não reconheça este acesso, recomendamos alterar sua senha imediatamente.
         textArea.style.position = "fixed";
         textArea.style.left = "-999999px";
         textArea.style.top = "-999999px";
+        textArea.style.width = "2em";
+        textArea.style.height = "2em";
+        textArea.style.padding = "0";
+        textArea.style.border = "none";
+        textArea.style.outline = "none";
+        textArea.style.boxShadow = "none";
+        textArea.style.background = "transparent";
+
         document.body.appendChild(textArea);
 
         textArea.focus();
@@ -127,7 +141,7 @@ _Caso não reconheça este acesso, recomendamos alterar sua senha imediatamente.
         try {
             const successful = document.execCommand('copy');
             if (successful) {
-                toast.success("Prova copiada (Modo de Compatibilidade)!");
+                toast.success("Prova copiada! Cole no WhatsApp do aluno.");
             } else {
                 toast.error("Não foi possível copiar automaticamente.");
             }
