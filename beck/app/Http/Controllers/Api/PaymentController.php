@@ -34,7 +34,7 @@ class PaymentController extends Controller
             $item->id = "curso-prepom-completo";
             $item->title = "Acesso Completo PREPOM Navigator";
             $item->quantity = 1;
-            $item->unit_price = 50.00;
+            $item->unit_price = 0.01;
             $item->currency_id = "BRL";
 
             // 4. Criar Payer (Pagador)
