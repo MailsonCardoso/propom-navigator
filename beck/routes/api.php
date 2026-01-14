@@ -13,6 +13,10 @@ Route::post('/auth/login/admin', [AuthController::class, 'loginAdmin']);
 Route::post('/auth/login/student', [AuthController::class, 'loginStudent']);
 Route::get('/questions/demo', [QuestionController::class, 'demo']);
 
+// Mercado Pago
+Route::post('/payment/create', [\App\Http\Controllers\Api\PaymentController::class, 'createPreference']);
+Route::post('/payment/webhook', [\App\Http\Controllers\Api\PaymentController::class, 'webhook']);
+
 // Rotas protegidas
 Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAccess::class])->group(function () {
     // Auth
