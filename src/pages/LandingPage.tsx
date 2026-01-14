@@ -306,7 +306,7 @@ const LandingPage = () => {
               Garanta sua Vaga na Marinha!
             </h3>
             <p className="text-white/80 mb-10 max-w-2xl mx-auto text-lg relative z-10">
-              Acesso vitalício a todos os 5 blocos de simulados por pagamento único de R$ 35,00.
+              Acesso vitalício a todos os 5 blocos de simulados por pagamento único de R$ 50,00.
               Comece a praticar com o tempo real de prova agora mesmo.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">

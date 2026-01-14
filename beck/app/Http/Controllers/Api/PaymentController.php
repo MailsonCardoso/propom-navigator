@@ -129,6 +129,7 @@ class PaymentController extends Controller
                                 'password' => Hash::make($password),
                                 'role' => 'student',
                                 'active' => true,
+                                'must_change_password' => true, // Forçar troca de senha no primeiro acesso
                             ]);
 
                             Log::info("Aluno criado via Webhook (Legacy SDK): $email");
