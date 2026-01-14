@@ -1,3 +1,16 @@
+<IfModule mod_headers.c>
+    SetEnvIf Origin "https://(www\.)?platformx\.com\.br$" AccessControlAllowOrigin=$0
+    Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept, Origin, X-Auth-Token"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule>
+
+# Responder 200 OK para requisições de teste (Preflight/OPTIONS) do navegador
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
