@@ -148,6 +148,154 @@ const AdminDashboard = () => {
           <p className="text-muted-foreground">Gestão em tempo real dos candidatos</p>
         </div>
 
+        {/* Quick Actions Bar */}
+        <div className="flex flex-wrap items-center gap-3 mb-8 bg-white p-4 rounded-xl border border-slate-200 shadow-sm animate-fade-in">
+          <h3 className="font-semibold text-navy-900 mr-2 flex items-center gap-2 border-r border-slate-200 pr-4 h-full">
+            <Zap className="w-5 h-5 text-accent" />
+            Ações Rápidas
+          </h3>
+
+          <Link to="/admin/alunos">
+            <Button variant="ghost" className="text-slate-600 hover:text-navy-900 hover:bg-slate-50">
+              <User className="w-4 h-4 mr-2" />
+              Alunos
+            </Button>
+          </Link>
+
+          <Link to="/admin/questoes/demo">
+            <Button variant="ghost" className="text-slate-600 hover:text-navy-900 hover:bg-slate-50">
+              <ShieldAlert className="w-4 h-4 mr-2" />
+              Questões Demo
+            </Button>
+          </Link>
+
+          <Link to="/admin/seguranca">
+            <Button variant="ghost" className="text-slate-600 hover:text-navy-900 hover:bg-slate-50">
+              <ShieldAlert className="w-4 h-4 mr-2" />
+              Auditoria
+            </Button>
+          </Link>
+
+          <Link to="/admin/monitoramento">
+            <Button variant="ghost" className="text-slate-600 hover:text-navy-900 hover:bg-slate-50">
+              <Eye className="w-4 h-4 mr-2" />
+              Monitoramento
+            </Button>
+          </Link>
+
+          <Button
+            variant="default"
+            className="bg-navy-900 hover:bg-navy-800 text-white ml-auto"
+            onClick={async () => {
+              try {
+                const data = await api.get('/exam/ranking');
+                if (!data || data.length === 0) {
+                  alert("Ainda não há dados de simulados para gerar o ranking desta semana.");
+                  return;
+                }
+
+                // Importação dinâmica para não pesar o bundle inicial
+                const { jsPDF } = await import('jspdf');
+                const autoTable = (await import('jspdf-autotable')).default;
+
+                const doc = new jsPDF();
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('pt-BR');
+
+                // Cabeçalho Premium
+                doc.setFillColor(0, 31, 63); // Navy Blue
+                doc.rect(0, 0, 210, 45, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(26);
+                doc.setFont("helvetica", "bold");
+                doc.text("PREPOM 2026", 15, 22);
+
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "normal");
+                doc.text("Relatório de Desempenho e Ranking Semanal", 15, 32);
+                doc.text(`Gerado em: ${dateStr}`, 155, 32);
+
+                // Resumo Informativo
+                doc.setTextColor(0, 31, 63);
+                doc.setFontSize(14);
+                doc.setFont("helvetica", "bold");
+                doc.text("Resumo da Semana", 15, 55);
+
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Total de candidatos participantes: ${data.length}`, 15, 63);
+                doc.text(`Período de análise: Últimos 7 dias.`, 15, 68);
+
+                // Linha divisória
+                doc.setDrawColor(220, 220, 220);
+                doc.line(15, 73, 195, 73);
+
+                // Tabela de Ranking
+                const tableRows = data.map((item: any, index: number) => [
+                  `${index + 1}º`,
+                  item.name.toUpperCase(),
+                  `${item.best_score} / 40`,
+                  item.attempts,
+                  item.performance
+                ]);
+
+                autoTable(doc, {
+                  startY: 80,
+                  head: [['Posição', 'Nome do Aluno', 'Melhor Nota', 'Tentativas', 'Aproveitamento']],
+                  body: tableRows,
+                  theme: 'striped',
+                  headStyles: {
+                    fillColor: [0, 31, 63],
+                    textColor: [255, 255, 255],
+                    fontSize: 10,
+                    fontStyle: 'bold',
+                    halign: 'center',
+                    cellPadding: 4
+                  },
+                  bodyStyles: {
+                    fontSize: 10,
+                    halign: 'center',
+                    textColor: [50, 50, 50],
+                    cellPadding: 4
+                  },
+                  columnStyles: {
+                    1: { halign: 'left', fontStyle: 'bold' }, // Nome do Aluno
+                  },
+                  alternateRowStyles: {
+                    fillColor: [245, 247, 250]
+                  },
+                  margin: { left: 15, right: 15 }
+                });
+
+                // Rodapé
+                const pageCount = (doc as any).internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                  doc.setPage(i);
+                  doc.setFontSize(8);
+                  doc.setTextColor(150, 150, 150);
+                  doc.text(
+                    "Este documento é gerado automaticamente pelo PREPOM Navigator para acompanhamento pedagógico.",
+                    105,
+                    288,
+                    { align: "center" }
+                  );
+                }
+
+                doc.save(`Ranking_PREPOM_${now.toISOString().split('T')[0]}.pdf`);
+
+              } catch (error) {
+                console.error("Erro ao exportar PDF:", error);
+                alert("Houve um erro técnico ao gerar o PDF. Verifique o console.");
+              }
+            }}
+          >
+            <BarChart3 className="w-4 h-4 mr-2" />
+            Ranking PDF
+          </Button>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {stats.map((stat, index) => (
@@ -348,140 +496,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="card-navy p-6">
-          <h3 className="font-semibold text-white mb-4">Ações Rápidas</h3>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/admin/questoes/demo">
-              <Button variant="outline" className="border-accent/20 hover:bg-accent/5 text-accent hover:text-accent">
-                <ShieldAlert className="w-4 h-4 mr-2" />
-                Questões Demo
-              </Button>
-            </Link>
-            <Link to="/admin/seguranca">
-              <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive">
-                <ShieldAlert className="w-4 h-4 mr-2" />
-                Auditoria de Segurança
-              </Button>
-            </Link>
-            <Link to="/admin/monitoramento">
-              <Button variant="outline" className="border-blue-500/20 hover:bg-blue-500/5 text-blue-600 hover:text-blue-700">
-                <Eye className="w-4 h-4 mr-2" />
-                Monitoramento
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              onClick={async () => {
-                try {
-                  const data = await api.get('/exam/ranking');
-                  if (!data || data.length === 0) {
-                    alert("Ainda não há dados de simulados para gerar o ranking desta semana.");
-                    return;
-                  }
 
-                  // Importação dinâmica para não pesar o bundle inicial
-                  const { jsPDF } = await import('jspdf');
-                  const autoTable = (await import('jspdf-autotable')).default;
-
-                  const doc = new jsPDF();
-                  const now = new Date();
-                  const dateStr = now.toLocaleDateString('pt-BR');
-
-                  // Cabeçalho Premium
-                  doc.setFillColor(0, 31, 63); // Navy Blue
-                  doc.rect(0, 0, 210, 45, 'F');
-
-                  doc.setTextColor(255, 255, 255);
-                  doc.setFontSize(26);
-                  doc.setFont("helvetica", "bold");
-                  doc.text("PREPOM 2026", 15, 22);
-
-                  doc.setFontSize(12);
-                  doc.setFont("helvetica", "normal");
-                  doc.text("Relatório de Desempenho e Ranking Semanal", 15, 32);
-                  doc.text(`Gerado em: ${dateStr}`, 155, 32);
-
-                  // Resumo Informativo
-                  doc.setTextColor(0, 31, 63);
-                  doc.setFontSize(14);
-                  doc.setFont("helvetica", "bold");
-                  doc.text("Resumo da Semana", 15, 55);
-
-                  doc.setFontSize(10);
-                  doc.setFont("helvetica", "normal");
-                  doc.setTextColor(100, 100, 100);
-                  doc.text(`Total de candidatos participantes: ${data.length}`, 15, 63);
-                  doc.text(`Período de análise: Últimos 7 dias.`, 15, 68);
-
-                  // Linha divisória
-                  doc.setDrawColor(220, 220, 220);
-                  doc.line(15, 73, 195, 73);
-
-                  // Tabela de Ranking
-                  const tableRows = data.map((item: any, index: number) => [
-                    `${index + 1}º`,
-                    item.name.toUpperCase(),
-                    `${item.best_score} / 40`,
-                    item.attempts,
-                    item.performance
-                  ]);
-
-                  autoTable(doc, {
-                    startY: 80,
-                    head: [['Posição', 'Nome do Aluno', 'Melhor Nota', 'Tentativas', 'Aproveitamento']],
-                    body: tableRows,
-                    theme: 'striped',
-                    headStyles: {
-                      fillColor: [0, 31, 63],
-                      textColor: [255, 255, 255],
-                      fontSize: 10,
-                      fontStyle: 'bold',
-                      halign: 'center',
-                      cellPadding: 4
-                    },
-                    bodyStyles: {
-                      fontSize: 10,
-                      halign: 'center',
-                      textColor: [50, 50, 50],
-                      cellPadding: 4
-                    },
-                    columnStyles: {
-                      1: { halign: 'left', fontStyle: 'bold' }, // Nome do Aluno
-                    },
-                    alternateRowStyles: {
-                      fillColor: [245, 247, 250]
-                    },
-                    margin: { left: 15, right: 15 }
-                  });
-
-                  // Rodapé
-                  const pageCount = (doc as any).internal.getNumberOfPages();
-                  for (let i = 1; i <= pageCount; i++) {
-                    doc.setPage(i);
-                    doc.setFontSize(8);
-                    doc.setTextColor(150, 150, 150);
-                    doc.text(
-                      "Este documento é gerado automaticamente pelo PREPOM Navigator para acompanhamento pedagógico.",
-                      105,
-                      288,
-                      { align: "center" }
-                    );
-                  }
-
-                  doc.save(`Ranking_PREPOM_${now.toISOString().split('T')[0]}.pdf`);
-
-                } catch (error) {
-                  console.error("Erro ao exportar PDF:", error);
-                  alert("Houve um erro técnico ao gerar o PDF. Verifique o console.");
-                }
-              }}
-            >
-              <BarChart3 className="w-4 h-4 mr-2" />
-              Exportar PDF Ranking
-            </Button>
-          </div>
-        </div>
       </main>
 
       {/* At-Risk Students Dialog */}
