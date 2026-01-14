@@ -96,18 +96,21 @@ const PurchasePage = () => {
               <span className="text-foreground font-medium">Plano Completo</span>
               <span className="text-2xl font-bold text-foreground">R$ 50,00</span>
             </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="w-4 h-4 text-success" />
-                <span>Acesso a todos os 5 blocos de simulados</span>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 p-3 bg-background/50 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-success shrink-0 mt-0.5" />
+                <span className="text-foreground font-medium">Acesso a todos os 5 blocos de simulados</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="w-4 h-4 text-success" />
-                <span>Disponível até a conclusão da prova oficial</span>
+              <div className="flex items-start gap-3 p-3 bg-background/50 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-success shrink-0 mt-0.5" />
+                <span className="text-foreground font-medium">Disponível até a conclusão da prova oficial</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="w-4 h-4 text-success" />
-                <span>Login: CPF | Senha: 6 primeiros dígitos do CPF</span>
+              <div className="flex items-start gap-3 p-3 bg-accent/10 rounded-lg border border-accent/20">
+                <CheckCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <span className="text-foreground font-bold block">Login: CPF</span>
+                  <span className="text-foreground font-bold block">Senha: 6 primeiros dígitos do CPF</span>
+                </div>
               </div>
             </div>
           </div>
