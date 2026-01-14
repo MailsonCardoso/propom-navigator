@@ -71,7 +71,7 @@ class PaymentController extends Controller
                 "user_cpf" => preg_replace('/[^0-9]/', '', $request->cpf),
                 "user_phone" => $request->phone
             ]);
-            // O campo metadata no SDK antigo as vezes é instável, usando external_reference como backup em JSON string
+            $preference->binary_mode = true; // Força aprovação instantânea ou recusa (sem pendente)
 
             $preference->save();
 
