@@ -61,7 +61,7 @@ const DemoResultPage = () => {
                     <div className="bg-navy/5 border border-navy/10 rounded-3xl p-8 mb-8">
                         <h2 className="text-2xl font-bold text-navy mb-4">Gostou da experiência?</h2>
                         <p className="text-navy/70 mb-8 max-w-md mx-auto">
-                            Este foi apenas um pequeno teste. No <strong>PREPOM 2026</strong> completo você tem acesso a mais de 200 questões, simulados ilimitados com cronômetro real e suporte VIP.
+                            Este foi apenas um pequeno teste. No <strong>PREPOM 2026</strong> completo você tem acesso a mais de 200 questões, 5 blocos de simulados com cronômetro real e suporte VIP até a conclusão da prova oficial.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/comprar">
@@ -107,10 +107,10 @@ const DemoResultPage = () => {
                                         <div
                                             key={optIndex}
                                             className={`p-3 rounded-xl border text-sm flex items-center gap-3 ${isCorrect
-                                                    ? "bg-success/10 border-success/30 text-success-foreground font-bold"
-                                                    : isSelected
-                                                        ? "bg-destructive/10 border-destructive/30 text-destructive-foreground"
-                                                        : "bg-muted/30 border-transparent text-muted-foreground"
+                                                ? "bg-success/10 border-success/30 text-success-foreground font-bold"
+                                                : isSelected
+                                                    ? "bg-destructive/10 border-destructive/30 text-destructive-foreground"
+                                                    : "bg-muted/30 border-transparent text-muted-foreground"
                                                 }`}
                                         >
                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isCorrect ? "bg-success text-white" : isSelected ? "bg-destructive text-white" : "bg-muted text-muted-foreground"
@@ -144,7 +144,7 @@ const DemoResultPage = () => {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link to="/comprar" className="w-full sm:w-auto">
                             <Button size="xl" variant="hero" className="w-full">
-                                Começar agora por R$ 35,00
+                                Começar agora por R$ 50,00
                             </Button>
                         </Link>
                         <Link to="/" className="w-full sm:w-auto">

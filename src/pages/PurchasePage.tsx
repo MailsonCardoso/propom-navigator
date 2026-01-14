@@ -93,13 +93,17 @@ const PurchasePage = () => {
 
           <div className="bg-muted/50 rounded-xl p-6 mb-8 border border-border">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-foreground font-medium">Plano Completo Vitalício</span>
+              <span className="text-foreground font-medium">Plano Completo PREPOM 2026</span>
               <span className="text-2xl font-bold text-foreground">R$ 50,00</span>
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <CheckCircle className="w-4 h-4 text-success" />
-                <span>Acesso ilimitado a todos os simulados</span>
+                <span>Acesso a todos os 5 blocos de simulados</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span>Disponível até a conclusão da prova oficial</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <CheckCircle className="w-4 h-4 text-success" />
