@@ -112,7 +112,7 @@ const LandingPage = () => {
               </Link>
               <Link to="/demo/prova" className="w-full sm:w-auto">
                 <Button variant="default" size="xl" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] border-2 border-emerald-400">
-                  FAZER TESTE GRÁTIS
+                  Fazer simulado grátis
                 </Button>
               </Link>
             </div>
