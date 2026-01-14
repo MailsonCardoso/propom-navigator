@@ -1,5 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#002147" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="5" r="3"/>
-  <line x1="12" y1="22" x2="12" y2="8"/>
-  <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Fundo Navy Blue com bordas arredondadas -->
+  <rect width="100" height="100" rx="20" fill="#0a192f"/>
+  
+  <!-- Âncora Dourada -->
+  <g transform="translate(50, 50)">
+    <!-- Círculo superior da âncora -->
+    <circle cx="0" cy="-18" r="5" fill="none" stroke="#d4af37" stroke-width="3"/>
+    
+    <!-- Haste vertical -->
+    <line x1="0" y1="-13" x2="0" y2="20" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Barra horizontal -->
+    <line x1="-15" y1="5" x2="15" y2="5" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Braço esquerdo da âncora -->
+    <path d="M -15 5 Q -20 15, -15 25 L -10 20" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Braço direito da âncora -->
+    <path d="M 15 5 Q 20 15, 15 25 L 10 20" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Pontas dos braços (detalhes) -->
+    <circle cx="-15" cy="25" r="2.5" fill="#d4af37"/>
+    <circle cx="15" cy="25" r="2.5" fill="#d4af37"/>
+  </g>
 </svg>
