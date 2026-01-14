@@ -71,7 +71,16 @@ class AuthController extends Controller
             ->first();
 
         if (!$user || !\Hash::check($password, $user->password)) {
+            try {
+                \App\Models\AccessLog::create(['ip_address' => $request->ip(), 'action' => 'LOGIN_FAILED', 'user_agent' => $request->header('User-Agent')]);
+            } catch (\Exception $e) {
+            }
             return response()->json(['message' => 'Credenciais inválidas'], 401);
+        }
+
+        try {
+            \App\Models\AccessLog::create(['ip_address' => $request->ip(), 'action' => 'LOGIN_SUCCESS', 'user_agent' => $request->header('User-Agent'), 'details' => ['user_id' => $user->id]]);
+        } catch (\Exception $e) {
         }
 
         if (!$user->active) {

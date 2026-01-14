@@ -71,6 +71,19 @@ class QuestionController extends Controller
             ];
         });
 
+        // REGISTRA ACESSO AO SIMULADO DEMO (IP TRACKER)
+        try {
+            \App\Models\AccessLog::create([
+                'ip_address' => request()->ip(),
+                'action' => 'VIEW_DEMO',
+                'user_agent' => request()->header('User-Agent'),
+                'details' => ['questions_count' => $questions->count()]
+            ]);
+        } catch (\Exception $e) {
+            // Silencia erro de log para não bloquear o usuário
+            \Log::error("Erro ao registrar access_log: " . $e->getMessage());
+        }
+
         return response()->json($questions);
     }
 
