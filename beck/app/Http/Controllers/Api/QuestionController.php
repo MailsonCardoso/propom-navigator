@@ -44,20 +44,32 @@ class QuestionController extends Controller
 
     public function demo()
     {
-        $questions = Question::where('is_demo', true)
-            ->orderBy('id', 'asc')
-            ->get()
-            ->map(function ($question) {
-                return [
-                    'id' => $question->id,
-                    'subject' => $question->subject,
-                    'text' => $question->text,
-                    'base_text' => $question->base_text,
-                    'options' => $question->options,
-                    'correct_answer' => $question->correct_answer, // We need this for the demo result
-                    'rationale' => $question->rationale, // We need this for the demo result
-                ];
-            });
+        // 5 de Português
+        $portugues = Question::where('is_demo', true)
+            ->where('subject', 'portugues')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
+        // 5 de Matemática
+        $matematica = Question::where('is_demo', true)
+            ->where('subject', 'matematica')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
+        // Junta e formata
+        $questions = $portugues->concat($matematica)->map(function ($question) {
+            return [
+                'id' => $question->id,
+                'subject' => $question->subject,
+                'text' => $question->text,
+                'base_text' => $question->base_text,
+                'options' => $question->options,
+                'correct_answer' => $question->correct_answer,
+                'rationale' => $question->rationale,
+            ];
+        });
 
         return response()->json($questions);
     }
