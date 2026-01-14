@@ -18,6 +18,7 @@ import AdminStudents from "./pages/AdminStudents";
 import AdminDemoQuestions from "./pages/AdminDemoQuestions";
 import StudentErrorsPage from "./pages/StudentErrorsPage";
 import SecurityLogs from "./pages/SecurityLogs";
+import { MonitoramentoView } from "./pages/admin/MonitoramentoView";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -99,6 +100,14 @@ const App = () => (
               element={
                 <ProtectedRoute role="admin">
                   <AdminDemoQuestions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/monitoramento"
+              element={
+                <ProtectedRoute role="admin">
+                  <MonitoramentoView />
                 </ProtectedRoute>
               }
             />

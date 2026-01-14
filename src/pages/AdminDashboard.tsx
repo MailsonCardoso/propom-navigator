@@ -15,7 +15,8 @@ import {
   AlertTriangle,
   Zap,
   UserX,
-  XCircle
+  XCircle,
+  Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
@@ -361,6 +362,12 @@ const AdminDashboard = () => {
               <Button variant="outline" className="border-destructive/20 hover:bg-destructive/5 text-destructive hover:text-destructive">
                 <ShieldAlert className="w-4 h-4 mr-2" />
                 Auditoria de Segurança
+              </Button>
+            </Link>
+            <Link to="/admin/monitoramento">
+              <Button variant="outline" className="border-blue-500/20 hover:bg-blue-500/5 text-blue-600 hover:text-blue-700">
+                <Eye className="w-4 h-4 mr-2" />
+                Monitoramento
               </Button>
             </Link>
             <Button

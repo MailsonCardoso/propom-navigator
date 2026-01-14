@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Api\SecurityLogController;
+use App\Http\Controllers\Api\AccessLogController;
 
 // Rotas públicas
 Route::post('/auth/login/admin', [AuthController::class, 'loginAdmin']);
@@ -52,5 +53,6 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\PreventSimultaneousAcces
         Route::get('/exam/stats', [ExamController::class, 'stats']);
         Route::get('/admin/stats', [ExamController::class, 'adminStats']);
         Route::get('/security-logs', [SecurityLogController::class, 'index']);
+        Route::get('/access-logs', [AccessLogController::class, 'index']);
     });
 });
