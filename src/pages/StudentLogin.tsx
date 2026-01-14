@@ -116,9 +116,25 @@ const StudentLogin = () => {
                 <p className="text-emerald-700 mt-1">
                   Seu acesso foi liberado. Use seu <strong className="font-bold">CPF</strong> e a senha são os <strong className="font-bold">6 primeiros dígitos do seu CPF</strong>.
                 </p>
+                <p className="text-emerald-600 mt-2 text-xs">
+                  📧 Enviamos um email com suas credenciais. <strong>Verifique a caixa de SPAM</strong> caso não encontre na entrada.
+                </p>
               </div>
             </div>
           )}
+
+          {/* Info sobre email - sempre visível */}
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
+            <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="text-sm">
+              <p className="font-bold text-blue-800">Acabou de comprar?</p>
+              <p className="text-blue-700 mt-1">
+                Enviamos um email com suas credenciais de acesso. <strong>Verifique sua caixa de SPAM</strong> se não receber em alguns minutos.
+              </p>
+            </div>
+          </div>
 
           {!mustChange ? (
             <form onSubmit={handleSubmit} className="space-y-5">
