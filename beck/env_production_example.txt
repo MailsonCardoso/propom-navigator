@@ -1,0 +1,18 @@
+APP_NAME="PREPOM Navigator"
+APP_ENV=production
+APP_KEY= # Rodar: php artisan key:generate no terminal do cPanel
+APP_DEBUG=false
+APP_URL=https://api.platformx.com.br
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=DEFINIR_NO_CPANEL
+DB_USERNAME=DEFINIR_NO_CPANEL
+DB_PASSWORD=DEFINIR_NO_CPANEL
+
+# Configurações de Produção
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
