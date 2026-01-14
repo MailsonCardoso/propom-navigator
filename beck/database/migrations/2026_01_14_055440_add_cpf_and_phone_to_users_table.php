@@ -11,8 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('cpf')->nullable()->after('email');
-            $table->string('phone')->nullable()->after('cpf');
+            if (!Schema::hasColumn('users', 'cpf')) {
+                $table->string('cpf')->nullable()->after('email');
+            }
+            if (!Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable()->after('cpf');
+            }
         });
     }
 
