@@ -31,12 +31,14 @@ const StudentLogin = () => {
 
   useEffect(() => {
     const status = searchParams.get("status");
-    if (status === "success") {
+    const collectionStatus = searchParams.get("collection_status");
+
+    if (status === "success" || collectionStatus === "approved") {
       setSuccessMessage("Pagamento confirmado com sucesso!");
       toast.success("Pagamento aprovado! Faça login agora.");
-    } else if (status === "failure") {
+    } else if (status === "failure" || collectionStatus === "rejected") {
       toast.error("O pagamento falhou ou foi cancelado.");
-    } else if (status === "pending") {
+    } else if (status === "pending" || collectionStatus === "in_process") {
       toast.info("Pagamento em processamento. Aguarde a confirmação.");
     }
   }, [searchParams]);
