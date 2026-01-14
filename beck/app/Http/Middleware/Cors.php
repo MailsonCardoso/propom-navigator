@@ -15,8 +15,14 @@ class Cors
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = $next($request);
+        // Intercepta requisições OPTIONS (Preflight) e responde na hora
+        if ($request->isMethod('OPTIONS')) {
+            $response = new Response('', 200);
+        } else {
+            $response = $next($request);
+        }
 
+        // Define os headers uma única vez
         $response->headers->set('Access-Control-Allow-Origin', 'https://platformx.com.br');
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, X-Auth-Token, X-XSRF-TOKEN');

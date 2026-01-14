@@ -1,15 +1,9 @@
 <IfModule mod_headers.c>
-    # Forçar cabeçalhos CORS fixos para o domínio principal
-    Header set Access-Control-Allow-Origin "https://platformx.com.br"
-    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept, Origin, X-Auth-Token, X-XSRF-TOKEN"
-    Header set Access-Control-Allow-Credentials "true"
+   # Headers removidos para evitar duplicidade com o Middleware do Laravel
 </IfModule>
 
-# Responder 200 OK para requisições de teste (Preflight/OPTIONS)
+# Roteamento padrão do Laravel
 RewriteEngine On
-RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^(.*)$ $1 [R=200,L]
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
