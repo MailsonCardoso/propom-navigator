@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Anchor, User, Lock, ArrowRight, ShieldCheck } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { Anchor, User, Lock, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,8 @@ const StudentLogin = () => {
 
   const navigate = useNavigate();
   const { login: doLogin } = useApp();
+  const [searchParams] = useSearchParams();
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const formatCPF = (value: string) => {
     return value
@@ -26,6 +28,18 @@ const StudentLogin = () => {
       .replace(/(\d{3})(\d{1,2})/, "$1-$2")
       .replace(/(-\d{2})\d+?$/, "$1");
   };
+
+  useEffect(() => {
+    const status = searchParams.get("status");
+    if (status === "success") {
+      setSuccessMessage("Pagamento confirmado com sucesso!");
+      toast.success("Pagamento aprovado! Faça login agora.");
+    } else if (status === "failure") {
+      toast.error("O pagamento falhou ou foi cancelado.");
+    } else if (status === "pending") {
+      toast.info("Pagamento em processamento. Aguarde a confirmação.");
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,6 +105,18 @@ const StudentLogin = () => {
               </>
             )}
           </div>
+
+          {successMessage && (
+            <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-3 animate-fade-in">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-bold text-emerald-800">Tudo certo!</p>
+                <p className="text-emerald-700 mt-1">
+                  Seu acesso foi liberado. A senha são os <strong className="font-bold">6 primeiros dígitos do seu CPF</strong>.
+                </p>
+              </div>
+            </div>
+          )}
 
           {!mustChange ? (
             <form onSubmit={handleSubmit} className="space-y-5">
