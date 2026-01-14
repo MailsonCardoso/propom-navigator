@@ -1,6 +1,21 @@
-# Garantir tipos MIME corretos para módulos JavaScript e CSS
-AddType application/javascript .js
-AddType text/css .css
+# Tipos MIME para JavaScript e CSS
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/javascript .js .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+</IfModule>
+
+# Garantir que arquivos .js sejam servidos corretamente
+<FilesMatch "\.(js|mjs)$">
+  ForceType application/javascript
+  Header set Content-Type "application/javascript"
+</FilesMatch>
+
+<FilesMatch "\.css$">
+  ForceType text/css
+  Header set Content-Type "text/css"
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -16,5 +31,14 @@ AddType text/css .css
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !^/manifest.json
   RewriteCond %{REQUEST_URI} !^/robots.txt
+  RewriteCond %{REQUEST_URI} !^/favicon
   RewriteRule . /index.html [L]
+</IfModule>
+
+# Cache para assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
 </IfModule>
