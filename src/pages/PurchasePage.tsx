@@ -107,7 +107,7 @@ const PurchasePage = () => {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <CheckCircle className="w-4 h-4 text-success" />
-                <span>Senha de acesso: 6 primeiros dígitos do CPF</span>
+                <span>Login: CPF | Senha: 6 primeiros dígitos do CPF</span>
               </div>
             </div>
           </div>

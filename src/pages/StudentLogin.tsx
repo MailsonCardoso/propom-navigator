@@ -114,7 +114,7 @@ const StudentLogin = () => {
               <div className="text-sm">
                 <p className="font-bold text-emerald-800">Tudo certo!</p>
                 <p className="text-emerald-700 mt-1">
-                  Seu acesso foi liberado. A senha são os <strong className="font-bold">6 primeiros dígitos do seu CPF</strong>.
+                  Seu acesso foi liberado. Use seu <strong className="font-bold">CPF</strong> e a senha são os <strong className="font-bold">6 primeiros dígitos do seu CPF</strong>.
                 </p>
               </div>
             </div>
