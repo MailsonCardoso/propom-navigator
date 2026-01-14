@@ -93,7 +93,7 @@ const PurchasePage = () => {
 
           <div className="bg-muted/50 rounded-xl p-6 mb-8 border border-border">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-foreground font-medium">Plano Completo PREPOM 2026</span>
+              <span className="text-foreground font-medium">Plano Completo</span>
               <span className="text-2xl font-bold text-foreground">R$ 50,00</span>
             </div>
             <div className="space-y-2">
