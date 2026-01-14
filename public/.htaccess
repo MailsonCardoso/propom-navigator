@@ -1,3 +1,7 @@
+# Garantir tipos MIME corretos para módulos JavaScript e CSS
+AddType application/javascript .js
+AddType text/css .css
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
