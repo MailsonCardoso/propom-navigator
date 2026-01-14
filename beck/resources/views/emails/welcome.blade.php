@@ -55,7 +55,8 @@
                                         Login (CPF)</p>
                                     <p
                                         style="color: #ffffff; margin: 0; font-size: 20px; font-weight: bold; font-family: 'Courier New', monospace;">
-                                        {{ $userCpf }}</p>
+                                        {{ $userCpf }}
+                                    </p>
                                 </div>
 
                                 <div
@@ -65,7 +66,8 @@
                                         Senha Inicial</p>
                                     <p
                                         style="color: #ffffff; margin: 0; font-size: 20px; font-weight: bold; font-family: 'Courier New', monospace;">
-                                        {{ $userPassword }}</p>
+                                        {{ $userPassword }}
+                                    </p>
                                 </div>
 
                                 <div
@@ -125,8 +127,12 @@
                             <p style="color: #666666; font-size: 12px; margin: 0 0 10px;">
                                 <strong>Equipe PREPOM Navigator</strong>
                             </p>
-                            <p style="color: #999999; font-size: 11px; margin: 0;">
-                                Este é um email automático. Por favor, não responda.
+                            <p style="color: #999999; font-size: 11px; margin: 0 0 10px;">
+                                Este é um email transacional de confirmação de compra.
+                            </p>
+                            <p style="color: #999999; font-size: 10px; margin: 0;">
+                                PREPOM Navigator - Plataforma de Simulados<br>
+                                platformx.com.br
                             </p>
                         </td>
                     </tr>
