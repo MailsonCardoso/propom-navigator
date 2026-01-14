@@ -25,14 +25,16 @@
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Roteamento do React
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_URI} !^/manifest.json
-  RewriteCond %{REQUEST_URI} !^/robots.txt
-  RewriteCond %{REQUEST_URI} !^/favicon
-  RewriteRule . /index.html [L]
+  # NÃO redirecionar arquivos que existem (assets, etc)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # NÃO redirecionar arquivos em /assets/
+  RewriteRule ^assets/ - [L]
+
+  # Roteamento do React - tudo mais vai para index.html
+  RewriteRule ^ /index.html [L]
 </IfModule>
 
 # Cache para assets
