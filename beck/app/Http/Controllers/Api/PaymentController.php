@@ -121,7 +121,7 @@ class PaymentController extends Controller
                             $rawCpf = preg_replace('/[^0-9]/', '', $cpf);
                             $password = substr($rawCpf, 0, 6);
 
-                            User::create([
+                            $newUser = User::create([
                                 'name' => $name,
                                 'email' => $email,
                                 'cpf' => $rawCpf,
@@ -133,6 +133,25 @@ class PaymentController extends Controller
                             ]);
 
                             Log::info("Aluno criado via Webhook (Legacy SDK): $email");
+
+                            // Enviar email de boas-vindas com credenciais
+                            try {
+                                $formattedCpf = substr($rawCpf, 0, 3) . '.' .
+                                    substr($rawCpf, 3, 3) . '.' .
+                                    substr($rawCpf, 6, 3) . '-' .
+                                    substr($rawCpf, 9, 2);
+
+                                \Mail::to($email)->send(new \App\Mail\WelcomeEmail(
+                                    $name,
+                                    $formattedCpf,
+                                    $password,
+                                    50.00
+                                ));
+
+                                Log::info("Email de boas-vindas enviado para: $email");
+                            } catch (\Exception $e) {
+                                Log::error("Erro ao enviar email: " . $e->getMessage());
+                            }
                         } else {
                             if (!$user->active) {
                                 $user->active = true;

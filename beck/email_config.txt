@@ -1,0 +1,9 @@
+# Configurações de Email SMTP
+MAIL_MAILER=smtp
+MAIL_HOST=mail.platformx.com.br
+MAIL_PORT=465
+MAIL_USERNAME=simulado@platformx.com.br
+MAIL_PASSWORD=*-hl+fSp7&bg
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=simulado@platformx.com.br
+MAIL_FROM_NAME="PREPOM Navigator"
