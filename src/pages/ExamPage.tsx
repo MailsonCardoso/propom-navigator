@@ -343,8 +343,8 @@ const ExamPage = () => {
 
             {/* Content Switcher logic (apenas esconde texto no mobile se tab for 'text') */}
             <div className={`${(mobileTab === 'text' && question.base_text) ? 'hidden' : 'block'} md:block transition-all`}>
-              <div className="flex items-start justify-between mb-6 md:mb-10 gap-3">
-                <h2 className="text-lg md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
+              <div className="flex items-start justify-between mb-6 md:mb-8 gap-3">
+                <h2 className="text-base md:text-2xl font-semibold text-foreground leading-relaxed flex-1">
                   {question.text}
                 </h2>
                 <div className="flex gap-1 flex-shrink-0">
@@ -368,6 +368,17 @@ const ExamPage = () => {
                   )}
                 </div>
               </div>
+
+              {/* Renderização da Imagem da Questão (quando existir) */}
+              {question.image_url && (
+                <div className="mb-6 md:mb-8 rounded-xl overflow-hidden border border-border/50 bg-white/50 p-2 md:p-4 flex justify-center shadow-inner">
+                  <img
+                    src={question.image_url}
+                    alt="Croqui da Questão"
+                    className="max-w-full h-auto max-h-[250px] md:max-h-[400px] object-contain rounded-lg"
+                  />
+                </div>
+              )}
 
               {showHint && question.hint && (
                 <div className="mb-6 p-4 bg-accent/5 border border-accent/20 rounded-xl animate-scale-in">
