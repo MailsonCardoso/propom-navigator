@@ -343,41 +343,60 @@ const LandingPage = () => {
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="hover:text-foreground transition-colors">Termos de Uso</button>
+                  <button className="hover:text-foreground transition-colors py-2 px-1">Termos de Uso</button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl max-h-[80vh]">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-navy-900">Termos de Uso</DialogTitle>
+                <DialogContent className="max-w-2xl max-h-[90vh] p-0 gap-0 overflow-hidden border-none shadow-2xl">
+                  <DialogHeader className="p-8 bg-white border-b sticky top-0 z-10">
+                    <DialogTitle className="text-3xl font-black text-navy-900 tracking-tight">Termos de Uso</DialogTitle>
                   </DialogHeader>
-                  <ScrollArea className="pr-4 mt-4">
-                    <div className="space-y-6 text-slate-600 leading-relaxed pb-6">
-                      <p className="font-medium text-navy-800 italic">Bem-vindo à PREPOM Navigator.</p>
-                      <p>Ao acessar e utilizar nossa plataforma, você concorda com os seguintes termos:</p>
+                  <ScrollArea className="h-full max-h-[calc(90vh-100px)] bg-slate-50/30">
+                    <div className="p-8 space-y-8 text-slate-600 leading-relaxed pb-12">
+                      <div className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                        <p className="font-bold text-navy-800 text-lg">Bem-vindo à PREPOM Navigator.</p>
+                        <p className="text-sm">Ao acessar e utilizar nossa plataforma, você concorda com os seguintes termos estabelecidos para garantir a melhor experiência e segurança de todos os nossos alunos.</p>
+                      </div>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">1. Objeto</h4>
-                        <p>A PREPOM Navigator oferece simulados preparatórios baseados no edital do PREPOM (Marinha Mercante). O conteúdo tem fins exclusivamente educacionais.</p>
-                      </section>
+                      <div className="grid gap-6">
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-accent rounded-full" />
+                            1. Objeto
+                          </h4>
+                          <p className="text-sm">A PREPOM Navigator oferece simulados preparatórios baseados no edital do PREPOM (Marinha Mercante). O conteúdo tem fins exclusivamente educacionais e visa auxiliar na preparação técnica do candidato.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">2. Acesso Personalizado</h4>
-                        <p>O acesso adquirido é <strong>Individual e Intransferível</strong>. É proibido o compartilhamento de login/senha com terceiros. O sistema monitora acessos simultâneos e IPs para garantir a segurança da conta.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-accent rounded-full" />
+                            2. Acesso Personalizado
+                          </h4>
+                          <p className="text-sm">O acesso adquirido é <strong>Individual e Intransferível</strong>. É terminantemente proibido o compartilhamento de login/senha. Nosso sistema utiliza monitoramento de IA para identificar acessos simultâneos e padrões de IP suspeitos.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">3. Propriedade Intelectual</h4>
-                        <p>Todo o conteúdo (textos, questões profissionalizadas e croquis) é de uso exclusivo na plataforma. É proibida a reprodução, cópia ou distribuição comercial do material sem autorização prévia.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-accent rounded-full" />
+                            3. Propriedade Intelectual
+                          </h4>
+                          <p className="text-sm">Todo o conteúdo, incluindo textos, questões e croquis técnicos, é de propriedade exclusiva. Qualquer tentativa de cópia, raspagem de dados (scraping) ou distribuição não autorizada resultará em bloqueio imediato e medidas legais.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">4. Pagamento e Vigência</h4>
-                        <p>O acesso aos 6 módulos é liberado mediante pagamento único e permanece disponível ao aluno até a conclusão da prova oficial do ano vigente (2026).</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-accent rounded-full" />
+                            4. Pagamento e Vigência
+                          </h4>
+                          <p className="text-sm">O acesso aos 6 módulos é liberado via pagamento único. A conta permanecerá ativa e funcional até a data de conclusão da última prova oficial do calendário PREPOM 2026.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">5. Responsabilidade</h4>
-                        <p>A plataforma fornece ferramentas de estudo. A aprovação no processo seletivo oficial depende do desempenho individual e dedicação do aluno, não havendo garantia de aprovação apenas pela aquisição do sistema.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-accent rounded-full" />
+                            5. Responsabilidade
+                          </h4>
+                          <p className="text-sm">Fornecemos a melhor ferramenta prática do mercado, porém a aprovação depende exclusivamente do empenho e estudo do candidato. Não garantimos resultados em provas oficiais da Marinha.</p>
+                        </section>
+                      </div>
                     </div>
                   </ScrollArea>
                 </DialogContent>
@@ -385,47 +404,67 @@ const LandingPage = () => {
 
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="hover:text-foreground transition-colors">Privacidade</button>
+                  <button className="hover:text-foreground transition-colors py-2 px-1">Privacidade</button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl max-h-[80vh]">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-navy-900">Política de Privacidade</DialogTitle>
+                <DialogContent className="max-w-2xl max-h-[90vh] p-0 gap-0 overflow-hidden border-none shadow-2xl">
+                  <DialogHeader className="p-8 bg-white border-b sticky top-0 z-10">
+                    <DialogTitle className="text-3xl font-black text-navy-900 tracking-tight">Privacidade</DialogTitle>
                   </DialogHeader>
-                  <ScrollArea className="pr-4 mt-4">
-                    <div className="space-y-6 text-slate-600 leading-relaxed pb-6">
-                      <p className="font-bold text-navy-800">Sua privacidade é nossa prioridade.</p>
+                  <ScrollArea className="h-full max-h-[calc(90vh-100px)] bg-slate-50/30">
+                    <div className="p-8 space-y-8 text-slate-600 leading-relaxed pb-12">
+                      <div className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                        <p className="font-bold text-navy-800 text-lg">Sua privacidade é nossa prioridade.</p>
+                        <p className="text-sm">Entenda como cuidamos dos seus dados para garantir um ambiente seguro e focado no seu aprendizado.</p>
+                      </div>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">1. Coleta de Dados</h4>
-                        <p>Coletamos apenas as informações necessárias para sua identificação e segurança: nome, e-mail e endereço IP (utilizado exclusivamente para logs de segurança e prevenção de fraudes).</p>
-                      </section>
+                      <div className="grid gap-6">
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-success rounded-full" />
+                            1. Coleta de Dados
+                          </h4>
+                          <p className="text-sm">Coletamos apenas o essencial: Nome para identificação no painel, E-mail para acesso e IP para proteção contra invasões e fraudes de acesso.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">2. Uso das Informações</h4>
-                        <div className="space-y-1">
-                          <p>Seus dados são utilizados para:</p>
-                          <ul className="list-disc pl-5 space-y-1">
-                            <li>Gerenciar seu progresso nos simulados.</li>
-                            <li>Garantir a segurança da sua conta contra acessos não autorizados.</li>
-                            <li>Prestar suporte técnico via WhatsApp.</li>
-                          </ul>
-                        </div>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-success rounded-full" />
+                            2. Uso das Informações
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <p>Utilizamos seus dados para:</p>
+                            <ul className="grid grid-cols-1 gap-1">
+                              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success" /> Histórico de desempenho nos simulados</li>
+                              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success" /> Segurança da conta e log de atividades</li>
+                              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-success" /> Suporte técnico humanizado via WhatsApp</li>
+                            </ul>
+                          </div>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">3. Segurança</h4>
-                        <p>Utilizamos criptografia e bancos de dados seguros para armazenar suas informações. Seus dados de pagamento são processados por gateways externos seguros, e não armazenamos dados de cartão ou chaves PIX em nossos servidores.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-success rounded-full" />
+                            3. Segurança
+                          </h4>
+                          <p className="text-sm">Não guardamos seus dados de pagamento. Todo o processamento financeiro é feito por gateways certificados com criptografia de ponta a ponta.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">4. Compartilhamento</h4>
-                        <p>Não vendemos ou compartilhamos seus dados pessoais com terceiros para fins de marketing.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-success rounded-full" />
+                            4. Zero Spam
+                          </h4>
+                          <p className="text-sm">Odiamos spam tanto quanto você. Não vendemos seus dados para terceiros nem enviamos propagandas desnecessárias.</p>
+                        </section>
 
-                      <section className="space-y-2">
-                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">5. Cookies</h4>
-                        <p>Utilizamos cookies essenciais para manter você logado durante a realização dos simulados e para melhorar a experiência de navegação.</p>
-                      </section>
+                        <section className="group p-6 bg-white rounded-2xl border border-slate-100 hover:border-accent/30 transition-colors shadow-sm">
+                          <h4 className="font-black text-navy-900 uppercase tracking-widest text-xs mb-4 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-success rounded-full" />
+                            5. Cookies
+                          </h4>
+                          <p className="text-sm">Usamos apenas cookies técnicos para que você não precise fazer login toda vez que abrir o site no mesmo dispositivo.</p>
+                        </section>
+                      </div>
                     </div>
                   </ScrollArea>
                 </DialogContent>
