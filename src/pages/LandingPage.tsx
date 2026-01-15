@@ -94,9 +94,9 @@ const LandingPage = () => {
               <span className="text-sm text-white/90 font-medium">O preparatório prático que te coloca à frente da concorrência</span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-              Simulados{" "}
-              <span className="text-accent">PREPOM 2026</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 animate-fade-in leading-tight" style={{ animationDelay: "0.1s" }}>
+              Simulado{" "}
+              <span className="text-accent block mt-4 text-xl md:text-4xl relative z-20">CFAC-MOC | CFAC-MOM | CAAQ-TCS | CCAQ-ELT</span>
             </h2>
 
             <p className="text-lg md:text-xl text-white/80 mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
