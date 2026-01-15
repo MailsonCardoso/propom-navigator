@@ -372,11 +372,26 @@ const ExamPage = () => {
 
               {/* Renderização da Imagem da Questão (quando existir) */}
               {question.image_url && (
-                <div className="mb-6 md:mb-8 rounded-xl overflow-hidden border border-border/50 bg-white/50 p-2 md:p-4 flex justify-center shadow-inner">
+                <div className="mb-6 md:mb-8 rounded-xl overflow-hidden border border-border/50 bg-white/50 p-2 md:p-4 flex justify-center shadow-inner min-h-[100px] items-center">
                   <img
-                    src={question.image_url.startsWith('http') ? question.image_url : `${API_BASE_URL.replace('/api', '')}${question.image_url}`}
+                    src={
+                      question.image_url.startsWith('http')
+                        ? question.image_url
+                        : `${API_BASE_URL.replace(/\/api$/, '')}${question.image_url.startsWith('/') ? '' : '/'}${question.image_url}`
+                    }
                     alt="Croqui da Questão"
-                    className="max-w-full h-auto max-h-[250px] md:max-h-[400px] object-contain rounded-lg"
+                    className="max-w-full h-auto max-h-[250px] md:max-h-[400px] object-contain rounded-lg shadow-sm"
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      console.error("Falha ao carregar imagem:", img.src);
+                      // Fallback: Tenta remover ou adicionar o prefixo /storage se falhar
+                      if (!img.src.includes('/storage/') && !img.dataset.triedStorage) {
+                        img.dataset.triedStorage = 'true';
+                        const currentPath = question.image_url || '';
+                        const cleanPath = currentPath.startsWith('/') ? currentPath.substring(1) : currentPath;
+                        img.src = `${API_BASE_URL.replace(/\/api$/, '')}/storage/${cleanPath}`;
+                      }
+                    }}
                   />
                 </div>
               )}
