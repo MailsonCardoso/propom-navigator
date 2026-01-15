@@ -147,7 +147,7 @@ class DemoQuestionsSeeder extends Seeder
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Em um simulado, cada questão vale 2 pontos. Um candidato fez todas as questões e obteve 20 pontos, além de 4 pontos extras. Quantas questões ele acertou? (Considere a equação 2x + 4 = 20)',
+                'text' => 'Um candidato obteve um total de 20 pontos, que inclui 4 pontos extras. Sabendo que cada questão vale 2 pontos, quantas questões ele acertou? (Considere a equação 2x + 4 = 20)',
                 'options' => ['6', '7', '8', '9'],
                 'correct_answer' => 2,
                 'rationale' => '2x = 20 − 4 → 2x = 16 → x = 8 questões.',
@@ -158,8 +158,8 @@ class DemoQuestionsSeeder extends Seeder
                 'subject' => 'matematica',
                 'text' => 'Um aluno iniciou o simulado com x pontos. Após perder 9 pontos, ficou com 11 pontos. Qual era sua pontuação inicial? (Considere x − 9 = 11)',
                 'options' => ['2', '11', '18', '20'],
-                'correct_answer' => 2,
-                'rationale' => 'x = 11 + 9 → x = 18 pontos.',
+                'correct_answer' => 3,
+                'rationale' => 'x = 11 + 9 → x = 20 pontos.',
                 'block' => 0,
                 'is_demo' => true
             ],
