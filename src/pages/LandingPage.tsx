@@ -2,6 +2,14 @@ import { Anchor, Clock, BookOpen, Award, Users, CheckCircle, Trophy } from "luci
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const LandingPage = () => {
   const features = [
@@ -321,7 +329,7 @@ const LandingPage = () => {
       </section >
 
       {/* Footer */}
-      < footer className="py-8 border-t border-border" >
+      <footer className="py-8 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -333,13 +341,99 @@ const LandingPage = () => {
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">Termos de Uso</a>
-              <a href="#" className="hover:text-foreground transition-colors">Privacidade</a>
-              <a href="#" className="hover:text-foreground transition-colors">Contato</a>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="hover:text-foreground transition-colors">Termos de Uso</button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh]">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold text-navy-900">Termos de Uso</DialogTitle>
+                  </DialogHeader>
+                  <ScrollArea className="pr-4 mt-4">
+                    <div className="space-y-6 text-slate-600 leading-relaxed pb-6">
+                      <p className="font-medium text-navy-800 italic">Bem-vindo à PREPOM Navigator.</p>
+                      <p>Ao acessar e utilizar nossa plataforma, você concorda com os seguintes termos:</p>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">1. Objeto</h4>
+                        <p>A PREPOM Navigator oferece simulados preparatórios baseados no edital do PREPOM (Marinha Mercante). O conteúdo tem fins exclusivamente educacionais.</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">2. Acesso Personalizado</h4>
+                        <p>O acesso adquirido é <strong>Individual e Intransferível</strong>. É proibido o compartilhamento de login/senha com terceiros. O sistema monitora acessos simultâneos e IPs para garantir a segurança da conta.</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">3. Propriedade Intelectual</h4>
+                        <p>Todo o conteúdo (textos, questões profissionalizadas e croquis) é de uso exclusivo na plataforma. É proibida a reprodução, cópia ou distribuição comercial do material sem autorização prévia.</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">4. Pagamento e Vigência</h4>
+                        <p>O acesso aos 6 módulos é liberado mediante pagamento único e permanece disponível ao aluno até a conclusão da prova oficial do ano vigente (2026).</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">5. Responsabilidade</h4>
+                        <p>A plataforma fornece ferramentas de estudo. A aprovação no processo seletivo oficial depende do desempenho individual e dedicação do aluno, não havendo garantia de aprovação apenas pela aquisição do sistema.</p>
+                      </section>
+                    </div>
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="hover:text-foreground transition-colors">Privacidade</button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh]">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold text-navy-900">Política de Privacidade</DialogTitle>
+                  </DialogHeader>
+                  <ScrollArea className="pr-4 mt-4">
+                    <div className="space-y-6 text-slate-600 leading-relaxed pb-6">
+                      <p className="font-bold text-navy-800">Sua privacidade é nossa prioridade.</p>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">1. Coleta de Dados</h4>
+                        <p>Coletamos apenas as informações necessárias para sua identificação e segurança: nome, e-mail e endereço IP (utilizado exclusivamente para logs de segurança e prevenção de fraudes).</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">2. Uso das Informações</h4>
+                        <div className="space-y-1">
+                          <p>Seus dados são utilizados para:</p>
+                          <ul className="list-disc pl-5 space-y-1">
+                            <li>Gerenciar seu progresso nos simulados.</li>
+                            <li>Garantir a segurança da sua conta contra acessos não autorizados.</li>
+                            <li>Prestar suporte técnico via WhatsApp.</li>
+                          </ul>
+                        </div>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">3. Segurança</h4>
+                        <p>Utilizamos criptografia e bancos de dados seguros para armazenar suas informações. Seus dados de pagamento são processados por gateways externos seguros, e não armazenamos dados de cartão ou chaves PIX em nossos servidores.</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">4. Compartilhamento</h4>
+                        <p>Não vendemos ou compartilhamos seus dados pessoais com terceiros para fins de marketing.</p>
+                      </section>
+
+                      <section className="space-y-2">
+                        <h4 className="font-bold text-navy-900 border-l-4 border-accent pl-3">5. Cookies</h4>
+                        <p>Utilizamos cookies essenciais para manter você logado durante a realização dos simulados e para melhorar a experiência de navegação.</p>
+                      </section>
+                    </div>
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
-      </footer >
+      </footer>
 
       <WhatsAppButton />
     </div >
