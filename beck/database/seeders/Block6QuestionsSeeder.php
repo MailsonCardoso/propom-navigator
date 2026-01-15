@@ -197,164 +197,164 @@ class Block6QuestionsSeeder extends Seeder
             // MATEMATICA - Q21 to Q40
             [
                 'subject' => 'matematica',
-                'text' => 'O número m ≠ 0 tem inverso igual a n. Sabendo-se que (m + n) = 2, qual o valor de (m³ + n³) . (m⁴ − n⁴)?',
+                'text' => 'Considere que um número real "m", diferente de zero, possui um inverso representado por "n". Sabendo-se que a soma desses dois números (m + n) é igual a 2, determine o valor numérico resultante da expressão (m³ + n³) . (m⁴ − n⁴).',
                 'options' => ['0', '8', '6', '4', '2'],
                 'correct_answer' => 0, // A
-                'rationale' => '1. Se n é o inverso de m, então n = 1/m. \n2. Temos m + 1/m = 2. Multiplicando tudo por m: m² + 1 = 2m => m² - 2m + 1 = 0. \n3. Isso é um trinômio quadrado perfeito: (m - 1)² = 0, logo m = 1. \n4. Se m=1, então n=1. \n5. A expressão pede (m⁴ − n⁴). Isso seria (1⁴ - 1⁴) = 1 - 1 = 0. \n6. Qualquer valor multiplicado por 0 é 0.',
+                'rationale' => '1. Se n é o inverso de m, então n = 1/m. \n2. Temos m + 1/m = 2. Multiplicando tudo por m: m² + 1 = 2m => m² - 2m + 1 = 0. \n3. Isso é um trinômio quadrado perfeito: (m - 1)² = 0, logo m = 1. \n4. Se m=1, então seu inverso n também é 1. \n5. A expressão pede (m⁴ − n⁴) no segundo termo. Isso seria (1⁴ - 1⁴) = 1 - 1 = 0. \n6. Como qualquer número multiplicado por zero é zero, o resultado final é 0.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'A diferença entre o comprimento a e a largura b de um retângulo é de 2 cm. Se sua área é menor que 35 cm², então o valor de a, em cm (considerando a solução algébrica da inequação), será:',
+                'text' => 'Em um compartimento retangular de um navio, a diferença entre o comprimento "a" e a largura "b" é exatamente 2 cm. Se a área total deste compartimento deve ser menor que 35 cm², determine o intervalo de valores possíveis para o comprimento "a", considerando a solução algébrica da inequação resultante.',
                 'options' => ['0 < x < 7', '4 < x < 6', '0 < x < 2', '4 < x < 7', '7 < x < 12'],
                 'correct_answer' => 0, // A
-                'rationale' => '1. Dados: a - b = 2 => b = a - 2. Área < 35. \n2. Área = a * b = a(a-2) = a² - 2a. \n3. Inequação: a² - 2a - 35 < 0. \n4. Raízes de a² - 2a - 35 = 0: (2 ± √(4 - 4*1*(-35)))/2 = (2±12)/2. Raízes: 7 e -5. \n5. A parábola é negativa ENTRE as raízes: -5 < a < 7. \n6. Como "a" é uma medida de comprimento, deve ser positivo (>0). Logo, o intervalo válido é 0 < x < 7.',
+                'rationale' => '1. Dados: a - b = 2 => b = a - 2. Área < 35. \n2. Área = a * b = a(a-2) = a² - 2a. \n3. Montamos a inequação: a² - 2a - 35 < 0. \n4. As raízes da equação a² - 2a - 35 = 0 são 7 e -5. \n5. Por ser uma parábola com concavidade voltada para cima, os valores menores que zero estão entre as raízes: -5 < a < 7. \n6. Visto que "a" representa uma medida física (comprimento), ele deve ser maior que zero. Portanto, a solução válida é 0 < x < 7.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Um número é formado por 3 algarismos (5 d 2). Sabendo-se que S é a soma dos possíveis valores que o algarismo da dezena (d) poderá assumir para que este número seja divisível por 4, então √S será:',
+                'text' => 'Um determinado código serial é formado por 3 algarismos na sequência (5 d 2), onde "d" representa o algarismo das dezenas. Sabendo-se que "S" é a soma de todos os valores possíveis que "d" pode assumir para que este número seja perfeitamente divisível por 4, calcule o valor de √S.',
                 'options' => ['7', '11', '9', '5', '3'],
                 'correct_answer' => 3, // D
-                'rationale' => '1. Critério de divisibilidade por 4: Os dois últimos algarismos devem formar um número divisível por 4. \n2. O número termina em "d2". \n3. Testando dígitos de 0 a 9: \n - 02 (Não) \n - 12 (Sim, 12/4=3) -> d=1 \n - 22 (Não) \n - 32 (Sim, 32/4=8) -> d=3 \n - 42 (Não) \n - 52 (Sim) -> d=5 \n - 62 (Não) \n - 72 (Sim) -> d=7 \n - 82 (Não) \n - 92 (Sim) -> d=9 \n4. Valores possíveis: 1, 3, 5, 7, 9. \n5. Soma S = 1+3+5+7+9 = 25. \n6. A questão pede √S => √25 = 5.',
+                'rationale' => '1. Para um número ser divisível por 4, os dois últimos algarismos (d2) devem formar um número múltiplo de 4. \n2. Testamos as possibilidades para "d": \n - 12 (divisível por 4) -> d=1 \n - 32 (divisível por 4) -> d=3 \n - 52 (divisível por 4) -> d=5 \n - 72 (divisível por 4) -> d=7 \n - 92 (divisível por 4) -> d=9 \n3. Somando os valores de d: S = 1+3+5+7+9 = 25. \n4. O problema pede √S, logo √25 = 5.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Uma fábrica engarrafa 3000 refrigerantes em 6 horas. Quantas horas levará para engarrafar 4000 refrigerantes?',
+                'text' => 'Uma centrífuga de purificação em uma plataforma engarrafa 3.000 recipientes de refrigerante em um período de 6 horas de operação contínua. Mantendo o mesmo ritmo de produção, quantas horas seriam necessárias para engarrafar um lote de 4.000 recipientes?',
                 'options' => ['10', '12', '8', '16', '14'],
                 'correct_answer' => 2, // C
-                'rationale' => 'Regra de três simples: \n 3000 ref --- 6h \n 4000 ref --- x \n 3000x = 24000 \n x = 24000 / 3000 = 24/3 = 8 horas.',
+                'rationale' => 'Trata-se de uma regra de três simples direta: \n 3000 recipientes --- 6 horas \n 4000 recipientes --- x horas \n 3000 * x = 4000 * 6 \n 3000x = 24000 \n x = 24000 / 3000 = 8 horas.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'A diferença entre o maior número ímpar de cinco algarismos diferentes e o menor número par de cinco algarismos diferentes é:',
+                'text' => 'Determine o valor resultante da diferença aritmética entre o maior número ímpar composto por cinco algarismos distintos e o menor número par também composto por cinco algarismos distintos.',
                 'options' => ['88531', '81549', '88529', '77777', '78925'],
                 'correct_answer' => 0, // A
-                'rationale' => '1. Maior Ímpar de 5 algarismos diferentes: Começa com 9876... \n   Para ser maior, o último deve ser o maior ímpar restante. Dígitos: 9, 8, 7, 6, 5. Número: 98765. \n2. Menor Par de 5 algarismos diferentes: Começa com 1 (não 0). Segue com 0, 2, 3, 4. Número: 10234. \n3. Diferença: 98765 - 10234 = 88531.',
+                'rationale' => '1. O maior número de 5 algarismos distintos é 98765. Como termina em 5, ele já é ímpar. \n2. O menor número de 5 algarismos distintos deve começar com 1 (não pode começar com zero). Seria 10234. Como termina em 4, ele é par. \n3. Realizando a subtração: 98765 - 10234 = 88531.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'A soma de três números inteiros consecutivos é igual a 90. Qual é o maior destes três números?',
+                'text' => 'Durante uma contagem de peças em um estoque náutico, observou-se que a soma de três números inteiros e consecutivos é exatamente igual a 90. Com base nessa informação, qual é o maior valor entre esses três números?',
                 'options' => ['32', '31', '29', '28', '21'],
                 'correct_answer' => 1, // B
-                'rationale' => '1. Números consecutivos: x, x+1, x+2. \n2. Soma: x + (x+1) + (x+2) = 90. \n3. 3x + 3 = 90 => 3x = 87 => x = 29. \n4. Os números são 29, 30 e 31. \n5. O maior deles é 31.',
+                'rationale' => '1. Representamos números consecutivos como x, (x+1) e (x+2). \n2. Montamos a equação: x + x + 1 + x + 2 = 90. \n3. 3x + 3 = 90 => 3x = 87 => x = 29. \n4. Os números são 29, 30 e 31. O maior deles é 31.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Paulo gastou 2/7 do seu salário com remédios e 1/10 em alimentação. Que fração representa o gasto total?',
+                'text' => 'Um marinheiro utilizou 2/7 de seu soldo mensal para o pagamento de medicamentos e 1/10 do mesmo soldo para despesas com alimentação. Qual é a fração que representa o somatório total desses dois gastos em relação ao salário?',
                 'options' => ['27/60', '27/70', '28/60', '28/70', '29/70'],
                 'correct_answer' => 1, // B
-                'rationale' => 'Soma de frações com denominadores diferentes (MMC de 7 e 10 é 70): \n 2/7 + 1/10 = (20 + 7) / 70 = 27/70.',
+                'rationale' => 'Para somar frações com denominadores diferentes, calculamos o MMC entre 7 e 10, que é 70: \n 2/7 + 1/10 = (20 / 70) + (7 / 70) = 27/70.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Em testes com pesos 7 e 3, Alexandre obteve 5,6 e 2,4. Se os testes tivessem peso 10, quais seriam as notas respectivas?',
+                'text' => 'Em um curso de formação, dois exames foram aplicados com pesos 7 e 3, respectivamente. O aluno Alexandre obteve as notas 5,6 no primeiro e 2,4 no segundo. Se o critério de avaliação fosse alterado para que ambos os testes tivessem peso 10, mantendo a proporcionalidade do desempenho, quais seriam as suas novas notas?',
                 'options' => ['8,5 e 8,0', '7,5 e 8,5', '8,0 e 7,5', '8,0 e 8,0', '8,5 e 7,5'],
                 'correct_answer' => 3, // D
-                'rationale' => 'Regra de proporcionalidade: \nNota 1: Tirou 5,6 de um máximo de 7. (5,6 / 7) = 0,8 (80%). Em base 10: 0,8 * 10 = 8,0. \nNota 2: Tirou 2,4 de um máximo de 3. (2,4 / 3) = 0,8 (80%). Em base 10: 0,8 * 10 = 8,0.',
+                'rationale' => 'Basta calcular a nota proporcional à escala de 0 a 10: \nExame 1: (5,6 obtido / 7 total) * 10 = 0,8 * 10 = 8,0. \nExame 2: (2,4 obtido / 3 total) * 10 = 0,8 * 10 = 8,0. \nAmbas as notas proporcionais seriam 8,0.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'João cotou celulares. Loja A: 800 (-15%). Loja B: 750 (-8%). Loja C: 850 (-20%). Qual é mais vantajosa?',
+                'text' => 'Um encarregado de logística realizou uma cotação para aquisição de novos equipamentos em três fornecedores: a Loja A oferece o produto por R$ 800 com 15% de desconto; a Loja B por R$ 750 com 8% de desconto; e a Loja C por R$ 850 com 20% de desconto. Considerando apenas o custo final, qual fornecedor apresenta a opção mais vantajosa?',
                 'options' => ['Loja A e C são igualmente baratas', 'Loja A é mais barata', 'Loja B é mais barata', 'Loja C é mais barata', 'Loja A e B são igualmente baratas'],
                 'correct_answer' => 0, // A
-                'rationale' => 'Cálculo dos valores finais: \nLoja A: 800 - 15% (120) = R$ 680. \nLoja B: 750 - 8% (60) = R$ 690. \nLoja C: 850 - 20% (170) = R$ 680. \nConclusão: Lojas A e C têm o mesmo preço (R$ 680) e são as opções mais baratas.',
+                'rationale' => 'Cálculo dos preços líquidos: \nLoja A: 800 - 15% (120) = R$ 680. \nLoja B: 750 - 8% (60) = R$ 690. \nLoja C: 850 - 20% (170) = R$ 680. \nAs lojas A e C empatam como as mais baratas do mercado.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'O marinheiro Lucas precisa pintar o piso de um compartimento com o formato mostrado no croqui. Calcule a área total.',
+                'text' => 'O marinheiro Lucas recebeu a tarefa de pintar o piso de um compartimento técnico que possui o formato geométrico irregular mostrado no croqui abaixo. Com base nas medidas indicadas, calcule a área total que deverá ser pintada.',
                 'image_url' => '/questions/block6_q30.png',
                 'options' => ['11 m²', '13 m²', '10 m²', '18 m²', '12 m²'],
                 'correct_answer' => 0, // A
-                'rationale' => 'Divida a figura em formas simples: \n1. Retângulo da esquerda: 2m x 3m = 6 m². \n2. Retângulo do meio: 2m x 2m = 4 m². \n3. Triângulo da direita: Base 1m, Altura 2m. Área = (b*h)/2 = (1*2)/2 = 1 m². \nTotal: 6 + 4 + 1 = 11 m².',
+                'rationale' => 'A figura pode ser decomposta em três partes simples: \n1. Um retângulo superior de 2m x 3m = 6 m². \n2. Um retângulo inferior de 2m x 2m = 4 m². \n3. Um triângulo lateral com base de 1m e altura de 2m. Área = (1*2)/2 = 1 m². \nSomando tudo: 6 + 4 + 1 = 11 m².',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Um marinheiro precisa estaiar o mastro. Sabendo que A está a 15m da base B e a altura BC é 20m, calcule o comprimento total dos dois cabos (A e D).',
+                'text' => 'Para garantir a estabilidade de um mastro vertical (BC), um marinheiro precisa instalar dois cabos de sustentação idênticos (estais) conectando os pontos A e D à extremidade C do mastro. Sabendo que o ponto de fixação A está a uma distância de 15m da base B, e que a altura do mastro (BC) é de 20m, determine o comprimento total de cabo necessário para realizar o estaiamento nos dois lados.',
                 'image_url' => '/questions/block6_q31.png',
                 'options' => ['40 m', '45 m', '150 m', '30 m', '50 m'],
                 'correct_answer' => 4, // E
-                'rationale' => '1. O cabo forma a hipotenusa de um triângulo retângulo com base 15m e altura 20m. \n2. Teorema de Pitágoras: h² = 15² + 20² = 225 + 400 = 625. \n3. h = √625 = 25m. \n4. Como são DOIS cabos (um de cada lado, A e D), o total é 25 + 25 = 50m.',
+                'rationale' => '1. O cabo forma a hipotenusa de um triângulo retângulo onde os catetos são 15m (base) e 20m (altura). \n2. Pelo Teorema de Pitágoras: x² = 15² + 20² => x² = 225 + 400 = 625. \n3. x = √625 = 25 metros para um cabo. \n4. Como são dois lados (A e D), o total é 2 * 25 = 50 metros.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Para completar 44h semanais em 5 dias, Isabela trabalha 8,8 horas por dia. Quantos minutos ela trabalha por dia?',
+                'text' => 'Uma funcionária administrativa trabalha no regime de 44 horas semanais distribuídas igualmente em 5 dias de trabalho, o que resulta em uma jornada de 8,8 horas diárias. Expresse essa jornada de trabalho diária exclusivamente em minutos.',
                 'options' => ['264', '488', '528', '880', '1466'],
                 'correct_answer' => 2, // C
-                'rationale' => '1. Converta as horas: 8 horas completas = 8 * 60 = 480 minutos. \n2. Converta a parte decimal: 0,8 hora = 0,8 * 60 = 48 minutos. \n3. Total: 480 + 48 = 528 minutos.',
+                'rationale' => 'Sabendo que 1 hora equivale a 60 minutos, multiplicamos a jornada decimal pelo fator de conversão: \n 8,8 horas * 60 minutos/hora = 528 minutos.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Na praça há 21 veículos (carros e motos) e 66 rodas. Quantas motos há?',
+                'text' => 'Em uma área de estacionamento de uma vila naval, encontram-se estacionados um total de 21 veículos, entre carros e motos autuados. Sabendo-se que, ao realizar a contagem física, foram contabilizadas 66 rodas no local, determine exatamente quantas motos há no grupo.',
                 'options' => ['13', '12', '10', '11', '9'],
                 'correct_answer' => 4, // E
-                'rationale' => 'Sistema de Equações: \nC + M = 21 (Total veículos) \n4C + 2M = 66 (Total rodas) \nMultiplique a primeira por -2: -2C - 2M = -42. \nSome com a segunda: 2C = 24 => C = 12 carros. \nSe C=12, então M = 21 - 12 = 9 motos.',
+                'rationale' => 'Montamos um sistema de equações lineares: \nC + M = 21 (veículos) \n4C + 2M = 66 (rodas) \nSubstituindo C da primeira (C = 21 - M) na segunda: \n4(21 - M) + 2M = 66 => 84 - 4M + 2M = 66 => 18 = 2M => M = 9.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Há 4 caminhos de X para Y e 6 de Y para Z. Caminhos de X para Z passando por Y:',
+                'text' => 'Um navegador planeja sua rota entre três portos: X, Y e Z. Sabe-se que existem 4 rotas marítimas distintas conectando o Porto X ao Porto Y, e 6 rotas distintas conectando o Porto Y ao Porto Z. De quantas maneiras diferentes esse navegador pode realizar a viagem de X até Z, obrigatoriamente passando pelo Porto Y?',
                 'options' => ['24', '32', '10', '12', '18'],
                 'correct_answer' => 0, // A
-                'rationale' => 'Princípio Fundamental da Contagem (Multiplicativo): \nSe há 4 opções para a 1ª etapa e 6 para a 2ª, o total é 4 * 6 = 24 caminhos distintos.',
+                'rationale' => 'Aplicamos o Princípio Fundamental da Contagem (PFC). Se temos um evento composto por duas etapas independentes com "m" e "n" possibilidades, o total é o produto delas: \n 4 rotas (X->Y) * 6 rotas (Y->Z) = 24 possibilidades de trajeto total.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Pai tem 54, quatro filhos somam 39. Daqui a quantos anos a idade do pai será igual à soma dos filhos?',
+                'text' => 'Atualmente, um pai tem 54 anos de idade enquanto a soma das idades de seus quatro filhos totaliza 39 anos. Determine daqui a quantos anos a idade do pai será exatamente igual à soma das idades de seus quatro filhos.',
                 'options' => ['5', '8', '12', '10', '15'],
                 'correct_answer' => 0, // A
-                'rationale' => 'Seja x o anos passados. \nIdade Pai: 54 + x \nSoma Filhos: 39 + 4x (Obs: cada um dos 4 filhos envelhece x anos, então aumenta 4x no total). \nEquação: 54 + x = 39 + 4x. \n54 - 39 = 4x - x \n15 = 3x \nx = 5 anos.',
+                'rationale' => 'Seja "x" o número de anos decorridos no futuro: \nIdade do pai futuramente: 54 + x. \nSoma das idades dos filhos futuramente: 39 + 4x (pois cada um dos 4 filhos envelhece x anos). \nEquação: 54 + x = 39 + 4x => 15 = 3x => x = 5 anos.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Em um condomínio com 60 crianças... Quantas não gostam de nenhum dos três esportes (Futebol, Basquete, Vôlei)?',
+                'text' => 'Em um levantamento realizado com 60 crianças de um condomínio sobre suas preferências esportivas, obteve-se os seguintes dados: 25 gostam de Futebol, 22 de Basquete e 18 de Vôlei. Após analisar as intersecções, descobriu-se que 56 crianças gostam de pelo menos um desses esportes. Com base nisso, determine quantas crianças não demonstraram interesse por nenhum dos três esportes citados.',
                 'options' => ['3', '4', '5', '7', '9'],
                 'correct_answer' => 1, // B
-                'rationale' => 'Utilizando o Diagrama de Venn: \n1. Total que gosta de algo = (Só Fut) + (Só Bas) + (Só Vol) + (intersecções duplas exclusivas) + (todas 3). \n2. Preenchendo os dados, encontramos que a união de F U B U V é 56 crianças. \n3. Nenhuma = Total - União = 60 - 56 = 4 crianças.',
+                'rationale' => '1. O total de participantes é 60. \n2. A "União" dos conjuntos (crianças que gostam de algo) é informada como sendo 56. \n3. Para encontrar as crianças que estão "fora" dos conjuntos: Total - União = 60 - 56 = 4 crianças.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'A quantia de R$ 400 seria repartida. 4 faltaram, aumentando R$ 5 para cada restante. Número inicial de crianças:',
+                'text' => 'Uma quantia fixa de R$ 400 seria repartida igualmente entre um grupo de crianças. No entanto, no dia da entrega, 4 crianças não compareceram, o que resultou em um acréscimo de R$ 5 para cada uma das crianças presentes. Qual era o número inicial de crianças previsto no grupo?',
                 'options' => ['12', '14', '16', '18', '20'],
                 'correct_answer' => 4, // E
-                'rationale' => 'Seja n o número inicial. \nValor original por criança: 400/n. \nNovo valor: 400/(n-4). \nDiferença: 400/(n-4) - 400/n = 5. \nSimplificando e resolvendo a equação quadrática n² - 4n - 320 = 0. \nRaízes: 20 e -16. Como n deve ser positivo, n = 20 crianças.',
+                'rationale' => 'Seja "n" o número inicial: \nValor original por criança: 400/n \nNovo valor: 400 / (n - 4) \nA diferença entre os valores é 5: [400 / (n - 4)] - [400 / n] = 5 \nResolvendo a equação: n² - 4n - 320 = 0. Raízes: 20 e -16. O número de crianças deve ser 20.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'João (270), Maria (450), Pedro (0). Repartem para ficar iguais. A quantia dada por Maria representa quantos % do que ela tinha?',
+                'text' => 'João possuía R$ 270, Maria R$ 450 e Pedro não possuía quantia alguma. Eles decidiram reunir todo o capital e repartir o total em partes iguais para que todos tivessem a mesma quantia. Ao final dessa redistribuição, a quantia que Maria entregou aos seus amigos representa qual percentual em relação ao que ela possuía inicialmente?',
                 'options' => ['50,3%', '46,7%', '45,6%', '42,3%', '38,7%'],
                 'correct_answer' => 1, // B
-                'rationale' => '1. Total de dinheiro: 270 + 450 + 0 = 720. \n2. Valor igual para cada: 720 / 3 = 240. \n3. Maria tinha 450 e ficou com 240. Ela doou 450 - 240 = 210. \n4. Porcentagem: (210 / 450) * 100 = 0,4666... * 100 = 46,7%.',
+                'rationale' => '1. Total de dinheiro: 270 + 450 + 0 = R$ 720. \n2. Divisão igual (720 / 3) = R$ 240 para cada um. \n3. Maria tinha 450 e ficou com 240, ou seja, ela "deu" 210 reais para o grupo. \n4. Porcentagem: (Quantia dada 210 / Quantia inicial 450) * 100 = 46,66...% (aproximadamente 46,7%).',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Parede 2,4m x 90cm. Azulejos quadrados de 45cm. Mínimo necessário:',
+                'text' => 'Um mestre d\'obras precisa revestir uma parede que mede 2,4m de comprimento por 0,9m de altura. Se ele optar por utilizar azulejos quadrados que possuem exatamente 45cm de lado, qual é o número mínimo de peças que ele deverá adquirir para cobrir toda a superfície da parede?',
                 'options' => ['10', '21', '20', '15', '11'],
                 'correct_answer' => 4, // E
-                'rationale' => '1. Converta para cm: Parede 240cm x 90cm. Área = 21.600 cm². \n2. Área azulejo: 45 x 45 = 2.025 cm². \n3. Divisão matemática: 21.600 / 2.025 = 10,66. \n4. Como não dá para comprar 10,66 azulejos, você precisa de 11 azulejos no mínimo para cobrir a área (considerando recortes).',
+                'rationale' => '1. Área da parede: 2,4m * 0,9m = 2,16 m². \n2. Área de um azulejo em metros: 0,45m * 0,45m = 0,2025 m². \n3. Divisão para saber a quantidade: 2,16 / 0,2025 = 10,66 peças. \n4. Como não é possível aplicar frações de peças comprando-as por unidade, é necessário adquirir no mínimo 11 peças.',
                 'block' => 6
             ],
             [
                 'subject' => 'matematica',
-                'text' => 'Conjunto solução da equação 3/(x-5) + 1/(x+5) = (10-x²)/(x²-25).',
+                'text' => 'Determine o conjunto solução da seguinte equação racional: 3 / (x - 5) + 1 / (x + 5) = (10 - x²) / (x² - 25). Considere o domínio mais abrangente possível para a função.',
                 'options' => ['{-5, 5}', '{0}', '{-4, 0}', '{0, 4}', '{5}'],
                 'correct_answer' => 2, // C
-                'rationale' => '1. O termo (x²-25) é igual a (x-5)(x+5). O MMC é (x-5)(x+5). \n2. Multiplicando tudo pelo MMC: 3(x+5) + 1(x-5) = 10 - x². \n3. 3x + 15 + x - 5 = 10 - x². \n4. 4x + 10 = 10 - x² => x² + 4x = 0. \n5. x(x + 4) = 0. Raízes: x=0 ou x=-4. Ambas válidas pois não anulam o denominador (±5).',
+                'rationale' => '1. O denominador x² - 25 é equivalente a (x-5)(x+5). \n2. Multiplicando toda a equação pelo MMC [(x-5)(x+5)]: \n 3(x+5) + 1(x-5) = 10 - x² \n 3x + 15 + x - 5 = 10 - x² \n 4x + 10 = 10 - x² => x² + 4x = 0. \n3. Fatorando: x(x + 4) = 0. As raízes são x=0 e x=-4. Ambas são válidas no domínio.',
                 'block' => 6
             ],
         ];
