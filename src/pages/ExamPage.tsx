@@ -4,7 +4,7 @@ import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, L
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
-import { api } from "@/lib/api";
+import { api, API_BASE_URL } from "@/lib/api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +32,7 @@ interface Question {
   text: string;
   options: string[];
   hint?: string;
+  image_url?: string;
 }
 
 const EXAM_TIME = 180 * 60; // 180 minutes in seconds (3 hours)
@@ -373,7 +374,7 @@ const ExamPage = () => {
               {question.image_url && (
                 <div className="mb-6 md:mb-8 rounded-xl overflow-hidden border border-border/50 bg-white/50 p-2 md:p-4 flex justify-center shadow-inner">
                   <img
-                    src={question.image_url}
+                    src={question.image_url.startsWith('http') ? question.image_url : `${API_BASE_URL.replace('/api', '')}${question.image_url}`}
                     alt="Croqui da Questão"
                     className="max-w-full h-auto max-h-[250px] md:max-h-[400px] object-contain rounded-lg"
                   />
