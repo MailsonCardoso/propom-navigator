@@ -36,6 +36,7 @@ class QuestionController extends Controller
                 'base_text' => $question->base_text,
                 'options' => $question->options,
                 'hint' => $question->hint,
+                'image_url' => $question->image_url,
             ];
         });
 
@@ -68,6 +69,7 @@ class QuestionController extends Controller
                 'options' => $question->options,
                 'correct_answer' => $question->correct_answer,
                 'rationale' => $question->rationale,
+                'image_url' => $question->image_url,
             ];
         });
 
@@ -111,6 +113,7 @@ class QuestionController extends Controller
             'base_text' => 'nullable|string',
             'is_demo' => 'boolean',
             'block' => 'integer',
+            'image_url' => 'nullable|string',
         ]);
 
         $question = Question::create($request->all());
@@ -131,6 +134,7 @@ class QuestionController extends Controller
             'base_text' => 'nullable|string',
             'is_demo' => 'boolean',
             'block' => 'integer',
+            'image_url' => 'nullable|string',
         ]);
 
         $question->update($request->all());
