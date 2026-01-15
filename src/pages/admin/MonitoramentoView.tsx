@@ -36,6 +36,29 @@ export function MonitoramentoView() {
         fetchLogs();
     }, []);
 
+    // Grouping logs by IP and Action
+    const groupedLogs = logs.reduce((acc: any[], log) => {
+        const key = `${log.ip_address}-${log.action}`;
+        const existing = acc.find(item => item.key === key);
+
+        if (existing) {
+            existing.count += 1;
+            // Update to the most recent one if needed (assuming logs are descending by date or we keep latest)
+            if (new Date(log.created_at) > new Date(existing.created_at)) {
+                existing.created_at = log.created_at;
+                existing.details = log.details;
+                existing.user_agent = log.user_agent;
+            }
+        } else {
+            acc.push({
+                ...log,
+                key,
+                count: 1
+            });
+        }
+        return acc;
+    }, []).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
     const getActionBadge = (action: string) => {
         switch (action) {
             case "VIEW_DEMO":
@@ -102,9 +125,9 @@ export function MonitoramentoView() {
                             <div>
                                 <h1 className="text-xl font-bold text-navy-900 flex items-center gap-2">
                                     <Shield className="w-5 h-5 text-accent" />
-                                    Monitoramento de Acessos
+                                    Monitoramento Inteligente
                                 </h1>
-                                <p className="text-xs text-slate-500">Rastreamento de IPs e atividades em tempo real</p>
+                                <p className="text-xs text-slate-500">Agrupamento por IP e tipo de atividade</p>
                             </div>
                         </div>
                         <Button onClick={fetchLogs} variant="outline" className="gap-2 border-slate-200 hover:bg-slate-50 text-navy-700">
@@ -162,8 +185,8 @@ export function MonitoramentoView() {
                     <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <CardTitle className="text-lg text-navy-900">Histórico de Atividades</CardTitle>
-                                <CardDescription>Últimos 50 registros de acesso ao sistema.</CardDescription>
+                                <CardTitle className="text-lg text-navy-900">Atividades por IP</CardTitle>
+                                <CardDescription>Os acessos do mesmo IP são agrupados para facilitar a análise.</CardDescription>
                             </div>
                         </div>
                     </CardHeader>
@@ -172,9 +195,10 @@ export function MonitoramentoView() {
                             <Table>
                                 <TableHeader>
                                     <TableRow className="bg-slate-50 hover:bg-slate-50">
-                                        <TableHead className="w-[180px] font-semibold text-navy-700">Data e Hora</TableHead>
                                         <TableHead className="font-semibold text-navy-700">Endereço IP</TableHead>
-                                        <TableHead className="font-semibold text-navy-700">Ação Realizada</TableHead>
+                                        <TableHead className="font-semibold text-navy-700">Ação</TableHead>
+                                        <TableHead className="font-semibold text-navy-700">Qtd.</TableHead>
+                                        <TableHead className="font-semibold text-navy-700">Última Atividade</TableHead>
                                         <TableHead className="font-semibold text-navy-700">Detalhes</TableHead>
                                         <TableHead className="hidden md:table-cell font-semibold text-navy-700">Dispositivo</TableHead>
                                     </TableRow>
@@ -182,22 +206,33 @@ export function MonitoramentoView() {
                                 <TableBody>
                                     {loading && logs.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="h-32 text-center">
+                                            <TableCell colSpan={6} className="h-32 text-center">
                                                 <div className="flex flex-col items-center justify-center gap-2 text-slate-400">
                                                     <Loader2 className="w-8 h-8 animate-spin text-accent" />
                                                     <p>Carregando dados de segurança...</p>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
-                                    ) : logs.length === 0 ? (
+                                    ) : groupedLogs.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                                            <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
                                                 Nenhum registro de acesso encontrado.
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        logs.map((log) => (
-                                            <TableRow key={log.id} className="group hover:bg-blue-50/30 transition-colors border-b border-slate-100">
+                                        groupedLogs.map((log) => (
+                                            <TableRow key={log.key} className="group hover:bg-blue-50/30 transition-colors border-b border-slate-100">
+                                                <TableCell>
+                                                    <div className="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded w-fit border border-slate-200">
+                                                        {log.ip_address}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>{getActionBadge(log.action)}</TableCell>
+                                                <TableCell>
+                                                    <span className="inline-flex items-center justify-center bg-slate-200 text-navy-900 font-bold text-[10px] w-6 h-6 rounded-full shadow-sm">
+                                                        {log.count}
+                                                    </span>
+                                                </TableCell>
                                                 <TableCell className="whitespace-nowrap">
                                                     <div className="flex items-center gap-2 text-slate-600">
                                                         <Clock className="w-3.5 h-3.5 text-slate-400" />
@@ -208,15 +243,9 @@ export function MonitoramentoView() {
                                                         </span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell>
-                                                    <div className="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded w-fit border border-slate-200">
-                                                        {log.ip_address}
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell>{getActionBadge(log.action)}</TableCell>
                                                 <TableCell>{formatDetails(log.details)}</TableCell>
-                                                <TableCell className="hidden md:table-cell max-w-[250px]">
-                                                    <p className="truncate text-xs text-slate-500" title={log.user_agent || ''}>
+                                                <TableCell className="hidden md:table-cell max-w-[200px]">
+                                                    <p className="truncate text-xs text-slate-400" title={log.user_agent || ''}>
                                                         {log.user_agent}
                                                     </p>
                                                 </TableCell>
