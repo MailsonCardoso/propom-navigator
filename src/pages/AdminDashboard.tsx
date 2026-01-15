@@ -469,7 +469,7 @@ const AdminDashboard = () => {
                           }`}>
                           {q.subject === 'portugues' ? 'Português' : 'Matemática'}
                         </span>
-                        <span>Bloco {q.block}</span>
+                        <span>Módulo {q.block}</span>
                         <span>{q.wrong_count}/{q.total_attempts} erraram</span>
                       </div>
                       {/* Barra de erro */}

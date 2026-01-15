@@ -389,7 +389,7 @@ const StudentDashboard = () => {
                                                         </div>
                                                         {statusBadge}
                                                     </div>
-                                                    <h4 className="font-bold text-foreground">Simulado Bloco {blockNum}</h4>
+                                                    <h4 className="font-bold text-foreground">Simulado Módulo {blockNum}</h4>
                                                     <div className="flex justify-between items-end mb-4">
                                                         <p className="text-xs text-muted-foreground">40 Questões • Port/Mat</p>
                                                         {hasAttempts && (
@@ -474,7 +474,7 @@ const StudentDashboard = () => {
                                 {history.slice(0, 5).map((attempt) => (
                                     <div key={attempt.id} className="card-elevated p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
                                         <div>
-                                            <p className="text-xs font-bold text-muted-foreground uppercase mb-0.5">Bloco {attempt.block}</p>
+                                            <p className="text-xs font-bold text-muted-foreground uppercase mb-0.5">Módulo {attempt.block}</p>
                                             <p className={`font-bold ${attempt.passed ? "text-success" : "text-destructive"}`}>
                                                 {attempt.score}/{attempt.total_questions} acertos
                                             </p>
@@ -509,7 +509,7 @@ const StudentDashboard = () => {
                             <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center">
                                 <span className="text-white font-bold">{selectedBlock}</span>
                             </div>
-                            <AlertDialogTitle className="text-xl">Simulado Bloco {selectedBlock}</AlertDialogTitle>
+                            <AlertDialogTitle className="text-xl">Simulado Módulo {selectedBlock}</AlertDialogTitle>
                         </div>
                         <AlertDialogDescription className="space-y-4 pt-4">
                             <div className="grid grid-cols-3 gap-3">
