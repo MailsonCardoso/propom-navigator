@@ -228,8 +228,10 @@ const LandingPage = () => {
                         <Trophy className="w-14 h-14 text-accent" />
                       </div>
                       <div className="space-y-2">
-                        <div className="text-8xl md:text-9xl font-black text-white tracking-tighter leading-none">240</div>
-                        <div className="text-accent font-black uppercase tracking-[0.3em] text-xs md:text-sm">Questões Reais</div>
+                        <div className="space-y-1">
+                          <div className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none uppercase">Banco Master</div>
+                          <div className="text-accent font-black uppercase tracking-[0.2em] text-[10px] md:text-xs">Questões Reais</div>
+                        </div>
                       </div>
                       <p className="text-white/60 text-sm md:text-base max-w-[320px] mx-auto leading-relaxed">
                         Extraídas e profissionalizadas com base nas últimas provas oficiais.
@@ -239,8 +241,8 @@ const LandingPage = () => {
                     {/* Stats strip */}
                     <div className="absolute bottom-0 left-0 w-full p-8 bg-white/10 backdrop-blur-xl border-t border-white/10 flex justify-around">
                       <div className="text-center">
-                        <div className="text-white font-bold">6</div>
-                        <div className="text-[10px] text-white/40 uppercase font-black">Módulos</div>
+                        <div className="text-white font-bold text-xs">INTEGRAL</div>
+                        <div className="text-[8px] text-white/40 uppercase font-black">Acesso Simulados</div>
                       </div>
                       <div className="w-px h-8 bg-white/10" />
                       <div className="text-center">
@@ -314,8 +316,8 @@ const LandingPage = () => {
               Garanta sua Vaga na Marinha!
             </h3>
             <p className="text-white/80 mb-10 max-w-2xl mx-auto text-lg relative z-10">
-              Acesso completo a todos os 6 módulos de simulados por pagamento único de R$ 50,00.
-              Disponível até a conclusão da prova oficial. Comece a praticar agora mesmo!
+              Preparação Completa (Módulos I a VI+) com Acesso Integral aos Simulados por pagamento único de R$ 50,00.
+              Disponível até a conclusão da prova oficial. Comece a praticar agora com nosso Banco Master de Questões Reais!
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
               <Link to="/comprar">

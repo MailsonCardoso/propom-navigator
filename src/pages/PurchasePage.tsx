@@ -99,7 +99,7 @@ const PurchasePage = () => {
             <div className="space-y-3">
               <div className="flex items-start gap-3 p-3 bg-background/50 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-success shrink-0 mt-0.5" />
-                <span className="text-foreground font-medium">Acesso a todos os 6 módulos de simulados</span>
+                <span className="text-foreground font-medium">Acesso Total ao Banco de Questões</span>
               </div>
               <div className="flex items-start gap-3 p-3 bg-background/50 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-success shrink-0 mt-0.5" />
