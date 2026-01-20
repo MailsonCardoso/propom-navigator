@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, LogOut, Lightbulb, BookOpen, Flag } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, AlertTriangle, CheckCircle, Anchor, Lightbulb, BookOpen, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useApp } from "@/contexts/AppContext";
@@ -44,16 +44,6 @@ const ExamPage = () => {
   const { setExamResult, logout, user } = useApp();
   const backupKey = `exam_backup_${user?.id}_block_${blockId}`;
 
-  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-
-  const handleLogout = () => {
-    setShowLogoutDialog(true);
-  };
-
-  const confirmLogout = () => {
-    logout();
-    navigate("/");
-  };
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -261,10 +251,6 @@ const ExamPage = () => {
                 <Clock className={`w-3.5 h-3.5 ${isTimeWarning ? "animate-pulse" : ""}`} />
                 <span className="font-mono font-bold text-sm md:text-base">{formatTime(timeLeft)}</span>
               </div>
-
-              <Button variant="ghost" size="icon" onClick={handleLogout} className="text-muted-foreground hover:text-destructive h-8 w-8">
-                <LogOut className="w-4 h-4" />
-              </Button>
             </div>
           </div>
         </div>
@@ -621,24 +607,6 @@ const ExamPage = () => {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Logout Confirmation Dialog */}
-      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Seu progresso salvo será mantido, mas o tempo continuará contando se você voltar muito tarde.
-              Recomendamos finalizar a prova.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Continuar Prova</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Confirmar e Sair
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };
