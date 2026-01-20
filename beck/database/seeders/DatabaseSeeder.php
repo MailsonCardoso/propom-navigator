@@ -298,5 +298,7 @@ class DatabaseSeeder extends Seeder
         foreach ($matematicaQuestions as $question) {
             \App\Models\Question::create($question);
         }
+
+        $this->call(Module08Seeder::class);
     }
 }
