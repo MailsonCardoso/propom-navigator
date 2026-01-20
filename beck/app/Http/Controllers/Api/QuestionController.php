@@ -34,7 +34,7 @@ class QuestionController extends Controller
                 'subject' => $question->subject,
                 'text' => $question->text,
                 'base_text' => $question->base_text,
-                'options' => $question->options,
+                'options' => is_string($question->options) ? json_decode($question->options, true) : $question->options,
                 'hint' => $question->hint,
                 'image_url' => $question->image_url,
             ];
@@ -66,7 +66,7 @@ class QuestionController extends Controller
                 'subject' => $question->subject,
                 'text' => $question->text,
                 'base_text' => $question->base_text,
-                'options' => $question->options,
+                'options' => is_string($question->options) ? json_decode($question->options, true) : $question->options,
                 'correct_answer' => $question->correct_answer,
                 'rationale' => $question->rationale,
                 'image_url' => $question->image_url,
