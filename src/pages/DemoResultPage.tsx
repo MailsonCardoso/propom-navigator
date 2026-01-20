@@ -61,7 +61,7 @@ const DemoResultPage = () => {
                     <div className="bg-navy/5 border border-navy/10 rounded-3xl p-8 mb-8">
                         <h2 className="text-2xl font-bold text-navy mb-4">Gostou da experiência?</h2>
                         <p className="text-navy/70 mb-8 max-w-md mx-auto">
-                            Este foi apenas um pequeno teste. No <strong>PREPOM 2026</strong> completo você tem acesso ao <strong>Banco Master de Questões Reais</strong>, Preparação Completa (Módulos I a VI+) com cronômetro real e suporte VIP.
+                            Este foi apenas um pequeno teste. No <strong>PREPOM 2026</strong> completo você tem acesso ao <strong>Banco Master de Questões Reais</strong>, Preparação Completa (Módulos I a VII+) com cronômetro real e suporte VIP.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/comprar">
