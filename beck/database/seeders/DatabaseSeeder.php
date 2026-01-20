@@ -301,5 +301,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(Module08Seeder::class);
         $this->call(Module09Seeder::class);
+        $this->call(Module10Seeder::class);
     }
 }
