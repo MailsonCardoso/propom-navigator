@@ -246,6 +246,7 @@ class Module10Seeder extends Seeder
             [
                 'subject' => 'portugues',
                 'block' => 10,
+                'base_text' => $textMulheresPaz,
                 'text' => 'Na frase “86 mulheres, de 23 países”, os numerais são classificados como:',
                 'options' => [
                     'Ordinais.',
@@ -260,6 +261,7 @@ class Module10Seeder extends Seeder
             [
                 'subject' => 'portugues',
                 'block' => 10,
+                'base_text' => $textMulheresPaz,
                 'text' => 'No trecho “...e incentivar o networking internacional...”, a conjunção “e” é:',
                 'options' => [
                     'Alternativa.',
@@ -274,6 +276,7 @@ class Module10Seeder extends Seeder
             [
                 'subject' => 'portugues',
                 'block' => 10,
+                'base_text' => $textMulheresPaz,
                 'text' => 'A palavra “missões” é:',
                 'options' => [
                     'Oxítona terminada em “es”.',
@@ -288,6 +291,7 @@ class Module10Seeder extends Seeder
             [
                 'subject' => 'portugues',
                 'block' => 10,
+                'base_text' => $textMulheresPaz,
                 'text' => 'Em “As mulheres participaram do curso”, o sujeito é:',
                 'options' => [
                     'Simples.',
@@ -302,6 +306,7 @@ class Module10Seeder extends Seeder
             [
                 'subject' => 'portugues',
                 'block' => 10,
+                'base_text' => $textMulheresPaz,
                 'text' => 'Na frase: “A general proferiu uma palestra”, “uma palestra” é:',
                 'options' => [
                     'Complemento nominal',
