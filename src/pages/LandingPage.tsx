@@ -11,8 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 const LandingPage = () => {
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme("light");
+  }, [setTheme]);
+
   const features = [
     {
       icon: Clock,

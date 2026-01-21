@@ -5,8 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApp } from "@/contexts/AppContext";
+import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 const AdminLogin = () => {
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme("light");
+  }, [setTheme]);
+
   const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

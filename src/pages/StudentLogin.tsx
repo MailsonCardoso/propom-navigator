@@ -7,8 +7,15 @@ import { Label } from "@/components/ui/label";
 import { useApp } from "@/contexts/AppContext";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
+import { useTheme } from "next-themes";
 
 const StudentLogin = () => {
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme("light");
+  }, [setTheme]);
+
   const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const [mustChange, setMustChange] = useState(false);
