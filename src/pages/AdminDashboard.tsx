@@ -116,7 +116,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-white shadow-lg border border-border/50 flex items-center justify-center shrink-0">
-                <Anchor className="w-6 h-6 text-navy" />
+                <Anchor className="w-6 h-6 text-[#002f5d]" />
               </div>
               <div>
                 <h1 className="font-bold text-lg text-foreground">Painel Administrativo</h1>

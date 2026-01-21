@@ -109,7 +109,7 @@ const ResultPage = () => {
           <div className="text-center mb-8">
             <div className="flex items-center justify-between mb-6">
               <div className="w-12 h-12 rounded-xl bg-white shadow-lg border border-border/50 flex items-center justify-center">
-                <Anchor className="w-7 h-7 text-navy" />
+                <Anchor className="w-7 h-7 text-[#002f5d]" />
               </div>
               <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
                 <LogOut className="w-5 h-5 mr-2" />
