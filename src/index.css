@@ -111,24 +111,63 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  /* Dark mode specific text visibility fixes */
+  /* Dark mode specific visibility overrides */
   .dark .text-muted-foreground {
-    color: hsl(215 20.2% 75%);
+    color: hsl(215 20.2% 85%) !important;
   }
 
   .dark .font-serif.italic {
-    color: hsl(210 20% 90%);
+    color: hsl(210 20% 95%) !important;
     opacity: 1 !important;
   }
 
   .dark .bg-white\/50 {
-    background-color: hsl(222 47% 15% / 0.5);
+    background-color: hsl(222 47% 15% / 0.8) !important;
+  }
+
+  /* Exam Navigation Grid Fixes (Fixing the "apagado" look in screenshots) */
+  .dark .card-navy {
+    background: hsl(222 47% 8%) !important;
+    border: 1px solid hsl(217 33% 20%) !important;
+  }
+
+  /* Navigation buttons - making text/numbers pop */
+  .dark button.bg-accent\/10 {
+    background-color: hsl(217 91% 60% / 0.2) !important;
+    color: hsl(217 91% 85%) !important;
+    border-color: hsl(217 91% 50%) !important;
+  }
+
+  .dark button.bg-success\/10 {
+    background-color: hsl(142 76% 36% / 0.2) !important;
+    color: hsl(142 76% 85%) !important;
+    border-color: hsl(142 76% 40%) !important;
+  }
+
+  /* Ensure labels like "PORTUGUÊS" are visible */
+  .dark .text-white\/80,
+  .dark .text-white\/70,
+  .dark .text-sm.text-white\/80 {
+    color: hsl(0 0% 100%) !important;
+    opacity: 1 !important;
   }
 
   .dark img {
-    filter: brightness(0.9) contrast(1.1);
+    filter: brightness(1.1) contrast(1.1);
+    background-color: white;
+    /* diagrams usually need white background */
+    padding: 10px;
+    border-radius: 8px;
   }
 
+  /* Question circles visibility */
+  .dark .bg-muted {
+    background-color: hsl(217 33% 20%) !important;
+  }
+
+  .dark .text-muted-foreground {
+    color: hsl(215 20% 80%) !important;
+  }
 }
 
 @layer base {
