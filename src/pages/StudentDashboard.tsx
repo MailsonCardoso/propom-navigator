@@ -38,6 +38,14 @@ import { ptBR } from "date-fns/locale";
 import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
+interface TopicStats {
+    name: string;
+    subject: string;
+    performance: number;
+    total: number;
+    correct: number;
+}
+
 interface UserStats {
     total_attempts: number;
     passed_attempts: number;
@@ -48,6 +56,7 @@ interface UserStats {
         portugues: number;
         matematica: number;
     };
+    topics?: TopicStats[];
 }
 
 interface Attempt {
@@ -304,6 +313,103 @@ const StudentDashboard = () => {
                             <CheckCircle className="w-5 h-5 text-primary opacity-50" />
                         </div>
                         <span className="text-3xl font-bold text-foreground">{stats?.best_score}</span>
+                    </div>
+                </div>
+
+                {/* 1.1 ANÁLISE POR ASSUNTO (NOVO) */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+                    <div className="card-elevated p-5 animate-scale-in lg:col-span-2 flex flex-col" style={{ animationDelay: "0.5s" }}>
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+                                    <BookOpen className="w-5 h-5 text-primary" />
+                                    Fortalezas e Fraquezas por Assunto
+                                </h3>
+                                <p className="text-xs text-muted-foreground">Seu desempenho detalhado nas últimas 10 tentativas.</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            {stats?.topics && stats.topics.length > 0 ? (
+                                stats.topics.map((topic, i) => (
+                                    <div key={i} className="group">
+                                        <div className="flex justify-between items-center mb-1.5">
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                                                    {topic.name}
+                                                </span>
+                                                <span className="text-[10px] uppercase text-muted-foreground font-medium">
+                                                    {topic.subject === 'portugues' ? 'Português' : 'Matemática'}
+                                                </span>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className={`text-sm font-black ${topic.performance >= 75 ? 'text-green-500' :
+                                                        topic.performance >= 50 ? 'text-yellow-500' : 'text-destructive'
+                                                    }`}>
+                                                    {topic.performance}%
+                                                </span>
+                                                <p className="text-[9px] text-muted-foreground">
+                                                    {topic.correct}/{topic.total} acertos
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="h-2 bg-muted/30 rounded-full overflow-hidden border border-border/5">
+                                            <div
+                                                className={`h-full rounded-full transition-all duration-1000 ease-out ${topic.performance >= 75 ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' :
+                                                        topic.performance >= 50 ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.4)]' :
+                                                            'bg-destructive shadow-[0_0_8px_rgba(239,68,68,0.4)]'
+                                                    }`}
+                                                style={{ width: `${topic.performance}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-span-full py-8 flex flex-col items-center justify-center text-center opacity-60">
+                                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                                        <BarChart3 className="w-6 h-6 text-muted-foreground" />
+                                    </div>
+                                    <h4 className="font-bold text-foreground">Ainda sem dados de análise</h4>
+                                    <p className="text-xs text-muted-foreground max-w-[250px] mx-auto">
+                                        Continue realizando simulados para que possamos traçar seu perfil de desempenho por assunto.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Dica do Especialista Baseada em Dados (Placeholder Dinâmico) */}
+                    <div className="card-elevated p-5 animate-scale-in flex flex-col border-l-4 border-l-primary" style={{ animationDelay: "0.6s" }}>
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                <TrendingUp className="w-4 h-4 text-primary" />
+                            </div>
+                            <h3 className="font-bold text-foreground">Dica do Mentor</h3>
+                        </div>
+
+                        <div className="flex-1 space-y-4">
+                            {stats?.topics && stats.topics.length > 0 ? (
+                                <>
+                                    <p className="text-sm text-foreground leading-relaxed">
+                                        Analisando seus últimos resultados, notamos que você está com excelente desempenho em
+                                        <strong className="text-primary"> {stats.topics[0].name}</strong>.
+                                    </p>
+                                    <div className="p-3 bg-muted/50 rounded-lg border border-border/50">
+                                        <p className="text-xs font-medium text-foreground mb-1">Foco de Estudo Sugerido:</p>
+                                        <p className="text-xs text-muted-foreground italic">
+                                            "{stats.topics.find(t => t.performance < 60)?.name || 'Reforce a base e mantenha a constância!'} - Dedique 30 min extras a este tópico na sua próxima sessão."
+                                        </p>
+                                    </div>
+                                    <Button className="w-full mt-auto gradient-navy" size="sm" onClick={() => setSelectedBlock(10)}>
+                                        Praticar Agora
+                                    </Button>
+                                </>
+                            ) : (
+                                <p className="text-sm text-muted-foreground italic leading-relaxed">
+                                    "O segredo da aprovação é a constância. Comece seu primeiro simulado hoje para receber dicas personalizadas."
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
 
