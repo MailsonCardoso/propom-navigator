@@ -96,8 +96,6 @@ class ExamController extends Controller
             'matematica' => ['total' => 0, 'correct' => 0],
         ];
 
-        $statsByTopic = [];
-
         $answersMap = [];
 
         foreach ($attempts as $attempt) {
@@ -130,26 +128,11 @@ class ExamController extends Controller
                             $statsBySubject[$q->subject]['correct']++;
                         }
                     }
-
-                    if ($q->topic) {
-                        if (!isset($statsByTopic[$q->topic])) {
-                            $statsByTopic[$q->topic] = [
-                                'name' => $q->topic,
-                                'subject' => $q->subject,
-                                'total' => 0,
-                                'correct' => 0
-                            ];
-                        }
-                        $statsByTopic[$q->topic]['total']++;
-                        if ($userAns !== null && $userAns == $q->correct_answer) {
-                            $statsByTopic[$q->topic]['correct']++;
-                        }
-                    }
                 }
             }
         }
 
-        // Calcula porcentagens por assunto
+        // Calcula porcentagens
         $portuguesPercent = $statsBySubject['portugues']['total'] > 0
             ? round(($statsBySubject['portugues']['correct'] / $statsBySubject['portugues']['total']) * 100)
             : 0;
@@ -157,18 +140,6 @@ class ExamController extends Controller
         $matematicaPercent = $statsBySubject['matematica']['total'] > 0
             ? round(($statsBySubject['matematica']['correct'] / $statsBySubject['matematica']['total']) * 100)
             : 0;
-
-        // Calcula porcentagens por tópico (assunto específico) e formata
-        $topicsRanking = [];
-        foreach ($statsByTopic as $topic) {
-            $topic['performance'] = round(($topic['correct'] / $topic['total']) * 100);
-            $topicsRanking[] = $topic;
-        }
-
-        // Ordena tópicos por performance (opcional, vamos deixar por ordem alfabética ou deixar p/ frontend)
-        usort($topicsRanking, function ($a, $b) {
-            return $b['performance'] <=> $a['performance'];
-        });
 
         return response()->json([
             'total_attempts' => $totalAttempts,
@@ -179,8 +150,7 @@ class ExamController extends Controller
             'subjects' => [
                 'portugues' => $portuguesPercent,
                 'matematica' => $matematicaPercent
-            ],
-            'topics' => $topicsRanking
+            ]
         ]);
     }
 
