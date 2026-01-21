@@ -111,10 +111,6 @@ const ResultPage = () => {
               <div className="w-12 h-12 rounded-xl bg-white shadow-lg border border-border/50 flex items-center justify-center">
                 <Anchor className="w-7 h-7 text-[#002f5d]" />
               </div>
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
-                <LogOut className="w-5 h-5 mr-2" />
-                Sair
-              </Button>
             </div>
 
             {/* Result Icon */}
@@ -288,24 +284,6 @@ const ResultPage = () => {
           </div>
         )}
       </div>
-
-      {/* Logout Confirmation Dialog */}
-      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Deseja realmente sair?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Sua sessão será encerrada e você precisará fazer login novamente para acessar seus resultados.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Permanecer</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Confirmar e Sair
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };
