@@ -36,6 +36,7 @@ import {
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface UserStats {
     total_attempts: number;
@@ -193,6 +194,7 @@ const StudentDashboard = () => {
                             <Button variant="outline" size="sm" onClick={() => setShowChangePasswordDialog(true)} className="hidden md:flex">
                                 Alterar Senha
                             </Button>
+                            <ThemeToggle />
                             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-destructive">
                                 <LogOut className="w-4 h-4 mr-2" />
                                 Sair
@@ -573,7 +575,7 @@ const StudentDashboard = () => {
                 isOpen={showChangePasswordDialog}
                 onOpenChange={setShowChangePasswordDialog}
             />
-        </div>
+        </div >
     );
 };
 

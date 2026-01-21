@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface AdminStats {
   engagement_today: number;
@@ -132,6 +133,7 @@ const AdminDashboard = () => {
               <Button variant="outline" size="sm" onClick={() => setShowChangePasswordDialog(true)}>
                 Alterar Senha
               </Button>
+              <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Sair

@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const LandingPage = () => {
   const features = [
@@ -84,6 +85,7 @@ const LandingPage = () => {
                 Login Aluno
               </Button>
             </Link>
+            <ThemeToggle />
           </div>
         </div>
       </header>
