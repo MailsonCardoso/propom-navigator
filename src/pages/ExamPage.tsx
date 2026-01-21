@@ -233,8 +233,8 @@ const ExamPage = () => {
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg gradient-navy flex items-center justify-center shrink-0">
-                <Anchor className="w-5 h-5 text-primary-foreground" />
+              <div className="w-9 h-9 rounded-lg bg-white shadow-md border border-border/50 flex items-center justify-center shrink-0">
+                <Anchor className="w-5 h-5 text-navy" />
               </div>
               <div className="min-w-0">
                 <h1 className="font-bold text-foreground text-sm md:text-base truncate">PREPOM 2026</h1>
