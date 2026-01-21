@@ -150,7 +150,7 @@ const DemoExamPage = () => {
               </div>
               <div className="text-left">
                 <h1 className="font-bold text-foreground text-sm md:text-base">Teste Grátis PREPOM</h1>
-                <p className="text-[10px] text-muted-foreground">Demonstração de 20 questões</p>
+                <p className="text-[10px] text-muted-foreground">Demonstração de 10 questões</p>
               </div>
             </div>
 
@@ -225,14 +225,14 @@ const DemoExamPage = () => {
               key={index}
               onClick={() => setCurrentQuestion(index)}
               className={`w-8 h-8 rounded-md text-[10px] font-bold transition-all border-2 ${currentQuestion === index
-                  ? q.subject === 'portugues'
-                    ? "bg-accent border-accent text-white scale-110 shadow-lg shadow-accent/20"
-                    : "bg-success border-success text-white scale-110 shadow-lg shadow-success/20"
-                  : answers[index] !== null
-                    ? q.subject === 'portugues' ? "bg-accent border-accent text-white" : "bg-success border-success text-white"
-                    : q.subject === 'portugues'
-                      ? "bg-accent/5 border-accent/20 text-accent hover:bg-accent/10"
-                      : "bg-success/5 border-success/20 text-success hover:bg-success/10"
+                ? q.subject === 'portugues'
+                  ? "bg-accent border-accent text-white scale-110 shadow-lg shadow-accent/20"
+                  : "bg-success border-success text-white scale-110 shadow-lg shadow-success/20"
+                : answers[index] !== null
+                  ? q.subject === 'portugues' ? "bg-accent border-accent text-white" : "bg-success border-success text-white"
+                  : q.subject === 'portugues'
+                    ? "bg-accent/5 border-accent/20 text-accent hover:bg-accent/10"
+                    : "bg-success/5 border-success/20 text-success hover:bg-success/10"
                 }`}
             >
               {index + 1}
