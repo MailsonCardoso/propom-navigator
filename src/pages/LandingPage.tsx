@@ -85,13 +85,12 @@ const LandingPage = () => {
                 Login Aluno
               </Button>
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 gradient-hero overflow-hidden">
+      < section className="relative pt-32 pb-20 gradient-hero overflow-hidden" >
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-secondary blur-3xl" />
@@ -134,10 +133,10 @@ const LandingPage = () => {
             <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))" />
           </svg>
         </div>
-      </section>
+      </section >
 
       {/* Features Section */}
-      <section className="py-20">
+      < section className="py-20" >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-foreground mb-4">
@@ -333,7 +332,7 @@ const LandingPage = () => {
       </section >
 
       {/* Footer */}
-      <footer className="py-8 border-t border-border">
+      < footer className="py-8 border-t border-border" >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -476,7 +475,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </footer>
+      </footer >
 
       <WhatsAppButton />
     </div >
