@@ -90,7 +90,7 @@
     --accent: 217.2 32.6% 20%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 20%;
@@ -112,6 +112,14 @@
   }
 
   /* Dark mode specific visibility overrides */
+  .dark .text-destructive {
+    color: hsl(0 84.2% 65%) !important;
+  }
+
+  .dark .bg-destructive\/10 {
+    background-color: hsl(0 84.2% 60.2% / 0.2) !important;
+  }
+
   .dark .text-muted-foreground {
     color: hsl(215 20.2% 85%) !important;
   }
