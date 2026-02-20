@@ -144,7 +144,7 @@ const DemoResultPage = () => {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link to="/comprar" className="w-full sm:w-auto">
                             <Button size="xl" variant="hero" className="w-full">
-                                Começar agora por R$ 50,00
+                                Começar agora por R$ 100,00
                             </Button>
                         </Link>
                         <Link to="/" className="w-full sm:w-auto">

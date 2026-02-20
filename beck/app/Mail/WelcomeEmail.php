@@ -20,7 +20,7 @@ class WelcomeEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($userName, $userCpf, $userPassword, $amountPaid = 50.00)
+    public function __construct($userName, $userCpf, $userPassword, $amountPaid = 100.00)
     {
         $this->userName = $userName;
         $this->userCpf = $userCpf;
