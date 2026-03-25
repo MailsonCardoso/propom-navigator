@@ -325,7 +325,7 @@ const LandingPage = () => {
               Garanta sua Vaga na Marinha!
             </h3>
             <p className="text-white/80 mb-10 max-w-2xl mx-auto text-lg relative z-10">
-              Preparação Completa (Módulos I a VII+) com Acesso Integral aos Simulados por pagamento único de R$ 100,00.
+              Preparação Completa (Módulos I a VII+) com Acesso Integral aos Simulados por pagamento único de R$ 150,00.
               Disponível até a conclusão da prova oficial. Comece a praticar agora com nosso Banco Master de Questões Reais!
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
